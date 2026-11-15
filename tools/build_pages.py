@@ -52,7 +52,7 @@ def head(blk, extra=""):
 
 
 def sec(blk, inner, idx, cls=""):
-    sid = f' id="{blk["id"]}"' if blk.get("id") else ""
+    sid = f' id="{blk.get("id") or "s%d" % idx}"'
     tone = "alt" if idx % 2 else ""
     return f'<section class="pg-sec {tone} {cls}"{sid}><div class="wrap">{head(blk)}{inner}</div></section>'
 
@@ -232,7 +232,7 @@ def sources_html(parts):
 
 
 def vote_html(n):
-    return (f'<div class="pg-vote"><div class="wrap"><footer class="vote" data-vote="{n}">'
+    return (f'<div class="pg-vote" id="vote"><div class="wrap"><footer class="vote" data-vote="{n}">'
             f'{B(UI["vote_q"], "span", "vote-q")}<div class="vote-btns">'
             f'<button type="button" class="vbtn up" data-dir="up" aria-pressed="false"><span class="sign" aria-hidden="true">+</span>{B(UI["up"], "span", "sr-only")}<span class="count" hidden></span></button>'
             f'<button type="button" class="vbtn down" data-dir="down" aria-pressed="false"><span class="sign" aria-hidden="true">−</span>{B(UI["down"], "span", "sr-only")}<span class="count" hidden></span></button>'
@@ -251,13 +251,22 @@ def build_all(ctx):
         page, tier = PAGES[n], tier_of(n)
         tname = (tier["sr"]["name"], tier["en"]["name"])
         tsub = (f'{tier["sr"]["sub"]} · {tier["sr"]["time"]}', f'{tier["en"]["sub"]} · {tier["en"]["time"]}')
-        sections = ""
+        sections, navitems = "", []
         for i, blk in enumerate(page["blocks"]):
             if blk["k"] == "custom":
                 inner = CUSTOM[blk["name"]](blk)
             else:
                 inner = RENDER[blk["k"]](blk)
-            sections += sec(blk, inner, i)
+            sections += sec(blk, inner, i, "dark" if blk["k"] == "check" else "")
+            lab = blk["eb"]
+            m = re.match(r"^(\d)/\d$", lab[1])
+            if m:
+                lab = (f"Deo {m.group(1)}", f"Part {m.group(1)}")
+            if lab[1] not in {x[1][1] for x in navitems}:
+                navitems.append((blk.get("id") or f"s{i}", lab))
+        links = "".join(f'<a href="#{i}">{B(l)}</a>' for i, l in navitems)
+        local = (f'<div class="pg-local"><div class="wrap pg-local-in"><a class="pg-local-t" href="#top">{B(titles[n])}</a>'
+                 f'<nav class="pg-local-links" aria-label="Sections">{links}</nav></div><i class="pg-progress"></i></div>')
         hstats = "".join(f'<li><b>{B(v)}</b>{B(l, "span")}</li>' for v, l in page["stats"])
         rel = "".join(
             f'<a href="../../index.html#idea-{r}"><b>{r:02d}</b>{B((clean("sr", r), clean("en", r)))}</a>' for r in page["related"])
@@ -277,7 +286,7 @@ def build_all(ctx):
                 .replace("{{EYEBROW}}", B(UI["idea"]) + f" {n:02d} · " + B(tname))
                 .replace("{{H1}}", B(titles[n], "h1")).replace("{{TAGLINE}}", B(taglines[n], "p", "pg-tag"))
                 .replace("{{TIERLINE}}", B(tsub, "p", "pg-tier"))
-                .replace("{{HSTATS}}", hstats).replace("{{SECTIONS}}", sections)
+                .replace("{{LOCAL}}", local).replace("{{HSTATS}}", hstats).replace("{{SECTIONS}}", sections)
                 .replace("{{RELATED}}", rel).replace("{{SOURCES}}", sources_html(parts))
                 .replace("{{VOTE}}", vote_html(n))
                 .replace("{{PREV}}", nb(prev_n, UI["prev"])).replace("{{NEXT}}", nb(next_n, UI["next"]))

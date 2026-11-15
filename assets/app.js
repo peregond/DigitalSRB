@@ -190,8 +190,50 @@
   arrows();
   }
 
+  /* ---------- detail pages: stagger, hero scroll effect, local nav ---------- */
+  if (document.body.classList.contains("pg")) initPage();
+  function initPage() {
+    var groups = ".pg-cards,.pg-steps,.pg-check,.pg-faq,.pg-rel,.chain,.flow-row ol,.pg-hstats,.speeds";
+    $$(groups).forEach(function (g) {
+      Array.prototype.forEach.call(g.children, function (c, i) {
+        c.classList.add("rv");
+        c.style.setProperty("--d", Math.min(i, 6) * 90 + "ms");
+      });
+    });
+    $$(".pg-head,.pg-prose p,.pg-note,.pg-tablewrap,.net,.clerk,.jr,.pg-bars,.phone-wrap,.flow-row,.pg-vote .wrap,.pg-nb")
+      .forEach(function (e) { e.classList.add("rv"); });
+
+    var art = document.getElementById("heroArt"), hero = document.querySelector(".pg-hero-txt");
+    var bar = document.querySelector(".pg-progress");
+    var links = $$(".pg-local-links a"), secs = links.map(function (a) { return document.querySelector(a.getAttribute("href")); });
+    var still = window.matchMedia("(prefers-reduced-motion: reduce)").matches, tick = false;
+    function frame() {
+      tick = false;
+      var y = window.scrollY, h = document.documentElement.scrollHeight - innerHeight;
+      if (bar) bar.style.setProperty("--p", h > 0 ? Math.min(1, y / h).toFixed(4) : 0);
+      if (!still && art) {
+        var k = Math.min(1, y / 520);
+        art.style.setProperty("--sc", (0.92 + 0.1 * k).toFixed(4));
+        art.style.setProperty("--ty", (-24 * k).toFixed(1) + "px");
+        hero.style.opacity = String(Math.max(0.2, 1 - y / 640));
+        hero.style.transform = "translateY(" + (y * 0.12).toFixed(1) + "px)";
+      }
+      var cur = -1;
+      secs.forEach(function (s, i) { if (s && s.getBoundingClientRect().top < innerHeight * 0.4) cur = i; });
+      links.forEach(function (a, i) { a.classList.toggle("on", i === cur); });
+      if (cur >= 0) {
+        var on = links[cur], box = on.parentNode;
+        if (on.offsetLeft < box.scrollLeft || on.offsetLeft + on.offsetWidth > box.scrollLeft + box.clientWidth)
+          box.scrollTo({ left: on.offsetLeft - 20, behavior: "smooth" });
+      }
+    }
+    window.addEventListener("scroll", function () { if (!tick) { tick = true; requestAnimationFrame(frame); } }, { passive: true });
+    window.addEventListener("resize", frame);
+    frame();
+  }
+
   /* ---------- scroll reveal ---------- */
-  var items = $$(".reveal, .fcard");
+  var items = $$(".reveal, .fcard, .rv");
   if ("IntersectionObserver" in window) {
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {
