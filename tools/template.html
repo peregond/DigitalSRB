@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="sr-Latn" data-lang="sr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Digitalna Srbija · 60 ideja</title>
+<meta name="description" content="60 ideja protiv birokratije i korupcije, za građane i strance. 60 ideas against bureaucracy and corruption in Serbia.">
+<meta property="og:title" content="Digitalna Srbija · 60 ideja">
+<meta property="og:description" content="60 ideja protiv birokratije i korupcije · 60 ideas against bureaucracy and corruption">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#ffffff">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<script>(function(){var d=document.documentElement,l;try{l=new URLSearchParams(location.search).get('lang')||localStorage.getItem('dsrb.lang')}catch(e){}if(l!=='sr'&&l!=='en'){l=/^(sr|bs|hr|sh|cnr)\b/i.test(navigator.language||'')?'sr':'en'}d.dataset.lang=l;d.lang=l==='sr'?'sr-Latn':'en';d.classList.add('js')})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+<a class="skip" href="#main"><span lang="sr-Latn">Preskoči na sadržaj</span><span lang="en">Skip to content</span></a>
+
+<nav class="nav" aria-label="Main">
+  <div class="nav-in">
+    <a class="brand" href="#top"><span lang="sr-Latn">Digitalna Srbija</span><span lang="en">Digital Serbia</span></a>
+    <div class="nav-links">
+      <a href="#why"><span lang="sr-Latn">Zašto</span><span lang="en">Why</span></a>
+      {{NAV_LINKS}}
+      <a href="#sources"><span lang="sr-Latn">Izvori</span><span lang="en">Sources</span></a>
+    </div>
+    <div class="lang" role="group" aria-label="Jezik / Language">
+      <button type="button" data-set-lang="sr" aria-pressed="true">SR</button>
+      <button type="button" data-set-lang="en" aria-pressed="false">EN</button>
+    </div>
+  </div>
+</nav>
+
+<main id="main">
+<header class="hero" id="top">
+  <p class="hero-eyebrow reveal"><span lang="sr-Latn">Digitalna Srbija</span><span lang="en">Digital Serbia</span></p>
+  <h1 class="reveal">
+    <span lang="sr-Latn"><em>60 ideja</em> protiv birokratije i&nbsp;korupcije.</span>
+    <span lang="en"><em>60 ideas</em> against bureaucracy and&nbsp;corruption.</span>
+  </h1>
+  <p class="hero-sub reveal"><span lang="sr-Latn">Za građane i strance.</span><span lang="en">For citizens and foreigners.</span></p>
+  <p class="hero-cta reveal">
+    <a class="btn" href="#ideas"><span lang="sr-Latn">Pogledaj ideje</span><span lang="en">See the ideas</span></a>
+    <a class="link" href="#why"><span lang="sr-Latn">Zašto sve ovo</span><span lang="en">Why all this</span> <span aria-hidden="true">›</span></a>
+  </p>
+</header>
+
+<section class="why" id="why">
+  <div class="wrap narrow reveal">
+    <h2><span lang="sr-Latn">Zašto sve ovo.</span><span lang="en">Why all this.</span></h2>
+    {{INTRO}}
+  </div>
+</section>
+
+<section class="tiers" id="tiers">
+  <div class="wrap">
+    <h2 class="reveal"><span lang="sr-Latn">Tri nivoa.<br><span class="dim">Od najlakšeg do najtežeg.</span></span><span lang="en">Three tiers.<br><span class="dim">From easiest to hardest.</span></span></h2>
+    <div class="tiles">{{TIER_CARDS}}</div>
+    <p class="note reveal"><span lang="sr-Latn">Rokovi su gruba procena i služe samo za orijentaciju.</span><span lang="en">Timelines are rough estimates, for orientation only.</span></p>
+  </div>
+</section>
+
+<div id="ideas" class="ideas-area">
+  <div class="filterbar" id="filterbar">
+    <div class="filter-in">
+      <div class="chips" role="group" aria-label="Filter">
+        <button type="button" class="chip on" data-filter="all" aria-pressed="true"><span lang="sr-Latn">Sve</span><span lang="en">All</span><b>60</b></button>
+        {{FILTERS}}
+      </div>
+      <p class="tally" id="tally" hidden><span lang="sr-Latn">Tvoji glasovi</span><span lang="en">Your votes</span> <b class="up">+<span data-tally="up">0</span></b> <b class="down">−<span data-tally="down">0</span></b></p>
+    </div>
+  </div>
+  {{TIER_SECTIONS}}
+</div>
+
+<section class="sources" id="sources">
+  <div class="wrap narrow">
+    <h2><span lang="sr-Latn">Izvori.</span><span lang="en">Sources.</span></h2>
+    <ol class="srcs">{{SOURCES}}</ol>
+    {{SOURCES_NOTE}}
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <p><span lang="sr-Latn">Digitalna Srbija · Nacrt, novembar 2026.</span><span lang="en">Digital Serbia · Draft, November 2026</span></p>
+    <p><a href="source/print.html"><span lang="sr-Latn">Verzija za štampu (A4)</span><span lang="en">Print version (A4)</span></a></p>
+  </div>
+</footer>
+
+<script src="assets/config.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>
