@@ -4,6 +4,7 @@
 Usage: python3 tools/build.py
 Edit texts in source/print.html, edit the page shell in tools/template.html, then rebuild.
 """
+import hashlib
 import re
 from pathlib import Path
 
@@ -255,6 +256,8 @@ def main():
            .replace("{{NAV_LINKS}}", nav_links).replace("{{FILTERS}}", filters).replace("{{FEATURED}}", render_featured(toc))
            .replace("{{TIER_SECTIONS}}", tier_sections).replace("{{SOURCES}}", src_items)
            .replace("{{SOURCES_NOTE}}", bi(src_note, "p", "note")))
+    ver = hashlib.md5(b"".join((ROOT / "assets" / f).read_bytes() for f in ("styles.css", "app.js", "config.js"))).hexdigest()[:8]
+    out = out.replace("{{V}}", ver)
     assert "{{" not in out
     (ROOT / "index.html").write_text(out, encoding="utf-8")
     print(f"index.html: {len(out) // 1024} KB, {len(ideas)} ideas")
