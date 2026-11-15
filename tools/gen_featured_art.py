@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 """Generates the 8 featured-card illustrations as flat vector SVG (400x300, no text)."""
+import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 OUT = Path(__file__).resolve().parent.parent / "assets" / "featured"
 INK = "#111"
@@ -169,7 +172,22 @@ ART[53] = (RED, f'''
 <g fill="#fff" stroke="{INK}" stroke-width="3.5" filter="url(#s)" class="fl"><rect x="278" y="232" width="80" height="14" rx="4"/><rect x="284" y="248" width="68" height="14" rx="4"/><rect x="272" y="264" width="92" height="14" rx="4"/></g>
 ''')
 
+from pages_data import THEMES
+
+
+def mix(hexc, pct):
+    h = hexc.lstrip("#")
+    r, g, bl = (int(h[i:i + 2], 16) for i in (0, 2, 4))
+    return "#%02X%02X%02X" % tuple(round(255 - (255 - v) * pct / 100) for v in (r, g, bl))
+
+
 OUT.mkdir(parents=True, exist_ok=True)
 for n, (c, body) in ART.items():
-    (OUT / f"{n:02d}.svg").write_text(wrap(c, body), encoding="utf-8")
-    print(f"{n:02d}.svg", len(wrap(c, body)) // 1024 or 1, "KB")
+    svg = wrap(c, body)
+    theme = THEMES[n][1]
+    if theme != c:  # recolour the tier colour to the page's own colour
+        svg = svg.replace(TINT[c], mix(theme, 16)).replace(c, theme)
+        if n == 50:
+            svg = svg.replace("#F4A3A8", mix(theme, 45))
+    (OUT / f"{n:02d}.svg").write_text(svg, encoding="utf-8")
+    print(f"{n:02d}.svg", theme)

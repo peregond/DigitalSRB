@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="sr-Latn" data-lang="sr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{TITLE_SR}}</title>
+<meta name="description" content="{{DESC_SR}} · {{DESC_EN}}">
+<meta property="og:title" content="{{TITLE_SR}}">
+<meta property="og:description" content="{{DESC_SR}} · {{DESC_EN}}">
+<meta property="og:type" content="article">
+<meta name="theme-color" content="{{TH}}">
+<link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
+<script>(function(){var d=document.documentElement,l;try{l=new URLSearchParams(location.search).get('lang')||localStorage.getItem('dsrb.lang')}catch(e){}if(l!=='sr'&&l!=='en'){l=/^(sr|bs|hr|sh|cnr)\b/i.test(navigator.language||'')?'sr':'en'}d.dataset.lang=l;d.lang=l==='sr'?'sr-Latn':'en';d.classList.add('js')})();</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Manrope:wght@400;500;700;800&subset=latin-ext,cyrillic&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/styles.css?v={{V}}">
+<link rel="stylesheet" href="../../assets/page.css?v={{V}}">
+</head>
+<body class="pg" data-title-sr="{{TITLE_SR}}" data-title-en="{{TITLE_EN}}" style="--th:{{TH}};--th2:{{TH2}};--tint:{{TINT}};--tint2:{{TINT2}}">
+<a class="skip" href="#main"><span lang="sr-Latn">Preskoči na sadržaj</span><span lang="en">Skip to content</span></a>
+
+<nav class="nav" aria-label="Main">
+  <div class="nav-in">
+    <a class="brand" href="../../index.html"><span lang="sr-Latn">Digitalna Srbija</span><span lang="en">Digital Serbia</span></a>
+    <div class="nav-links">
+      <a href="../../index.html#ideas"><span lang="sr-Latn">‹ Sve ideje</span><span lang="en">‹ All ideas</span></a>
+      <a href="#sources"><span lang="sr-Latn">Izvori</span><span lang="en">Sources</span></a>
+    </div>
+    <div class="lang" role="group" aria-label="Jezik / Language">
+      <button type="button" data-set-lang="sr" aria-pressed="true">SR</button>
+      <button type="button" data-set-lang="en" aria-pressed="false">EN</button>
+    </div>
+  </div>
+</nav>
+
+<main id="main">
+<header class="pg-hero">
+  <div class="wrap pg-hero-in">
+    <div class="pg-hero-txt">
+      <p class="pg-hero-eye">{{EYEBROW}}</p>
+      {{H1}}
+      {{TAGLINE}}
+      {{TIERLINE}}
+    </div>
+    <div class="pg-hero-art"><img src="../../assets/featured/{{NUM}}.svg" alt="" width="1200" height="900"></div>
+  </div>
+  <div class="wrap"><ul class="pg-hstats">{{HSTATS}}</ul></div>
+</header>
+
+{{SECTIONS}}
+
+<section class="pg-sec rel">
+  <div class="wrap">
+    <header class="pg-head"><p class="pg-eyebrow"><span lang="sr-Latn">Dalje</span><span lang="en">Keep reading</span></p>
+    <h2><span lang="sr-Latn">Povezane ideje</span><span lang="en">Related ideas</span></h2></header>
+    <div class="pg-rel">{{RELATED}}</div>
+  </div>
+</section>
+
+{{VOTE}}
+
+<section class="pg-sec src" id="sources">
+  <div class="wrap narrow">
+    <header class="pg-head"><p class="pg-eyebrow"><span lang="sr-Latn">Izvori</span><span lang="en">Sources</span></p></header>
+    <ol class="srcs">{{SOURCES}}</ol>
+    <p class="pg-note"><span lang="sr-Latn">Brojke dolaze iz navedenih izvora. Opis toka, pitanja i spisak promena su nacrt autora i služe za diskusiju.</span><span lang="en">Figures come from the sources listed. The step-by-step flow, the questions and the list of changes are the author's draft, for discussion.</span></p>
+  </div>
+</section>
+
+<nav class="pg-nav" aria-label="Ideas"><div class="wrap pg-nav-in">{{PREV}}{{NEXT}}</div></nav>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <p><span lang="sr-Latn">Digitalna Srbija · Nacrt, novembar 2026.</span><span lang="en">Digital Serbia · Draft, November 2026</span></p>
+    <p><a href="../../index.html#ideas"><span lang="sr-Latn">Sve ideje</span><span lang="en">All ideas</span></a></p>
+  </div>
+</footer>
+
+<script src="../../assets/config.js?v={{V}}"></script>
+<script src="../../assets/app.js?v={{V}}"></script>
+</body>
+</html>

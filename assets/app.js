@@ -13,7 +13,8 @@
   function applyLang(lang) {
     root.dataset.lang = lang;
     root.lang = lang === "sr" ? "sr-Latn" : "en";
-    document.title = TITLES[lang];
+    var d = document.body.dataset;
+    document.title = (lang === "sr" ? d.titleSr : d.titleEn) || TITLES[lang];
     $$("[data-set-lang]").forEach(function (b) {
       b.setAttribute("aria-pressed", String(b.dataset.setLang === lang));
     });
@@ -119,6 +120,7 @@
     var up = 0, down = 0;
     Object.keys(mine).forEach(function (k) { if (mine[k] === "up") up++; else if (mine[k] === "down") down++; });
     var el = document.getElementById("tally");
+    if (!el) return;
     el.hidden = !(up || down);
     el.querySelector('[data-tally="up"]').textContent = up;
     el.querySelector('[data-tally="down"]').textContent = down;
@@ -167,6 +169,8 @@
 
   /* ---------- featured cards ---------- */
   var track = document.getElementById("fcTrack"), prev = document.getElementById("fcPrev"), next = document.getElementById("fcNext");
+  if (track) initCards();
+  function initCards() {
   function arrows() {
     prev.disabled = track.scrollLeft < 4;
     next.disabled = track.scrollLeft > track.scrollWidth - track.clientWidth - 4;
@@ -184,6 +188,7 @@
   });
   window.addEventListener("resize", arrows);
   arrows();
+  }
 
   /* ---------- scroll reveal ---------- */
   var items = $$(".reveal, .fcard");

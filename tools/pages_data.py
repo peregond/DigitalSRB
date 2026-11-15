@@ -1,0 +1,440 @@
+"""Content of the detail pages for the eight main ideas.
+
+Every visible string is a pair (Serbian, English). The numbers (cases, fees, days, databases)
+come from the sources already cited in source/print.html. The step-by-step flows, FAQ answers
+and "what has to change" lists are drafts that explain how the idea could work: review them.
+"""
+
+# idea number -> (slug, theme colour, darker shade)
+THEMES = {
+    1: ("qr-counter", "#12A150", "#0A6B36"),
+    22: ("business-in-a-day", "#1F6FEB", "#123F96"),
+    30: ("no-papers", "#E08A00", "#8F5300"),
+    21: ("posta-reform", "#0A9AAE", "#06626F"),
+    47: ("wallet-id", "#6A45F0", "#3A1FA8"),
+    48: ("no-registration", "#E30613", "#8F040D"),
+    50: ("fast-track", "#D1246A", "#85103F"),
+    53: ("digital-court", "#24407A", "#0F2147"),
+}
+ORDER = [1, 22, 30, 21, 47, 48, 50, 53]
+
+
+def text(eb, t, p, id=None):
+    return {"k": "text", "eb": eb, "t": t, "p": p, "id": id}
+
+
+def cards(eb, t, items, id=None, intro=None):
+    return {"k": "cards", "eb": eb, "t": t, "items": items, "id": id, "intro": intro}
+
+
+def flow(eb, t, today, after, note=None, id=None, intro=None):
+    return {"k": "flow", "eb": eb, "t": t, "today": today, "after": after, "note": note, "id": id, "intro": intro}
+
+
+def steps(eb, t, items, id=None, intro=None):
+    return {"k": "steps", "eb": eb, "t": t, "items": items, "id": id, "intro": intro}
+
+
+def bars(eb, t, rows, note=None, id=None, intro=None, unit=""):
+    return {"k": "bars", "eb": eb, "t": t, "rows": rows, "note": note, "id": id, "intro": intro, "unit": unit}
+
+
+def table(eb, t, head, rows, hl=None, id=None, intro=None):
+    return {"k": "table", "eb": eb, "t": t, "head": head, "rows": rows, "hl": hl, "id": id, "intro": intro}
+
+
+def check(eb, t, items, id=None, intro=None):
+    return {"k": "check", "eb": eb, "t": t, "items": items, "id": id, "intro": intro}
+
+
+def faq(eb, t, items, id=None):
+    return {"k": "faq", "eb": eb, "t": t, "items": items, "id": id}
+
+
+def custom(name, eb, t, intro=None, id=None):
+    return {"k": "custom", "name": name, "eb": eb, "t": t, "intro": intro, "id": id}
+
+
+PROBLEM = ("Problem", "The problem")
+TODAY = ("Danas", "Today")
+PROPOSAL = ("Predlog", "The proposal")
+HOW = ("Kako radi", "How it works")
+WHO = ("Za koga", "Who benefits")
+CHANGE = ("Šta treba promeniti", "What has to change")
+QA = ("Pitanja i odgovori", "Questions and answers")
+NUMBERS = ("Brojke", "In numbers")
+
+L_LAW = ("Zakon", "Law")
+L_TECH = ("Tehnika", "Technology")
+L_ORG = ("Organizacija", "Organisation")
+
+PAGES = {}
+
+# ---------------------------------------------------------------- 01 QR at every counter
+PAGES[1] = {
+    "stats": [("1", ("QR kod po predmetu", "QR code per case")),
+              ("0", ("zakona za izmenu", "laws to change")),
+              ("3–12", ("meseci, okvirno", "months, roughly"))],
+    "related": [2, 6, 24, 30],
+    "blocks": [
+        text(PROBLEM, ("Svaki put sve iz početka", "Starting from zero every time"), [
+            ("Na šalteru u MUP-u, APR-u ili opštini moraš sam da objasniš šta ti treba. Službenik pogađa koji je postupak, traži papire i ručno kuca podatke u sistem.",
+             "At a MUP, APR or opština counter you have to explain what you need yourself. The clerk guesses which procedure applies, asks for papers and types the data into the system by hand."),
+            ("Svaki razgovor zavisi od iskustva i raspoloženja dvoje ljudi. Gde nema jasnih pravila i procesa, lični odnos između vlasti i građanina postaje prostor za „vezu” i za koruptivne šeme.",
+             "Every conversation depends on the experience and mood of two people. Where there are no clear rules and processes, the personal relationship between the authorities and the citizen becomes room for “connections” and corruption schemes."),
+        ]),
+        cards(TODAY, ("Četiri stvari koje se stalno ponavljaju", "Four things that keep repeating"), [
+            ("Objašnjavaš iznova", "You explain, again", "Ista priča na svakom šalteru, iako država već zna ko si i šta si podneo.", "The same story at every counter, although the state already knows who you are and what you filed."),
+            ("Pogađanje postupka", "Guessing the procedure", "Službenik mora da pogodi koji se postupak odnosi na tebe.", "The clerk has to guess which procedure applies to you."),
+            ("Papiri na zahtev", "Papers on request", "Traže se dokumenta koja su možda već u sistemu.", "Documents are requested that may already be in the system."),
+            ("Ručno kucanje", "Typing by hand", "Podaci se prepisuju, a svako prepisivanje je prilika za grešku.", "Data is retyped, and every retyping is a chance for a mistake."),
+        ]),
+        flow(("Put do rešenja", "The path"), ("Isti šalter, dva puta", "The same counter, two ways"), [
+            ("Čekaš u redu", "Wait in line"), ("Objašnjavaš šta ti treba", "Explain what you need"),
+            ("Službenik pogađa postupak", "Clerk guesses the procedure"), ("Predaješ papire", "Hand over papers"),
+            ("Službenik kuca podatke", "Clerk types the data"), ("Odgovor ili povratak sutra", "An answer, or come back tomorrow")],
+            [("Otvaraš predmet u eUpravi", "Open the case in eUprava"), ("Pokazuješ QR kod", "Show your QR code"),
+             ("Službenik skenira, predmet se otvara", "Clerk scans, the case opens"),
+             ("Samo konkretna dodatna pitanja", "Only specific follow-up questions"), ("Odmah vidiš sledeći korak", "The next step is clear at once")],
+            note=("Ilustrativan tok, koraci se razlikuju od službe do službe.", "Illustrative path; the steps differ from office to office.")),
+        custom("clerk", ("Predlog", "The proposal"), ("Šta službenik vidi posle skeniranja", "What the clerk sees after the scan"),
+               intro=("Umesto pitanja „šta vam treba?” službenik dobija ekran sa tvojim predmetom: šta je podneto, šta nedostaje i koji je sledeći korak.",
+                      "Instead of “what do you need?” the clerk gets a screen with your case: what was filed, what is missing and what comes next.")),
+        steps(HOW, ("Četiri koraka", "Four steps"), [
+            (("Predmet dobija QR", "Every case gets a QR"), ("U aplikaciji eUprava svaki predmet ima lični QR kod. Nastaje kada podneseš zahtev ili zakažeš termin.", "In the eUprava app every case has a personal QR code. It appears when you file a request or book an appointment.")),
+            (("Pokažeš ga na šalteru", "Show it at the counter"), ("Telefonom, a ko nema pametan telefon, odštampanim kodom ili linkom iz SMS-a.", "On your phone or, for people without a smartphone, a printed code or an SMS link.")),
+            (("Službenik skenira", "The clerk scans"), ("U sistemu se odmah otvara tvoj konkretan slučaj, sa istorijom i statusom.", "Your specific case opens in the system at once, with its history and status.")),
+            (("Sistem vodi dalje", "The system takes it forward"), ("Službenik postavlja samo pitanja koja stvarno nedostaju, a ti u aplikaciji vidiš novi status.", "The clerk asks only what is really missing, and you see the new status in the app.")),
+        ]),
+        cards(WHO, ("Dobiti mogu svi", "Everyone gains"), [
+            ("Građani", "Citizens", "Ništa ne objašnjavaš, manje papira i manje odlazaka.", "Nothing to explain, fewer papers and fewer trips."),
+            ("Stranci", "Foreigners", "Isti tok na engleskom, bez potrebe da znaš lokalni žargon.", "The same flow in English, without needing to know the local jargon."),
+            ("Službenici", "Clerks", "Jedan standardan ekran, manje kucanja i manje sporova.", "One standard screen, less typing and fewer disputes."),
+            ("Država", "The state", "Manje grešaka, jasan trag svakog koraka i manje prostora za „vezu”.", "Fewer errors, a clear trace of every step and less room for “connections”."),
+        ]),
+        check(CHANGE, ("Šta treba da se uradi", "What needs to happen"), [
+            ("tech", ("Jedinstven format QR koda i broja predmeta u eUpravi", "A single QR format and case number in eUprava")),
+            ("tech", ("Prikaz predmeta za službenike u sistemima MUP-a, APR-a, opština i pošte", "A case view for clerks in the MUP, APR, opština and pošta systems")),
+            ("org", ("Zajednički katalog postupaka, da svaka služba zna koji je korak sledeći", "A shared catalogue of procedures, so every office knows what comes next")),
+            ("org", ("Pravila privatnosti: QR je nasumična oznaka, ne podaci, a svaki pristup se beleži", "Privacy rules: the QR is a random reference, not data, and every access is logged")),
+        ], intro=("Nijedan zakon se ne menja. Potrebni su programeri, dizajn i volja službe.", "No law needs to change. Developers, design and the will of the office are enough.")),
+        faq(QA, ("Šta ako…", "What if…"), [
+            (("Nemam pametan telefon?", "I have no smartphone?"), ("Kod može da se odštampa ili stigne kao link u SMS-u. Šalter ostaje otvoren i za one koji dođu bez ičega, samo sa dužim postupkom.", "The code can be printed or arrive as an SMS link. The counter stays open for people who arrive with nothing, just with a longer procedure.")),
+            (("Je li bezbedno pokazati QR kod?", "Is it safe to show a QR code?"), ("QR sadrži samo nasumičnu oznaku predmeta. Službenik mora da bude prijavljen, a svaki pristup tvom predmetu beleži se i vidljiv ti je u aplikaciji.", "The QR holds only a random case reference. The clerk must be logged in, and every access to your case is logged and visible to you in the app.")),
+            (("Sistem ne radi?", "The system is down?"), ("Postupak se vraća na današnji, papirni. QR ne uvodi novu zavisnost, samo skraćuje put.", "The procedure falls back to today's paper one. The QR adds no new dependency, it only shortens the path.")),
+        ]),
+    ],
+}
+
+# ---------------------------------------------------------------- 22 business in one day
+PAGES[22] = {
+    "stats": [("1", ("radni dan: registracija i brisanje u Gruziji", "working day: registration and deletion in Georgia")),
+              ("2–3", ("meseca do konačnog obračuna poreza danas", "months until the final tax assessment today")),
+              ("12/2023", ("onlajn prijava brisanja u APR-u", "online deregistration request at APR"))],
+    "related": [17, 23, 26, 44],
+    "blocks": [
+        text(PROBLEM, ("Zatvaranje traje, a račun stiže kasnije", "Closing takes time, and the bill comes later"), [
+            ("Već postoji elektronska registracija preduzetnika, a od decembra 2023. i onlajn prijava brisanja preko portala APR-a.",
+             "Electronic registration of a preduzetnik (sole trader) already exists, and since December 2023 so does an online deregistration request on the APR portal."),
+            ("Ali brisanje i dalje traje, a konačan obračun poreza često stigne 2–3 meseca posle odjave. Ljudi zatvore firmu, a ne znaju koliko duguju.",
+             "But closing still takes time, and the final tax assessment often arrives 2–3 months after deregistration. People close a business without knowing what they owe."),
+        ]),
+        custom("journey22", TODAY, ("Dve vremenske linije", "Two timelines"),
+               intro=("Danas se završni račun čeka mesecima. U predlogu se sve zatvara istog dana.", "Today the final bill is a matter of months. In the proposal everything is closed the same day.")),
+        steps(HOW, ("Zatvaranje firme za jedan dan", "Closing a business in one day"), [
+            (("Podnosiš prijavu onlajn", "File the request online"), ("Jedan zahtev u APR-u, bez dolaska na šalter.", "One request at APR, no visit to a counter.")),
+            (("Poreska obračunava odmah", "Tax is calculated at once"), ("Poreska uprava iz podataka koje već ima izračuna konačan porez dok čekaš.", "Poreska uprava works out the final tax from data it already holds, while you wait.")),
+            (("Vidiš iznos i plaćaš", "You see the amount and pay"), ("Konačan porez je na ekranu pri odjavi i plaća se odmah, bez rešenja posle nekoliko meseci.", "The final tax is on screen at deregistration and is paid at once, with no decision months later.")),
+            (("Firma je zatvorena", "The business is closed"), ("Brisanje i plaćanje završavaju se istog radnog dana.", "Deletion and payment finish on the same working day.")),
+        ]),
+        flow(("Veće firme", "Larger firms"), ("Kada nedostaje mesečni izveštaj", "When a monthly report is missing"), [
+            ("Zatvaranje čeka izveštaj", "Closing waits for the report"), ("Izveštaj se podnosi", "The report is filed"), ("Posle meseci stiže rešenje", "A decision arrives months later")],
+            [("Plaćaš obračunato sada", "Pay what is calculated now"), ("Firma se zatvara", "The business closes"), ("Razliku doplaćuješ posle izveštaja", "Top up the difference after the report")],
+            note=("Država ne gubi pravo na razliku, a firma ne čeka mesecima.", "The state keeps its right to the difference, and the firm does not wait for months.")),
+        table(("Primeri iz sveta", "Examples abroad"), ("Kako to rade drugi", "How others do it"),
+              [("", ""), ("Registracija", "Registration"), ("Brisanje", "Deletion")],
+              [[("Srbija danas", "Serbia today"), ("Elektronska (preduzetnici)", "Electronic (sole traders)"), ("Onlajn zahtev, obračun posle 2–3 meseca", "Online request, assessment after 2–3 months")],
+               [("Gruzija", "Georgia"), ("1 radni dan", "1 working day"), ("1 radni dan", "1 working day")],
+               [("Estonija", "Estonia"), ("Onlajn", "Online"), ("Onlajn", "Online")],
+               [("Predlog", "Proposal"), ("1 dan", "1 day"), ("1 dan, porez plaćen odmah", "1 day, tax settled at once")]], hl=3),
+        check(CHANGE, ("Reforma APR-a i Poreske uprave", "A reform of APR and Poreska uprava"), [
+            ("tech", ("Automatski obračun konačnog poreza iz podataka koje Poreska već ima", "Automatic final-tax calculation from data Poreska already holds")),
+            ("tech", ("Razmena podataka APR–Poreska u realnom vremenu i plaćanje preko IPS QR koda", "Real-time data exchange APR–Poreska and payment by IPS QR code")),
+            ("org", ("Obavezujući rok: zatvaranje u jednom radnom danu", "A binding deadline: closing within one working day")),
+            ("org", ("Pravilo za veće firme: plaćanje obračunatog iznosa sada, razlika posle izveštaja", "A rule for larger firms: pay the calculated amount now, the difference after the report")),
+        ], intro=("Bez novog zakona, ali sa preuređenjem rada dve službe.", "No new law, but the two offices have to rework how they operate.")),
+        faq(QA, ("Šta ako…", "What if…"), [
+            (("Firma ima nepodmirene obaveze?", "The firm has unpaid obligations?"), ("Konačan obračun ih pokazuje odmah, pa nema iznenađenja posle zatvaranja. Plaćanje ide u istom koraku.", "The final assessment shows them at once, so there is no surprise after closing. Payment happens in the same step.")),
+            (("Može li država da tako obračuna sve?", "Can the state calculate it all that fast?"), ("Sve što je prijavljeno već je u njenim evidencijama. Ono što fali, na primer izveštaj, rešava se doplatom razlike.", "Everything reported is already in its records. What is missing, such as a report, is handled by topping up the difference.")),
+            (("Zašto ne ostati kod današnjeg?", "Why not keep today's way?"), ("Jer neizvesnost nekoliko meseci posle zatvaranja košta ljude i vreme i nervozu, a država ionako ima podatke.", "Because months of uncertainty after closing cost people time and stress, and the state has the data anyway.")),
+        ]),
+    ],
+}
+
+# ---------------------------------------------------------------- 30 never ask for papers
+PAGES[30] = {
+    "stats": [("18", ("baza povezanih u eZUP", "databases linked in eZUP")),
+              ("8", ("institucija u sistemu", "institutions in the system")),
+              ("50 €", ("do toliko košta list nepokretnosti", "up to this for a property sheet"))],
+    "related": [4, 31, 32, 44],
+    "blocks": [
+        text(PROBLEM, ("Državni papir nosiš iz državne službe u državnu službu", "Carrying a state paper from one state office to another"), [
+            ("Od 2016. Zakon o opštem upravnom postupku (čl. 9 i 103) obavezuje službe da same pribave podatke iz službenih evidencija. eZUP povezuje 18 baza osam institucija: matične knjige, MUP, Poresku upravu, PIO, NSZ, CROSO, RGZ i pravosuđe.",
+             "Since 2016 the Law on General Administrative Procedure (ZUP, Arts. 9 and 103) obliges offices to obtain data themselves from official records. eZUP links 18 databases of eight institutions: civil registers, MUP, Poreska uprava, PIO, NSZ, CROSO, RGZ and the judiciary."),
+            ("Ali se pravilo ne poštuje svuda, a mnogi registri nisu u eZUP-u. Zato građani i dalje nose uverenja, a list nepokretnosti plaćaju i do 50 €.",
+             "But the rule is not followed everywhere and many registers are not in eZUP. So people still carry certificates, and pay up to €50 for a list nepokretnosti (property sheet)."),
+        ]),
+        custom("network30", ("Šta već postoji", "What already exists"), ("Jedan čvor, osam izvora", "One hub, eight sources"),
+               intro=("Podaci su u državi. Predlog je da služba koja ih treba sama zakuca na vrata druge, a ne ti.", "The data is in the state. The proposal is that the office that needs it knocks on the other's door, not you.")),
+        flow(("Put dokumenta", "The path of a paper"), ("Nosiš ili ne nosiš", "You carry it, or you do not"), [
+            ("Služba A izdaje uverenje", "Office A issues a certificate"), ("Plaćaš taksu", "You pay a fee"),
+            ("Nosiš ga u službu B", "You carry it to office B"), ("Služba B ga prima i prepisuje", "Office B accepts and retypes it")],
+            [("Podnosiš jedan zahtev", "You file one request"), ("Služba B preuzima podatke iz registra", "Office B pulls the data from the register"),
+             ("Odluka bez tvog nošenja papira", "A decision without you carrying paper")]),
+        bars(NUMBERS, ("Cena jednog papira", "The price of one paper"), [
+            (("List nepokretnosti danas", "Property sheet today"), 50, ("do 50 €", "up to €50"), "lo"),
+            (("U predlogu", "In the proposal"), 0, "0 €", "hi"),
+        ], note=("Izvor: Novosti, list nepokretnosti do 50 € umesto 0 din.", "Source: Novosti, a property sheet up to €50 instead of 0 din."), unit="€"),
+        steps(PROPOSAL, ("Četiri pravila", "Four rules"), [
+            (("Svi registri u eZUP-u", "Every register in eZUP"), ("Uključujući lokalne registre i javna preduzeća.", "Including local registers and public companies.")),
+            (("Papir samo uz obrazloženje", "A paper only with a reason"), ("Službenik koji traži papir koji država već ima mora to pisano da obrazloži.", "A clerk who asks for a paper the state already holds must justify it in writing.")),
+            (("Žalba onlajn", "Complain online"), ("Građanin može da se žali bez odlaska na šalter.", "The citizen can complain without going to a counter.")),
+            (("Javna statistika po službi", "Public statistics per office"), ("Koliko se uverenja izdaje samo da bi se nosilo drugoj službi.", "How many certificates are issued only to be carried to another office.")),
+        ]),
+        custom("stats30", ("Kako merimo uspeh", "How we measure success"), ("Javna tabla po službama", "A public table per office"),
+               intro=("Raspored prikaza, ne stvarni podaci. Cilj je da se vidi koja služba i dalje traži ono što već ima.", "A layout example, not real data. The goal is to see which office still asks for what it already has.")),
+        check(CHANGE, ("Povezivanje i pravilnici", "Integration and bylaws"), [
+            ("tech", ("Priključiti preostale registre u eZUP, i lokalne i javnih preduzeća", "Connect the remaining registers to eZUP, local ones and public companies")),
+            ("org", ("Obrazac pisanog obrazloženja i onlajn žalba", "A written-justification form and an online complaint")),
+            ("org", ("Merenje i objavljivanje statistike po službi", "Measuring and publishing statistics per office")),
+        ], intro=("Pravilo već postoji u zakonu. Nedostaje pokrivenost i primena.", "The rule already exists in law. What is missing is coverage and enforcement.")),
+        faq(QA, ("Šta ako…", "What if…"), [
+            (("Zar to već nije zakon?", "Isn't that already the law?"), ("Jeste, čl. 9 i 103 ZUP-a. Problem je što pravilo ne važi u praksi svuda i što mnogi registri nisu povezani, pa je potrebna primena, ne novo pravilo.", "It is, Arts. 9 and 103 of ZUP. The problem is that the rule does not hold in practice everywhere and many registers are not connected, so what is needed is enforcement, not a new rule.")),
+            (("Podatka nema ni u jednom registru?", "The data is in no register?"), ("Tada ga daje građanin. Službenik ipak mora da obrazloži zašto traži papir, da se ne traži ono što država već ima.", "Then the citizen supplies it. The clerk still has to justify the request, so nothing is asked that the state already holds.")),
+        ]),
+    ],
+}
+
+# ---------------------------------------------------------------- 21 Pošta reform
+PAGES[21] = {
+    "stats": [("35+", ("dana pošiljke stoje na carini", "days parcels sit at customs")),
+              (("99,9%", "99.9%"), ("cilj: carinjenje za 1 radni dan", "target: cleared in 1 working day")),
+              (("23.02.2026.", "23 Feb 2026"), ("Pošta počinje da naplaćuje deklaraciju", "Pošta starts charging for the declaration"))],
+    "related": [4, 17, 28, 29],
+    "blocks": [
+        text(("Pregled", "Overview"), ("Četiri dela jedne reforme", "Four parts of one reform"), [
+            ("Pošta Srbije je mesto gde se država susreće sa građaninom svakodnevno, a veliki deo posla još ide na papiru. Predlog ima četiri dela, od aplikacije do carine.",
+             "Pošta Srbije is where the state meets the citizen every day, and much of the work still runs on paper. The proposal has four parts, from the app to customs."),
+        ]),
+        cards(("1/4", "1/4"), ("Sve poštanske usluge u jednoj aplikaciji", "All postal services in one app"), [
+            ("Praćenje", "Tracking", "Svaka pošiljka i svaki korak na jednom mestu.", "Every parcel and every step in one place."),
+            ("Obaveštenja", "Notices", "Umesto papirnih izveštaja, obaveštenja u aplikaciji.", "App notices instead of paper slips."),
+            ("Formulari", "Forms", "Popunjavaš kod kuće, ne na šalteru.", "Filled in at home, not at the counter."),
+            ("Plaćanja", "Payments", "Od praćenja do plaćanja u istom dizajnu kao druge državne usluge.", "From tracking to payment, in the same design as other state services."),
+        ], id="p1", intro=("Mnogo toga na pošti još se radi na papiru i ručno, a red u poslovnici traje. Poslovnice dobijaju skenere i digitalne procese, pa se usluga obavi za nekoliko minuta.",
+                           "Much at the pošta is still done on paper and by hand, and the queue at the branch drags on. Branches get scanners and digital processes, so a service takes a few minutes.")),
+        flow(("2/4", "2/4"), ("Paket jednim QR kodom", "A parcel with one QR code"), [
+            ("Doneseš papirni izveštaj", "Bring a paper notice"), ("Službenica ručno unosi podatke", "The clerk types the data"),
+            ("Uzima i prepisuje ličnu kartu", "Takes and copies your ID"), ("Sve iz početka za svaku uslugu", "Everything from scratch for every service")],
+            [("Prijava u aplikaciju preko eUprave sa 2FA", "Log in to the app via eUprava with 2FA"), ("Paket ima QR kod za preuzimanje", "The parcel has a pickup QR code"),
+             ("Službenica skenira, ništa ne kuca", "The clerk scans, types nothing"), ("Dodatna potvrda: četvorocifreni kod na telefon", "Extra check: a four-digit code on your phone"),
+             ("Lična karta samo za carinu ili taksu, posebno", "ID only for duty or fees, as a separate step")],
+            id="p2", intro=("QR je unapred potvrđen jer je prijava u aplikaciju već dvofaktorska. Isti QR radi za plaćanja i druge državne usluge na pošti.",
+                            "The QR is verified in advance because the app login is already two-factor. The same QR works for payments and other state services at the post office.")),
+        steps(("3/4", "3/4"), ("Carina, deklaracija i plaćanje onlajn", "Customs, declaration and payment online"), [
+            (("Deklaracija u aplikaciji", "Declaration in the app"), ("Navodiš odakle stiže pošiljka i šta je u njoj.", "You say where the parcel comes from and what is inside.")),
+            (("Javni kalkulator", "A public calculator"), ("Pokazuje kako se računaju carina, PDV i naknade, pa se zna unapred koliko košta.", "Shows how duty, PDV and fees are calculated, so the cost is known in advance.")),
+            (("Plaćanje unapred", "Pay in advance"), ("Sve se plaća onlajn pre dolaska paketa.", "Everything is paid online before the parcel arrives.")),
+            (("Doplata na vratima", "Top-up at the door"), ("Ako ipak treba doplatiti, poštar u aplikaciji odmah pravi NBS IPS QR, a ti plaćaš iz bankarske aplikacije.", "If something is still due, the postman's app instantly creates an NBS IPS QR and you pay from your banking app.")),
+        ], id="p3", intro=("Danas se ne zna kako se računaju carina i PDV, deklaracija se popunjava na šalteru (od 23. februara 2026. Pošta je i naplaćuje), a poštar na adresi traži gotovinu.",
+                           "Today nobody knows how duty and PDV are calculated, the declaration is filled in at the counter (since 23 February 2026 Pošta charges for it), and the postman at the door wants cash.")),
+        bars(("4/4", "4/4"), ("Carinjenje za jedan radni dan", "Customs clearance within one working day"), [
+            (("Danas", "Today"), 35, ("35+ dana", "35+ days"), "lo"),
+            (("Cilj", "Target"), 1, ("1 radni dan", "1 working day"), "hi"),
+        ], note=("Danas nema zakonskog roka za carinjenje. Izvor: Kurir, pošiljke na carini i više od 35 dana.", "Today there is no legal deadline for clearance. Source: Kurir, parcels at customs for over 35 days."), id="p4", unit=("dana", "days"),
+            intro=("Cilj je 99,9% pošiljki ocarinjeno u roku od jednog radnog dana. To je izvodljivo jer su deklaracija i plaćanje već onlajn i unapred, a sistem je gotovo potpuno automatizovan.",
+                   "The target is 99.9% of parcels cleared within one working day of arrival. That is feasible because the declaration and payment are already online and in advance, and the system is almost fully automated.")),
+        flow(("Kad automat pogreši", "When the machine gets it wrong"), ("Žalba i živ čovek", "An appeal and a human"), [
+            ("Pošiljka čeka ručnu obradu", "The parcel waits for manual handling"), ("Nema roka", "No deadline"), ("Nikad se ne zna kad stiže", "Nobody knows when it arrives")],
+            [("Automatska odluka za gotovo sve", "An automatic decision for almost everything"), ("Žališ se onlajn", "Appeal online"), ("Odluku pregleda čovek", "A human reviews the decision"),
+             ("Složeni slučajevi onlajn, po potrebi uživo", "Complex cases online, in person if needed")]),
+        check(CHANGE, ("Šta treba da se uradi", "What needs to happen"), [
+            ("tech", ("Aplikacija Pošte Srbije sa prijavom preko eUprave i dvofaktorskom potvrdom", "A Pošta Srbije app with eUprava login and two-factor confirmation")),
+            ("tech", ("QR za preuzimanje i NBS IPS QR za doplatu na adresi", "A pickup QR and an NBS IPS QR for top-ups at the door")),
+            ("tech", ("Skeneri i digitalni procesi u poslovnicama", "Scanners and digital processes in branches")),
+            ("org", ("Javni kalkulator carine, PDV-a i naknada", "A public duty, PDV and fee calculator")),
+            ("org", ("Automatizovana carinska obrada sa pravom na žalbu i pregled od strane čoveka", "Automated customs handling with the right to appeal and human review")),
+        ]),
+        faq(QA, ("Šta ako…", "What if…"), [
+            (("Nemam aplikaciju?", "I do not have the app?"), ("Lična karta i šalter ostaju za one koji dođu, samo sa sporijim tokom. Aplikacija je prečica, ne obaveza.", "The ID and the counter stay for people who come in, just with a slower flow. The app is a shortcut, not a duty.")),
+            (("Šta ako automat pogreši?", "What if the machine is wrong?"), ("Žališ se i tada odluku pregleda čovek. Složeni slučajevi idu onlajn, a po potrebi možeš doći sa dokumentima.", "You appeal and a human reviews the decision. Complex cases go online, and if needed you can come in with documents.")),
+        ]),
+    ],
+}
+
+# ---------------------------------------------------------------- 47 ID in Wallet
+PAGES[47] = {
+    "stats": [("18013-5", ("ISO standard za mobilne dokumente", "ISO standard for mobile documents")),
+              ("EUDI", ("evropski novčanik digitalnog identiteta", "the EU digital identity wallet")),
+              ("1 s", ("provera, QR ili NFC", "to check, QR or NFC"))],
+    "related": [4, 5, 6, 11],
+    "blocks": [
+        text(PROBLEM, ("Kartica se gubi i uvek mora da se nosi", "A card gets lost and must always be carried"), [
+            ("Fizička lična karta i boravišna dozvola gube se, zaboravljaju kod kuće i moraju da se pokažu pri svakoj proveri, a pokazuješ sve što je na njima.",
+             "A physical ID and residence card gets lost, is forgotten at home and has to be shown at every check, and you show everything printed on it."),
+        ]),
+        text(PROPOSAL, ("Isti dokument, u telefonu", "The same document, in your phone"), [
+            ("Digitalna lična karta i boravišna dozvola u Apple i Google novčaniku, po standardu ISO 18013-5 i evropskom EUDI novčaniku, sa istom pravnom snagom kao kartica.",
+             "A digital ID and residence card in Apple and Google Wallet, following ISO 18013-5 and the EU EUDI wallet, with the same legal force as the card."),
+        ]),
+        custom("phone47", ("Pokazuješ samo potrebno", "Share only what is needed"), ("Provera koja ne otkriva sve", "A check that does not reveal everything"),
+               intro=("Čitač traži samo jedan podatak, na primer da si punoletan. Ti potvrđuješ, a JMBG i adresa ostaju u telefonu.", "The reader asks for just one fact, for example that you are over 18. You approve, and the personal number and address stay in your phone.")),
+        table(("Poređenje", "Comparison"), ("Kartica i digitalna isprava", "Card and digital document"),
+              [("", ""), ("Fizička kartica", "Physical card"), ("Digitalna isprava", "Digital document")],
+              [[("Gubitak", "Loss"), ("Gubi se i zaboravlja", "Gets lost or forgotten"), ("Uvek u telefonu", "Always on the phone")],
+               [("Provera", "Check"), ("Pokazuješ celu karticu", "Show the whole card"), ("Sekunda, QR ili NFC", "A second, QR or NFC")],
+               [("Šta deliš", "What you share"), ("Sve što je na kartici", "Everything printed on it"), ("Samo traženi podatak", "Only the requested fact")],
+               [("Pravna snaga", "Legal force"), ("Puna", "Full"), ("Ista kao kartica", "The same as the card")]], hl=None),
+        steps(("Šta treba da postoji", "What has to be in place"), ("Četiri uslova", "Four conditions"), [
+            (("Zakon", "A law"), ("Digitalna isprava dobija istu pravnu snagu kao kartica.", "The digital document gets the same legal force as the card.")),
+            (("ISO 18013-5", "ISO 18013-5"), ("Usklađenost sa standardom za mobilne vozačke i lične isprave.", "Compliance with the standard for mobile driving licences and IDs.")),
+            (("Apple i Google", "Apple and Google"), ("Dogovor sa kompanijama koje drže novčanike.", "An agreement with the companies that run the wallets.")),
+            (("EUDI", "EUDI"), ("Praćenje istog evropskog standarda koji EU uvodi, da isprava radi i van Srbije.", "Following the same European standard the EU is introducing, so the document works beyond Serbia.")),
+        ], intro=("Težina je visoka: potreban je zakon, a ne samo tehnika.", "Difficulty is high: it takes a law, not just technology.")),
+        cards(WHO, ("Prednosti", "Benefits"), [
+            ("Građani", "Citizens", "Dokument je uvek u telefonu i ne može da se izgubi kao kartica.", "The document is always on your phone and cannot be lost like a card."),
+            ("Stranci", "Foreigners", "Boravišna dozvola uvek uz sebe, na novčaniku koji već koriste.", "The residence permit always at hand, in the wallet they already use."),
+            ("Provera", "Checks", "Traje sekundu, a pokazuje se samo ono što je potrebno.", "Takes a second and shows only what is necessary."),
+        ]),
+        faq(QA, ("Šta ako…", "What if…"), [
+            (("Telefon ostane bez baterije ili se izgubi?", "My phone dies or is lost?"), ("Pitanje za zakon i uslove izdavanja. Predlog daje digitalnoj ispravi istu snagu kao kartici, a da li plastična kartica ostaje uz nju odlučuje zakon.", "A question for the law and the issuing rules. The proposal gives the digital document the same force as the card, and whether the plastic card stays alongside is for the law to decide.")),
+            (("Zašto baš ISO 18013-5 i EUDI?", "Why exactly ISO 18013-5 and EUDI?"), ("Zato što su to standardi koje Apple, Google i EU već koriste, pa isprava radi bez posebnih rešenja.", "Because these are the standards Apple, Google and the EU already use, so the document works without special arrangements.")),
+        ]),
+    ],
+}
+
+# ---------------------------------------------------------------- 48 abolish registration of stay
+PAGES[48] = {
+    "stats": [("24 h", ("rok za prijavu boravka danas", "deadline to register stay today")),
+              ("2020", ("Kazahstan ukida obavezu do 30 dana", "Kazakhstan drops it for stays up to 30 days")),
+              ("2022", ("Velika Britanija ukida prijavu policiji", "the UK drops police registration"))],
+    "related": [11, 49, 47, 12],
+    "blocks": [
+        text(PROBLEM, ("Beli karton: obaveza koja ništa ne dodaje", "The beli karton: a duty that adds nothing"), [
+            ("Stranac mora da prijavi adresu u roku od 24 časa od dolaska i posle svake promene, a stanodavci i hoteli moraju da ga prijave policiji.",
+             "A foreigner must register their address within 24 hours of arrival and after every move, and landlords and hotels must report them to the police."),
+            ("To je stres za ljude, posao za stanodavce i gomila papira za policiju, a ne donosi bezbednost koju granica već ne obezbeđuje.",
+             "It means stress for people, work for landlords and piles of paper for the police, without adding security the border does not already provide."),
+        ]),
+        flow(("Put", "The path"), ("Prijava, pa prijava, pa prijava", "Register, register, register"), [
+            ("Stranac stiže", "A foreigner arrives"), ("U roku od 24 h hotel ili stanodavac prijavljuje policiji", "Within 24 h the hotel or landlord reports to the police"),
+            ("Selidba na novu adresu", "A move to a new address"), ("Nova prijava u roku od 24 h", "A new registration within 24 h"), ("Rizik od kazne za svaki propušteni rok", "A risk of a fine for each missed deadline")],
+            [("Stranac stiže", "A foreigner arrives"), ("Granica beleži ulazak", "The border logs the entry"), ("Nema dalje prijave, nema rokova", "No further registration, no deadlines")]),
+        table(("Ko je to ukinuo", "Who dropped it"), ("Zemlje i predlog", "Countries and the proposal"),
+              [("Zemlja", "Country"), ("Pravilo", "Rule"), ("Status", "Status")],
+              [[("Srbija", "Serbia"), ("Prijava u roku od 24 h i posle svake selidbe", "Register within 24 h and after every move"), ("Danas", "Today")],
+               [("Kazahstan", "Kazakhstan"), ("Registracija ukinuta za boravak do 30 dana", "Registration dropped for stays up to 30 days"), ("2020.", "2020")],
+               [("Velika Britanija", "United Kingdom"), ("Prijava stranaca policiji ukinuta", "Police registration of foreigners dropped"), ("2022.", "2022")],
+               [("Srbija, predlog", "Serbia, proposal"), ("Potpuno ukinuti, i papirno i onlajn", "Abolish fully, paper and online"), ("Predlog", "Proposal")]], hl=3),
+        custom("border48", ("Šta je dovoljno", "What is enough"), ("Granična baza već sve zna", "The border database already knows"),
+               intro=("Granična policija ima bazu ulazaka i izlazaka. Iz nje se zna ko je ušao, kada i koliko dana sme da ostane, bez vize ili po vizi.", "The border police already hold an entry and exit database. It tells who entered, when, and how many days they may stay visa-free or on a visa.")),
+        cards(WHO, ("Ko dobija olakšanje", "Who gets relief"), [
+            ("Policija", "Police", "Nema papira i evidencija koje ne daju dodatnu bezbednost.", "No paperwork or records that add no extra security."),
+            ("Stanodavci i hoteli", "Landlords and hotels", "Nema obaveze prijavljivanja gostiju.", "No duty to report guests."),
+            ("Stranci", "Foreigners", "Nema stresa zbog roka od 24 časa i kazni.", "No stress about the 24-hour deadline and fines."),
+        ], intro=("Kontrola ostaje na granici.", "Control stays at the border.")),
+        check(CHANGE, ("Težina: srednja", "Difficulty: medium"), [
+            ("law", ("Izmena Zakona o strancima", "An amendment to the Zakon o strancima (Law on Foreigners)")),
+            ("tech", ("Skoro ništa novo: granična baza ulazaka i izlazaka već postoji", "Almost nothing new: the border entry and exit database already exists")),
+            ("org", ("Prestanak rada na prijavama i evidencijama boravišta kod policije i smeštajnih objekata", "Ending the work on stay registrations and records at the police and accommodation providers")),
+        ]),
+        faq(QA, ("Šta ako…", "What if…"), [
+            (("Država neće znati gde stranac živi?", "The state will not know where a foreigner lives?"), ("Argument predloga je da adresna prijava ne dodaje bezbednost koju granica već ne daje: zna se ko je ušao, kada i do kada sme da ostane.", "The proposal's argument is that address registration adds no security the border does not already give: it is known who entered, when and until when they may stay.")),
+            (("A boravišne dozvole?", "What about residence permits?"), ("To su zasebni postupci i zasebne ideje, na primer jasni rokovi za boravišne dozvole.", "Those are separate procedures and separate ideas, for example clear deadlines for residence permits.")),
+        ]),
+    ],
+}
+
+# ---------------------------------------------------------------- 50 legal fast track
+PAGES[50] = {
+    "stats": [("30 / 15 / 7", ("dana: tri zvanične brzine", "days: three official speeds")),
+              ("×1 / +50% / ×2", ("taksa za svaku brzinu", "fee for each speed")),
+              ("150 / 300 / 350", ("lari za pasoš u Gruziji", "lari for a passport in Georgia"))],
+    "related": [13, 14, 49, 54],
+    "blocks": [
+        text(PROBLEM, ("Ko hitno treba, traži „vezu”", "Whoever is in a hurry looks for “connections”"), [
+            ("Ko hitno treba dokument nema legalan način da ga dobije brže. Zato se traži veza, poznanik, nekome se plati. Tu se rađa korupcija.",
+             "Anyone who needs a document urgently has no legal way to get it faster. So they look for a connection, an acquaintance, someone to pay. That is where corruption is born."),
+        ]),
+        custom("speed50", ("Predlog", "The proposal"), ("Tri zvanične brzine", "Three official speeds"),
+               intro=("Brzina je izbor građanina i vidi se unapred. Novac ide u budžet službe, ne u nečiji džep.", "Speed is the citizen's choice and visible up front. The money goes to the office budget, not into someone's pocket.")),
+        flow(("Tok novca", "Where the money goes"), ("Od „veze” do računa", "From “connections” to a receipt"), [
+            ("Hitno ti treba dokument", "You urgently need a document"), ("Tražiš vezu", "Look for a connection"), ("Plaćaš nekome u džep", "Pay into someone's pocket"), ("Ishod zavisi od poznanstva", "The result depends on who you know")],
+            [("Biraš brzinu pri podnošenju", "Choose a speed when filing"), ("Plaćaš višu taksu službenim putem", "Pay the higher fee officially"), ("Novac ide u budžet službe", "The money goes to the office budget"), ("Rok je zvaničan i jasan", "The deadline is official and clear")]),
+        bars(("Primer: Gruzija", "Example: Georgia"), ("Pasoš po brzini", "A passport by speed"), [
+            (("10 radnih dana", "10 working days"), 150, ("150 lari", "150 lari"), "lo"),
+            (("24 sata", "24 hours"), 300, "300 lari", ""),
+            (("Isti dan", "Same day"), 350, "350 lari", "hi"),
+        ], note=("Izvor: SDA (Gruzija), rokovi i takse za pasoš.", "Source: SDA (Georgia), passport terms and fees."), unit="lari"),
+        cards(("Primer: Velika Britanija", "Example: the United Kingdom"), ("Dve brže opcije za pasoš", "Two faster options for a passport"), [
+            ("Fast track", "Fast track", "Pasoš za nedelju dana uz višu taksu.", "A passport in one week for a higher fee."),
+            ("Premium", "Premium", "Pasoš za jedan dan uz još višu taksu.", "A passport in one day for a still higher fee."),
+        ], intro=("Izvor: GOV.UK, hitno izdavanje pasoša.", "Source: GOV.UK, getting a passport urgently.")),
+        check(CHANGE, ("Šta treba da se uradi", "What needs to happen"), [
+            ("law", ("Rokovi i takse za tri brzine propisani zakonom", "Deadlines and fees for the three speeds set by law")),
+            ("tech", ("Izbor brzine u zahtevu i plaćanje uz zahtev", "Choosing the speed in the request and paying with it")),
+            ("org", ("Kapacitet službi da stvarno ispoštuju kraće rokove", "Capacity in the offices to really meet the shorter deadlines")),
+        ]),
+        faq(QA, ("Šta ako…", "What if…"), [
+            (("Ovo ne pogoduje bogatima?", "This favours the rich?"), ("Standardna brzina i njena taksa ostaju. Danas hitnost već postoji, samo kroz vezu koja je nezvanična i nejednaka. Predlog je čini javnom i jednakom.", "The standard speed and its fee stay. Today urgency already exists, only through connections that are unofficial and unequal. The proposal makes it public and equal.")),
+            (("Neće li standard postati sporiji?", "Won't the standard get slower?"), ("To je rizik koji treba pratiti. Zato je predlog povezan sa javnom tablom kvaliteta usluga, gde se vide stvarni rokovi.", "That is a risk to watch. This is why the proposal ties in with a public dashboard of service quality, where real deadlines show.")),
+        ]),
+    ],
+}
+
+# ---------------------------------------------------------------- 53 digital court
+PAGES[53] = {
+    "stats": [(("1.042.252", "1,042,252"), ("nerešenih predmeta, kraj 2024.", "pending cases, end of 2024")),
+              (("221.305", "221,305"), ("starijih od 3 godine", "older than 3 years")),
+              (("9.498", "9,498"), ("starijih od 10 godina", "older than 10 years"))],
+    "related": [31, 36, 55, 58],
+    "blocks": [
+        text(PROBLEM, ("Više od milion predmeta čeka", "Over a million cases are waiting"), [
+            ("Na kraju 2024. nerešeno je bilo 1.042.252 predmeta, od toga 221.305 starijih od 3 godine i 9.498 starijih od 10 godina.",
+             "At the end of 2024 there were 1,042,252 pending cases, 221,305 older than 3 years and 9,498 older than 10 years."),
+            ("Svaki od tih predmeta je čovek ili firma koji čekaju odluku. Što duže traje, to je više prostora za pritisak i za „vezu”.",
+             "Every one of those cases is a person or a company waiting for a decision. The longer it takes, the more room there is for pressure and for “connections”."),
+        ]),
+        bars(NUMBERS, ("Nerešeni predmeti, kraj 2024.", "Pending cases, end of 2024"), [
+            (("Svi nerešeni", "All pending"), 1042252, ("1.042.252", "1,042,252"), "lo"),
+            (("Stariji od 3 godine", "Older than 3 years"), 221305, ("221.305 (≈21%)", "221,305 (≈21%)"), ""),
+            (("Stariji od 10 godina", "Older than 10 years"), 9498, ("9.498 (≈0,9%)", "9,498 (≈0.9%)"), "hi"),
+        ], note=("Izvor: Vrhovni sud, godišnji izveštaj o radu sudova za 2024. Procenti su izračunati iz tih brojki.", "Source: Supreme Court, annual report on the work of the courts for 2024. The percentages are computed from those figures.")),
+        cards(PROPOSAL, ("Pet stubova digitalnog suda", "Five pillars of a digital court"), [
+            ("Podnesci onlajn", "Filings online", "Tužba i podnesci se podnose elektronski.", "Claims and filings are submitted electronically."),
+            ("Dostava onlajn", "Service online", "Dostava pismena elektronskim putem.", "Documents are served electronically."),
+            ("Ročišta onlajn", "Hearings online", "Ročišta se održavaju onlajn gde je to moguće.", "Hearings held online where possible."),
+            ("Javan status predmeta", "A public case status", "Svaka stranka vidi gde je predmet.", "Anyone concerned can see where the case stands."),
+            ("Automatski raspored sudija", "Automatic assignment of judges", "Predmet dobija sudiju po pravilu, ne po izboru.", "A case gets its judge by rule, not by choice."),
+        ]),
+        flow(("Put predmeta", "The path of a case"), ("Isti predmet, dva puta", "The same case, two ways"), [
+            ("Podnosiš podnesak na šalteru", "File at the counter"), ("Dostava papirom", "Paper service"), ("Dolaziš na svako ročište", "Attend every hearing in person"),
+            ("Za status zoveš ili ideš u sud", "Call or visit the court for the status")],
+            [("Podnosiš onlajn", "File online"), ("Sudija se dodeljuje automatski", "A judge is assigned automatically"), ("Elektronska dostava", "Electronic service"),
+             ("Ročište onlajn", "An online hearing"), ("Javan status u svakom trenutku", "A public status at all times")]),
+        text(("Zašto automatski raspored", "Why automatic assignment"), ("Sudija po pravilu, ne po vezi", "A judge by rule, not by connection"), [
+            ("Kada se sudija bira ručno, postoji prostor da se bira „pravi” sudija. Automatski raspored uklanja taj izbor, a javan status smanjuje prostor za dugo čekanje bez objašnjenja.",
+             "When a judge is picked by hand, there is room to pick the “right” judge. Automatic assignment removes that choice, and a public status leaves less room for long waits without explanation."),
+        ]),
+        check(CHANGE, ("Težina: visoka", "Difficulty: high"), [
+            ("law", ("Procesni zakoni koji priznaju elektronske podneske, dostavu i ročišta", "Procedural laws that recognise electronic filings, service and hearings")),
+            ("tech", ("Jedinstven sistem za vođenje predmeta, e-dostava i video ročišta", "A single case-management system, e-service and video hearings")),
+            ("org", ("Pravila šta se vidi u javnom statusu, uz zaštitu podataka", "Rules for what a public status shows, with data protection")),
+            ("org", ("Obuka sudija i osoblja", "Training for judges and staff")),
+        ]),
+        faq(QA, ("Šta ako…", "What if…"), [
+            (("Svako ročište ide onlajn?", "Every hearing goes online?"), ("Predlog obuhvata ročišta onlajn. Za koje je predmete potrebno prisustvo odlučuje procesni zakon.", "The proposal covers online hearings. Which cases need presence is for the procedural law to decide.")),
+            (("Ko vidi status predmeta?", "Who sees a case's status?"), ("Javni status pokazuje gde predmet stoji. Šta tačno se vidi određuje zakon, uz zaštitu ličnih podataka.", "A public status shows where the case stands. Exactly what is visible is for the law to define, with personal data protected.")),
+        ]),
+    ],
+}

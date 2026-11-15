@@ -10,6 +10,9 @@ from pathlib import Path
 
 from bs4 import BeautifulSoup
 
+import build_pages
+from pages_data import THEMES
+
 ROOT = Path(__file__).resolve().parent.parent
 LANGS = ("sr", "en")
 LANG_ATTR = {"sr": "sr-Latn", "en": "en"}
@@ -51,6 +54,7 @@ UI = {
     "ideas": {"sr": "ideja", "en": "ideas"},
     "tier": {"sr": "Nivo", "en": "Tier"},
     "list": {"sr": "Spisak ideja", "en": "List of ideas"},
+    "more": {"sr": "Detaljnije ›", "en": "Read in depth ›"},
     "vote_q": {"sr": "Šta misliš o ovoj ideji?", "en": "What do you think of this idea?"},
     "vote_up": {"sr": "Za", "en": "For"},
     "vote_down": {"sr": "Protiv", "en": "Against"},
@@ -176,6 +180,9 @@ def render_idea(num, by_lang, tier, toc, wide):
         h.append("".join(tail))
         h.append("</div>")
         body.append("".join(h))
+    more = ""
+    if num in THEMES:
+        more = f'<a class="idea-more" href="idea/{THEMES[num][0]}/">{bi("more")}</a>'
     vote = (
         f'<footer class="vote" data-vote="{num}">{bi("vote_q", cls="vote-q")}'
         f'<div class="vote-btns">'
@@ -188,7 +195,7 @@ def render_idea(num, by_lang, tier, toc, wide):
     return (
         f'<article class="idea reveal{" wide" if wide else ""}" id="idea-{num}" data-tier="{tier["n"]}" style="--tc:{tier["color"]}">'
         f'<p class="idea-num"><span>{num:02d}</span><i class="tdot"></i>{bi({l: tier[l]["name"] for l in LANGS}, cls="tname")}</p>'
-        f'{"".join(body)}{vote}</article>'
+        f'{"".join(body)}{more}{vote}</article>'
     )
 
 
@@ -201,8 +208,9 @@ def render_featured(toc):
     for i, (n, sr, en) in enumerate(FEATURED):
         t = tier_of(n)
         title = {l: re.sub(r"\s*\(.*?\)\s*$", "", re.sub(r"</?strong>", "", toc[l][n])) for l in LANGS}
+        slug, theme, _ = THEMES[n]
         out.append(
-            f'<a class="fcard" href="#idea-{n}" style="--tc:{t["color"]};--i:{i}">'
+            f'<a class="fcard" href="idea/{slug}/" style="--tc:{theme};--i:{i}">'
             f'<div class="fc-art" aria-hidden="true"><span class="fc-ring r1"></span><span class="fc-ring r2"></span>'
             f'<span class="fc-n">{n:02d}</span>'
             f'<img class="fc-img" src="assets/featured/{n:02d}.svg" alt="" loading="lazy" decoding="async" '
@@ -256,10 +264,12 @@ def main():
            .replace("{{NAV_LINKS}}", nav_links).replace("{{FILTERS}}", filters).replace("{{FEATURED}}", render_featured(toc))
            .replace("{{TIER_SECTIONS}}", tier_sections).replace("{{SOURCES}}", src_items)
            .replace("{{SOURCES_NOTE}}", bi(src_note, "p", "note")))
-    ver = hashlib.md5(b"".join((ROOT / "assets" / f).read_bytes() for f in ("styles.css", "app.js", "config.js"))).hexdigest()[:8]
+    ver = hashlib.md5(b"".join((ROOT / "assets" / f).read_bytes() for f in ("styles.css", "page.css", "app.js", "config.js"))).hexdigest()[:8]
     out = out.replace("{{V}}", ver)
     assert "{{" not in out
     (ROOT / "index.html").write_text(out, encoding="utf-8")
+    build_pages.build_all({"toc": toc, "ideas": ideas, "tier_of": tier_of, "featured": FEATURED, "ver": ver,
+                           "template": (ROOT / "tools" / "page_template.html").read_text(encoding="utf-8")})
     print(f"index.html: {len(out) // 1024} KB, {len(ideas)} ideas")
 
 

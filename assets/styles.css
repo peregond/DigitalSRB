@@ -209,3 +209,7 @@ html:not(.js) .fcard{opacity:1;transform:none}
   .tile,.vbtn{transition:none;animation:none}
 }
 @media print{.nav,.filterbar,.vote,.skip{display:none}.js .reveal{opacity:1;transform:none}.ideas-area,.why{background:#fff}.idea{break-inside:avoid;border:1px solid var(--line)}}
+
+/* link from a list card to its detail page */
+.idea-more{align-self:flex-start;margin-top:22px;font-weight:800;font-size:14px;color:var(--ink);border-bottom:2px solid var(--accent);padding-bottom:2px}
+.idea-more:hover{color:var(--accent)}
