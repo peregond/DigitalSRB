@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="1200" height="900" role="img" aria-hidden="true">
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FCEBC4"/><stop offset="1" stop-color="#fff"/></linearGradient>
+<filter id="s" x="-25%" y="-25%" width="150%" height="160%"><feDropShadow dx="0" dy="7" stdDeviation="8" flood-color="#111" flood-opacity=".15"/></filter>
+</defs>
+<style>
+.fl{animation:fl 5s ease-in-out infinite}.fl2{animation:fl 6.5s ease-in-out -2s infinite}
+.da{stroke-dasharray:7 9;animation:da 1.2s linear infinite}
+.pu{animation:pu 2.6s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+.wv{animation:wv 2.4s ease-in-out infinite}.wv2{animation:wv 2.4s ease-in-out .4s infinite}.wv3{animation:wv 2.4s ease-in-out .8s infinite}
+.sw{animation:sw 6s ease-in-out infinite;transform-origin:200px 76px}
+.ch{animation:ch 2s ease-in-out infinite}.ch2{animation:ch 2s ease-in-out .3s infinite}.ch3{animation:ch 2s ease-in-out .6s infinite}
+@keyframes fl{50%{transform:translateY(-6px)}}
+@keyframes da{to{stroke-dashoffset:-16}}
+@keyframes pu{50%{transform:scale(1.18);opacity:.55}}
+@keyframes wv{0%,100%{opacity:.25}50%{opacity:1}}
+@keyframes sw{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
+@keyframes ch{0%,100%{opacity:.3}50%{opacity:1}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+<rect width="400" height="300" fill="url(#bg)"/>
+<circle cx="350" cy="30" r="70" fill="#F2A100" opacity=".08"/><circle cx="30" cy="285" r="80" fill="#F2A100" opacity=".08"/>
+
+<g filter="url(#s)"><path d="M67.0 62.92v42.16a33.0 9.92 0 0 0 66 0v-42.16z" fill="#F2A100"/><ellipse cx="100" cy="62.92" rx="33.0" ry="9.92" fill="#fff" stroke="#F2A100" stroke-width="4"/><path d="M67.0 84a33.0 9.92 0 0 0 66 0" fill="none" stroke="#fff" stroke-width="3" opacity=".7"/></g><g filter="url(#s)"><path d="M167.0 62.92v42.16a33.0 9.92 0 0 0 66 0v-42.16z" fill="#F2A100"/><ellipse cx="200" cy="62.92" rx="33.0" ry="9.92" fill="#fff" stroke="#F2A100" stroke-width="4"/><path d="M167.0 84a33.0 9.92 0 0 0 66 0" fill="none" stroke="#fff" stroke-width="3" opacity=".7"/></g><g filter="url(#s)"><path d="M267.0 62.92v42.16a33.0 9.92 0 0 0 66 0v-42.16z" fill="#F2A100"/><ellipse cx="300" cy="62.92" rx="33.0" ry="9.92" fill="#fff" stroke="#F2A100" stroke-width="4"/><path d="M267.0 84a33.0 9.92 0 0 0 66 0" fill="none" stroke="#fff" stroke-width="3" opacity=".7"/></g>
+<path class="da" d="M100 122Q100 150 200 150M200 122V150M300 122Q300 150 200 150" fill="none" stroke="#F2A100" stroke-width="4.5" stroke-linecap="round"/>
+<g class="fl"><g transform="rotate(-7 200 205)"><rect x="152" y="150" width="96" height="80" rx="8" fill="#fff" stroke="#D9D5CF" stroke-width="3" filter="url(#s)"/></g>
+<g transform="rotate(5 200 205)"><rect x="152" y="152" width="96" height="80" rx="8" fill="#fff" stroke="#D9D5CF" stroke-width="3"/></g>
+<rect x="152" y="156" width="96" height="80" rx="8" fill="#fff" stroke="#111" stroke-width="4" filter="url(#s)"/>
+<rect x="168" y="174" width="50" height="8" rx="4" fill="#111"/><rect x="168" y="194" width="64" height="7" rx="3.5" fill="#D9D5CF"/><rect x="168" y="210" width="44" height="7" rx="3.5" fill="#D9D5CF"/>
+<circle cx="250" cy="226" r="28" fill="#fff" stroke="#E30613" stroke-width="7"/><path d="M230 246L270 206" stroke="#E30613" stroke-width="7" stroke-linecap="round"/></g>
+
+</svg>

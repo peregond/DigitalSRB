@@ -32,7 +32,7 @@ TIERS = [
             "desc": "Needs an amendment to an existing law or an entirely new one."}},
 ]
 # Main ideas shown as animated cards on the home page.
-# Artwork: assets/featured/NN.webp (1200x900). Without the file a coloured animated card is shown.
+# Artwork: assets/featured/NN.svg (4:3). Without the file a coloured animated card is shown.
 FEATURED = [
     (1, "Skeniraš jednom. Službenik već zna tvoj slučaj.", "Scan once. The clerk already knows your case."),
     (22, "Firma se otvara i zatvara za jedan dan. Konačni porez odmah.", "Open or close a business in a day. Final tax paid on the spot."),
@@ -205,7 +205,7 @@ def render_featured(toc):
             f'<a class="fcard" href="#idea-{n}" style="--tc:{t["color"]};--i:{i}">'
             f'<div class="fc-art" aria-hidden="true"><span class="fc-ring r1"></span><span class="fc-ring r2"></span>'
             f'<span class="fc-n">{n:02d}</span>'
-            f'<img class="fc-img" src="assets/featured/{n:02d}.webp" alt="" loading="lazy" decoding="async" '
+            f'<img class="fc-img" src="assets/featured/{n:02d}.svg" alt="" loading="lazy" decoding="async" '
             f'onerror="this.style.display=\'none\'"></div>'
             f'<div class="fc-body"><p class="fc-tier"><i class="tdot"></i>{bi({l: t[l]["name"] for l in LANGS})}</p>'
             f'{bi(title, "h3")}{bi({"sr": sr, "en": en}, "p", "fc-text")}</div></a>'

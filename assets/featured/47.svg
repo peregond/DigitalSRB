@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="1200" height="900" role="img" aria-hidden="true">
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FADADC"/><stop offset="1" stop-color="#fff"/></linearGradient>
+<filter id="s" x="-25%" y="-25%" width="150%" height="160%"><feDropShadow dx="0" dy="7" stdDeviation="8" flood-color="#111" flood-opacity=".15"/></filter>
+</defs>
+<style>
+.fl{animation:fl 5s ease-in-out infinite}.fl2{animation:fl 6.5s ease-in-out -2s infinite}
+.da{stroke-dasharray:7 9;animation:da 1.2s linear infinite}
+.pu{animation:pu 2.6s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+.wv{animation:wv 2.4s ease-in-out infinite}.wv2{animation:wv 2.4s ease-in-out .4s infinite}.wv3{animation:wv 2.4s ease-in-out .8s infinite}
+.sw{animation:sw 6s ease-in-out infinite;transform-origin:200px 76px}
+.ch{animation:ch 2s ease-in-out infinite}.ch2{animation:ch 2s ease-in-out .3s infinite}.ch3{animation:ch 2s ease-in-out .6s infinite}
+@keyframes fl{50%{transform:translateY(-6px)}}
+@keyframes da{to{stroke-dashoffset:-16}}
+@keyframes pu{50%{transform:scale(1.18);opacity:.55}}
+@keyframes wv{0%,100%{opacity:.25}50%{opacity:1}}
+@keyframes sw{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
+@keyframes ch{0%,100%{opacity:.3}50%{opacity:1}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+<rect width="400" height="300" fill="url(#bg)"/>
+<circle cx="350" cy="30" r="70" fill="#E30613" opacity=".08"/><circle cx="30" cy="285" r="80" fill="#E30613" opacity=".08"/>
+
+<g class="fl"><rect x="124" y="36" width="152" height="228" rx="28" fill="#fff" stroke="#111" stroke-width="6" filter="url(#s)"/>
+<rect x="176" y="48" width="48" height="8" rx="4" fill="#111"/>
+<rect x="144" y="82" width="112" height="22" rx="9" fill="#111"/>
+<rect x="140" y="94" width="120" height="76" rx="12" fill="#E30613"/>
+<circle cx="166" cy="124" r="11" fill="#fff" opacity=".92"/><path d="M148 154a18 15 0 0 1 36 0z" fill="#fff" opacity=".92"/>
+<rect x="196" y="112" width="52" height="7" rx="3.5" fill="#fff" opacity=".9"/><rect x="196" y="128" width="38" height="7" rx="3.5" fill="#fff" opacity=".7"/><rect x="196" y="144" width="46" height="7" rx="3.5" fill="#fff" opacity=".7"/>
+<rect x="144" y="188" width="112" height="22" rx="11" fill="#FADADC"/><circle cx="158" cy="199" r="8" fill="#12A150"/><path d="M154.6 199.2l2.2 2.4 4.5-4.8" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><rect x="172" y="195" width="60" height="8" rx="4" fill="#fff"/>
+<rect x="144" y="218" width="112" height="22" rx="11" fill="#FADADC"/><circle cx="158" cy="229" r="8" fill="#12A150"/><path d="M154.6 229.2l2.2 2.4 4.5-4.8" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><rect x="172" y="225" width="44" height="8" rx="4" fill="#fff"/></g>
+<g fill="none" stroke="#E30613" stroke-width="6" stroke-linecap="round"><path class="wv" d="M296 126a30 30 0 0 1 0 48"/><path class="wv2" d="M312 108a54 54 0 0 1 0 84"/><path class="wv3" d="M328 90a78 78 0 0 1 0 120"/></g>
+<circle cx="104" cy="222" r="20" fill="#111"/><path d="M95.6 222.4l5.6 6.0 11.2-12.0" fill="none" stroke="#fff" stroke-width="5.6" stroke-linecap="round" stroke-linejoin="round"/>
+
+</svg>
