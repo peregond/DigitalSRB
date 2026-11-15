@@ -47,6 +47,38 @@ html[data-lang="sr"] [lang="en"],html[data-lang="en"] [lang="sr-Latn"]{display:n
 .btn:hover{background:#000}
 .link{color:var(--link);font-size:17px}.link:hover{text-decoration:underline}
 
+/* featured cards */
+.featured{padding:0 0 clamp(64px,9vw,110px);overflow:hidden}
+.featured h2{font-size:clamp(34px,5.4vw,64px);font-weight:700;margin-bottom:34px}
+.fc-wrap{overflow:hidden}
+.fc-track{display:flex;gap:20px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding:6px max(22px,calc((100vw - var(--w))/2 + 22px)) 28px;scroll-padding-inline:max(22px,calc((100vw - var(--w))/2 + 22px))}
+.fc-track::-webkit-scrollbar{display:none}
+.fcard{flex:none;width:min(380px,82vw);scroll-snap-align:start;display:flex;flex-direction:column;background:var(--alt);border-radius:var(--r);overflow:hidden;
+  opacity:0;transform:translateY(36px) scale(.96);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1),box-shadow .35s;transition-delay:calc(var(--i) * 70ms),calc(var(--i) * 70ms),0s}
+.fcard.in{opacity:1;transform:none}
+html:not(.js) .fcard{opacity:1;transform:none}
+.fcard.in:hover{transform:scale(1.025);box-shadow:0 18px 44px rgba(0,0,0,.14);transition-delay:0s}
+.fc-art{position:relative;aspect-ratio:4/3;overflow:hidden;display:grid;place-items:center;background:
+  radial-gradient(120% 90% at 20% 10%,color-mix(in srgb,var(--tc) 38%,#fff),transparent 60%),
+  radial-gradient(100% 80% at 90% 100%,color-mix(in srgb,var(--tc) 22%,#fff),transparent 60%),#fff}
+.fc-n{position:relative;font-size:clamp(90px,14vw,128px);font-weight:700;letter-spacing:-.06em;color:var(--tc);line-height:1;animation:float 6s ease-in-out infinite}
+.fc-ring{position:absolute;left:50%;top:50%;width:46%;aspect-ratio:1;border-radius:50%;border:2px solid var(--tc);opacity:0;animation:ring 4.5s ease-out infinite}
+.fc-ring.r2{animation-delay:2.25s}
+.fc-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .8s cubic-bezier(.2,.7,.2,1)}
+.fcard:hover .fc-img{transform:scale(1.06)}
+@keyframes float{50%{transform:translateY(-10px)}}
+@keyframes ring{0%{transform:translate(-50%,-50%) scale(.6);opacity:.5}100%{transform:translate(-50%,-50%) scale(1.5);opacity:0}}
+.fc-body{padding:22px 26px 28px;display:flex;flex-direction:column;flex:1}
+.fc-tier{display:flex;align-items:center;font-size:13px;font-weight:600;color:var(--ink2)}
+.fc-tier .tdot{font-size:10px;margin:0 .8em 0 .3em}
+.fc-body h3{font-size:22px;font-weight:700;margin-top:12px;letter-spacing:-.02em}
+.fc-text{font-size:16px;color:var(--muted);margin-top:8px;line-height:1.38}
+.fc-ctrl{display:flex;gap:10px;justify-content:flex-end}
+.fc-arrow{width:44px;height:44px;border-radius:50%;background:var(--alt);font-size:26px;line-height:1;padding-bottom:3px;transition:background .2s,opacity .2s}
+.fc-arrow:hover{background:#e8e8ed}
+.fc-arrow:disabled{opacity:.35;cursor:default}
+@media (prefers-reduced-motion:reduce){.fcard{opacity:1;transform:none;transition:none}.fc-n,.fc-ring{animation:none}.fc-ring{display:none}}
+
 /* why */
 .why{background:var(--alt);padding:clamp(72px,10vw,130px) 0}
 .why h2,.tiers h2,.sources h2{font-size:clamp(34px,5.4vw,64px);font-weight:700;margin-bottom:34px}

@@ -165,8 +165,28 @@
     }).catch(function (e) { console.warn(e); });
   }
 
+  /* ---------- featured cards ---------- */
+  var track = document.getElementById("fcTrack"), prev = document.getElementById("fcPrev"), next = document.getElementById("fcNext");
+  function arrows() {
+    prev.disabled = track.scrollLeft < 4;
+    next.disabled = track.scrollLeft > track.scrollWidth - track.clientWidth - 4;
+  }
+  function slide(dir) {
+    var c = track.querySelector(".fcard");
+    track.scrollBy({ left: dir * (c.offsetWidth + 20), behavior: "smooth" });
+  }
+  prev.addEventListener("click", function () { slide(-1); });
+  next.addEventListener("click", function () { slide(1); });
+  track.addEventListener("scroll", arrows, { passive: true });
+  track.addEventListener("keydown", function (e) {
+    if (e.key === "ArrowRight") { slide(1); e.preventDefault(); }
+    if (e.key === "ArrowLeft") { slide(-1); e.preventDefault(); }
+  });
+  window.addEventListener("resize", arrows);
+  arrows();
+
   /* ---------- scroll reveal ---------- */
-  var items = $$(".reveal");
+  var items = $$(".reveal, .fcard");
   if ("IntersectionObserver" in window) {
     var io = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {

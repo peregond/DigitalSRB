@@ -30,6 +30,19 @@ TIERS = [
      "en": {"name": "A new law", "sub": "A decision of Parliament", "time": "2+ years",
             "desc": "Needs an amendment to an existing law or an entirely new one."}},
 ]
+# Main ideas shown as animated cards on the home page.
+# Artwork: assets/featured/NN.webp (1200x900). Without the file a coloured animated card is shown.
+FEATURED = [
+    (1, "Skeniraš jednom. Službenik već zna tvoj slučaj.", "Scan once. The clerk already knows your case."),
+    (22, "Firma se otvara i zatvara za jedan dan. Konačni porez odmah.", "Open or close a business in a day. Final tax paid on the spot."),
+    (30, "Država već ima tvoja dokumenta. Ne nosi ih više.", "The state already has your papers. Stop carrying them."),
+    (21, "Paket jednim QR kodom, carina u roku od jednog radnog dana.", "A parcel with one QR code, customs within one working day."),
+    (47, "Lična karta i boravak u novčaniku na telefonu.", "Your ID and residence card in your phone wallet."),
+    (48, "Nema više prijave boravka stranaca u roku od 24 sata.", "No more 24-hour registration of stay for foreigners."),
+    (50, "Tri zvanična roka. Taksa ide u budžet, ne u džep.", "Three official speeds. The fee goes to the budget, not a pocket."),
+    (53, "Digitalni sud za više od milion nerešenih predmeta.", "A digital court for over a million pending cases."),
+]
+
 UI = {
     "problem": {"sr": "Problem", "en": "The problem"},
     "proposal": {"sr": "Predlog", "en": "The proposal"},
@@ -178,6 +191,27 @@ def render_idea(num, by_lang, tier, toc, wide):
     )
 
 
+def tier_of(n):
+    return next(t for t in TIERS if t["first"] <= n <= t["last"])
+
+
+def render_featured(toc):
+    out = []
+    for i, (n, sr, en) in enumerate(FEATURED):
+        t = tier_of(n)
+        title = {l: re.sub(r"\s*\(.*?\)\s*$", "", re.sub(r"</?strong>", "", toc[l][n])) for l in LANGS}
+        out.append(
+            f'<a class="fcard" href="#idea-{n}" style="--tc:{t["color"]};--i:{i}">'
+            f'<div class="fc-art" aria-hidden="true"><span class="fc-ring r1"></span><span class="fc-ring r2"></span>'
+            f'<span class="fc-n">{n:02d}</span>'
+            f'<img class="fc-img" src="assets/featured/{n:02d}.webp" alt="" loading="lazy" decoding="async" '
+            f'onerror="this.style.display=\'none\'"></div>'
+            f'<div class="fc-body"><p class="fc-tier"><i class="tdot"></i>{bi({l: t[l]["name"] for l in LANGS})}</p>'
+            f'{bi(title, "h3")}{bi({"sr": sr, "en": en}, "p", "fc-text")}</div></a>'
+        )
+    return "".join(out)
+
+
 def main():
     intro, ideas, toc, src_items, src_note = parse()
     assert sorted(ideas) == list(range(1, 61)), sorted(ideas)
@@ -218,7 +252,7 @@ def main():
 
     tpl = (ROOT / "tools" / "template.html").read_text(encoding="utf-8")
     out = (tpl.replace("{{INTRO}}", intro_html).replace("{{TIER_CARDS}}", tier_cards)
-           .replace("{{NAV_LINKS}}", nav_links).replace("{{FILTERS}}", filters)
+           .replace("{{NAV_LINKS}}", nav_links).replace("{{FILTERS}}", filters).replace("{{FEATURED}}", render_featured(toc))
            .replace("{{TIER_SECTIONS}}", tier_sections).replace("{{SOURCES}}", src_items)
            .replace("{{SOURCES_NOTE}}", bi(src_note, "p", "note")))
     assert "{{" not in out
