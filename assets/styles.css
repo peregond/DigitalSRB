@@ -38,7 +38,7 @@ html[data-lang="sr"] [lang="en"],html[data-lang="en"] [lang="sr-Latn"]{display:n
 @media (max-width:760px){.nav-links{display:none}.lang{margin-left:auto}}
 
 /* hero */
-.hero{background:radial-gradient(70% 55% at 50% 0%,rgba(227,6,19,.09),transparent 70%);text-align:center;padding:clamp(72px,13vw,150px) 22px clamp(64px,10vw,120px)}
+.hero{background:radial-gradient(70% 55% at 50% 0%,rgba(227,6,19,.09),transparent 70%);text-align:center;padding:clamp(36px,7vw,84px) 22px clamp(56px,9vw,110px)}
 .hero-eyebrow{font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;margin-bottom:22px;display:inline-flex;align-items:center;gap:8px}.hero-eyebrow::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--accent)}
 .hero h1{color:var(--ink);font-size:clamp(34px,6.6vw,80px);font-weight:800;letter-spacing:-.03em;line-height:1.06;max-width:13em;margin:0 auto}
 .hero h1 em{font-style:normal;background:linear-gradient(90deg,#E30613 10%,#ff6a5b 90%);-webkit-background-clip:text;background-clip:text;color:transparent}
@@ -213,3 +213,5 @@ html:not(.js) .fcard{opacity:1;transform:none}
 /* link from a list card to its detail page */
 .idea-more{align-self:flex-start;margin-top:22px;font-weight:800;font-size:14px;color:var(--ink);border-bottom:2px solid var(--accent);padding-bottom:2px}
 .idea-more:hover{color:var(--accent)}
+
+.brand{display:inline-flex;align-items:center;gap:8px}.brand .flag{font-size:1.15em;line-height:1}
