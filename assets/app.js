@@ -223,7 +223,7 @@
   /* ---------- detail pages: stagger, hero scroll effect, local nav ---------- */
   if (document.body.classList.contains("pg")) initPage();
   function initPage() {
-    var groups = ".pg-cards,.pg-steps,.pg-check,.pg-faq,.pg-rel,.chain,.flow-row ol,.pg-hstats,.speeds";
+    var groups = ".pg-stages,.pg-cards,.pg-steps,.pg-check,.pg-faq,.pg-rel,.chain,.flow-row ol,.pg-hstats,.speeds";
     $$(groups).forEach(function (g) {
       Array.prototype.forEach.call(g.children, function (c, i) {
         c.classList.add("rv");

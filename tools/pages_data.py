@@ -220,10 +220,9 @@ PAGES[21] = {
     "stats": [],
     "related": [4, 17, 28, 29],
     "blocks": [
-        text(("Pregled", "Overview"), ("Četiri dela jedne reforme", "Four parts of one reform"), [
-            ("Pošta Srbije je mesto gde se država susreće sa građaninom svakodnevno, a veliki deo posla još ide na papiru. Predlog ima četiri dela, od aplikacije do carine.",
-             "Pošta Srbije is where the state meets the citizen every day, and much of the work still runs on paper. The proposal has four parts, from the app to customs."),
-        ]),
+        {**custom("posta_stages", ("Pregled", "Overview"), ("Četiri dela jedne reforme", "Four parts of one reform"),
+                  intro=("Pošta Srbije je mesto gde se država svakodnevno susreće sa građaninom, a veliki deo posla još ide na papiru. Predlog ima četiri dela.",
+                         "Pošta Srbije is where the state meets the citizen every day, and much of the work still runs on paper. The proposal has four parts.")), "cls": "compact"},
         cards(("1/4", "1/4"), ("Sve poštanske usluge u jednoj aplikaciji", "All postal services in one app"), [], id="p1", extra="posta_app", intro=("Mnogo toga na pošti još se radi na papiru i ručno, a red u poslovnici traje. Poslovnice dobijaju skenere i digitalne procese, pa se usluga obavi za nekoliko minuta.",
                            "Much at the pošta is still done on paper and by hand, and the queue at the branch drags on. Branches get scanners and digital processes, so a service takes a few minutes.")),
         flow(("2/4", "2/4"), ("Paket jednim QR kodom", "A parcel with one QR code"), [

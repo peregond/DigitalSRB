@@ -287,3 +287,21 @@ html{scroll-padding-top:112px}
 .lic-card.alt{background:var(--tint2)}
 
 .pg-hero.no-stats{padding-bottom:clamp(44px,6vw,80px)}
+
+/* compact overview with the stages as cards */
+.pg-sec.compact{padding:clamp(40px,5vw,68px) 0}
+.pg-sec.compact .pg-head{margin-bottom:26px}
+.pg-sec.compact .pg-head h2{font-size:clamp(26px,3.6vw,44px)}
+.pg-sec.compact .pg-intro{font-size:clamp(17px,1.7vw,21px);margin-top:14px}
+.pg-stages{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.pg-stage{position:relative;display:flex;flex-direction:column;gap:8px;padding:22px 22px 26px;border-radius:26px;background:var(--tint);transition:transform .4s cubic-bezier(.2,.7,.2,1),box-shadow .4s,background .3s}
+.pg-stage:hover{transform:translateY(-5px);background:#fff;box-shadow:0 18px 40px rgba(20,46,87,.14)}
+.pg-stage-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.pg-stage-top b{font-family:var(--display);font-size:30px;font-weight:800;color:var(--th2);line-height:1}
+.pg-stage-top i{display:grid;place-items:center;width:42px;height:42px;border-radius:14px;background:var(--th);color:var(--th2)}
+.pg-stage-top svg{width:22px;height:22px}
+.pg-stage h3{color:var(--ink);font-size:16px;line-height:1.25}
+.pg-stage p{font-size:14px;color:var(--ink2);line-height:1.45;max-width:20em}
+.pg-stage-go{position:absolute;right:20px;bottom:16px;font-size:24px;font-weight:700;color:var(--th2);transition:transform .3s}
+.pg-stage:hover .pg-stage-go{transform:translateX(4px)}
+.pg-stage p{padding-right:26px}

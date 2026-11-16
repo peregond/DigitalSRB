@@ -62,6 +62,7 @@ def head(blk, extra=""):
 def sec(blk, inner, idx, cls=""):
     sid = f' id="{blk.get("id") or "s%d" % idx}"'
     tone = "alt" if idx % 2 else ""
+    cls = f"{cls} {blk.get('cls', '')}"
     return f'<section class="pg-sec {tone} {cls}"{sid}><div class="wrap">{head(blk)}{inner}</div></section>'
 
 
@@ -237,6 +238,23 @@ def c_licence53(b):
     return f'<div class="lic">{a}{c}</div>{note}'
 
 
+STAGES = [
+    ("home", "p1", ("Aplikacija", "The app"), ("Sve poštanske usluge u jednoj aplikaciji, uz prijavu preko eUprave.", "All postal services in one app, with sign-in through eUprava.")),
+    ("qr", "p2", ("Paket jednim QR kodom", "A parcel with one QR code"), ("Preuzimanje bez prepisivanja podataka i kopiranja lične karte.", "Pickup without retyping data or copying the ID card.")),
+    ("card", "p3", ("Carina i plaćanje onlajn", "Customs and payment online"), ("Javni obračun unapred, doplata na adresi preko IPS QR koda.", "A public calculation up front, a top-up at the door by IPS QR.")),
+    ("clock", "p4", ("Carinjenje za jedan dan", "Customs in one working day"), ("Cilj: 99,9% pošiljki ocarinjeno u roku od jednog radnog dana.", "Target: 99.9% of parcels cleared within one working day.")),
+]
+
+
+def c_posta_stages(b):
+    import posta_app
+    cards = "".join(
+        f'<a class="pg-stage" href="#{pid}"><span class="pg-stage-top"><b>{i:02d}</b><i>{posta_app.ic(icon)}</i></span>'
+        f'{B(title, "h3")}{B(text, "p")}<span class="pg-stage-go" aria-hidden="true">›</span></a>'
+        for i, (icon, pid, title, text) in enumerate(STAGES, 1))
+    return f'<div class="pg-stages">{cards}</div>'
+
+
 def c_posta_app(b):
     import posta_app
     lead = (f'<div class="pa-lead"><p class="pg-eyebrow">{B(("Kako bi izgledalo", "What it could look like"))}</p>'
@@ -246,7 +264,7 @@ def c_posta_app(b):
     return lead + posta_app.phones_html()
 
 
-CUSTOM = {"posta_app": c_posta_app, "licence53": c_licence53, "clerk": c_clerk, "journey22": c_journey22, "network30": c_network30, "stats30": c_stats30,
+CUSTOM = {"posta_stages": c_posta_stages, "posta_app": c_posta_app, "licence53": c_licence53, "clerk": c_clerk, "journey22": c_journey22, "network30": c_network30, "stats30": c_stats30,
           "phone47": c_phone47, "border48": c_border48, "speed50": c_speed50}
 RENDER = {"text": r_text, "cards": r_cards, "flow": r_flow, "steps": r_steps, "bars": r_bars, "table": r_table,
           "check": r_check, "faq": r_faq}
