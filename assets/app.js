@@ -205,7 +205,7 @@
   var cfg = window.DSRB_CONFIG || {};
   var api = cfg.supabaseUrl && cfg.supabaseAnonKey ? cfg.supabaseUrl.replace(/\/+$/, "") + "/rest/v1" : null;
   var mine = {};
-  try { mine = JSON.parse(store.get("dsrb.votes") || "{}") || {}; } catch (e) { mine = {}; }
+  try { mine = JSON.parse(store.get("dsrb.votes2") || "{}") || {}; } catch (e) { mine = {}; }
   var totals = null; // { id: {up, down} } once loaded from the backend
   var boxes = {};
   $$("[data-vote]").forEach(function (b) { boxes[b.dataset.vote] = b; });
@@ -251,7 +251,7 @@
     var prev = mine[id];
     var next = prev === dir ? undefined : dir; // pressing the same button again takes the vote back
     if (next) mine[id] = next; else delete mine[id];
-    store.set("dsrb.votes", JSON.stringify(mine));
+    store.set("dsrb.votes2", JSON.stringify(mine));
     var dUp = (next === "up" ? 1 : 0) - (prev === "up" ? 1 : 0);
     var dDown = (next === "down" ? 1 : 0) - (prev === "down" ? 1 : 0);
     if (totals) {
