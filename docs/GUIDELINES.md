@@ -33,4 +33,4 @@ Rules for the concept visuals and pages on this site. Keep new pages consistent 
 
 ## Showcase images
 
-Large, finished pictures (for example the single tax portal and the dated views of today's sites) are rendered by `python3 tools/shots.py` into `assets/shots/*.webp` (sources in `tools/shots.py`, renderer `tools/render_shots.js`; needs node, playwright and Pillow). Serbian is the default language of the site and of these images; an English version is shown when the language is switched.
+Large, finished pictures (for example the single tax portal and the dated views of today's sites) are rendered by `python3 tools/shots.py` into `assets/shots/*.webp` (sources in `tools/shots.py`, renderer `tools/render_shots.js`; needs node, playwright and Pillow). The site picks the language from the visitor's browser (Serbian, Bosnian, Croatian and Montenegrin map to Serbian, everything else to English; `sr-Cyrl` also turns on Cyrillic). A choice made in the language menu always wins. The Serbian image is shown to Serbian readers and the English one to the rest.

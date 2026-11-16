@@ -93,7 +93,7 @@
   (function () {
     var q = null;
     try { q = new URLSearchParams(location.search).get("script"); } catch (e) { /* ignore */ }
-    var pref = q || store.get("dsrb.script");
+    var pref = q || store.get("dsrb.script") || root.dataset.autoScript;
     if (pref === "cyr") applyScript(true);
   })();
   function setScript(on) {
