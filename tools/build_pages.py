@@ -232,9 +232,13 @@ def c_licence53(b):
 
 def c_posta_app(b):
     import posta_app
+    lead = (f'<div class="pa-lead"><p class="pg-eyebrow">{B(("Kako bi izgledalo", "What it could look like"))}</p>'
+            + B(("Nova aplikacija Pošte Srbije: prijava preko eUprave, paketi, QR preuzimanje, carina i plaćanje, u bojama Srbije.",
+                 "A new Pošta Srbije app: sign-in through eUprava, parcels, QR pickup, customs and payment, in the colours of Serbia."), "p", "pg-intro")
+            + "</div>")
     link = ('<p class="pg-note"><a class="idea-more" href="../../mockups/posta-app/">'
             + B(("Otvori na celom ekranu", "Open full screen")) + " ›</a></p>")
-    return posta_app.phones_html() + link
+    return lead + posta_app.phones_html() + link
 
 
 CUSTOM = {"posta_app": c_posta_app, "licence53": c_licence53, "clerk": c_clerk, "journey22": c_journey22, "network30": c_network30, "stats30": c_stats30,
@@ -280,6 +284,8 @@ def build_all(ctx):
                 inner = CUSTOM[blk["name"]](blk)
             else:
                 inner = RENDER[blk["k"]](blk)
+                if blk.get("extra"):
+                    inner += CUSTOM[blk["extra"]](blk)
             sections += sec(blk, inner, i, "dark" if blk["k"] == "check" else "")
             lab = blk["eb"]
             m = re.match(r"^(\d)/\d$", lab[1])

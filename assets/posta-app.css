@@ -173,3 +173,17 @@
 .pa-tab{flex:1;width:auto;padding:8px 2px 7px;border-radius:28px;font-size:10px;color:#8A8264}
 .pa-tab.on{background:rgba(255,255,255,.88);color:var(--blue);box-shadow:0 3px 10px rgba(60,45,5,.16),inset 0 1px 0 #fff}
 .pa-tab svg{width:22px;height:22px}
+
+/* segmented control: never let labels or badges spill out of their capsule */
+.pa-screen{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+.pa-seg span{flex:1 1 0;min-width:0;gap:4px;padding:9px 3px;font-size:10px;font-weight:600;letter-spacing:-.01em;line-height:1.1;overflow:hidden}
+.pa-seg span em,.pa-seg span>[lang]{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.pa-seg b{flex:none;min-width:14px;height:14px;padding:0 4px;font-size:9px;line-height:14px;text-align:center;font-weight:700}
+.pa-seg span{position:relative;overflow:visible}
+.pa-seg b{position:absolute;top:1px;right:5px;box-shadow:0 0 0 2px rgba(255,252,240,.9)}
+.pa-seg span.on b{box-shadow:0 0 0 2px #fff}
+/* final: segments size to their content, counts sit inline inside the capsule */
+.pa-seg span{flex:1 1 auto;overflow:hidden;padding:9px 8px;gap:5px}
+.pa-seg b{position:static;box-shadow:none;margin:0}
+
+.pa-lead{margin:clamp(40px,6vw,72px) 0 28px}

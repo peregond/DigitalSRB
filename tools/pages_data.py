@@ -23,8 +23,8 @@ def text(eb, t, p, id=None):
     return {"k": "text", "eb": eb, "t": t, "p": p, "id": id}
 
 
-def cards(eb, t, items, id=None, intro=None):
-    return {"k": "cards", "eb": eb, "t": t, "items": items, "id": id, "intro": intro}
+def cards(eb, t, items, id=None, intro=None, extra=None):
+    return {"k": "cards", "eb": eb, "t": t, "items": items, "id": id, "intro": intro, "extra": extra}
 
 
 def flow(eb, t, today, after, note=None, id=None, intro=None):
@@ -226,15 +226,12 @@ PAGES[21] = {
             ("Pošta Srbije je mesto gde se država susreće sa građaninom svakodnevno, a veliki deo posla još ide na papiru. Predlog ima četiri dela, od aplikacije do carine.",
              "Pošta Srbije is where the state meets the citizen every day, and much of the work still runs on paper. The proposal has four parts, from the app to customs."),
         ]),
-        custom("posta_app", ("Kako bi izgledalo", "What it could look like"), ("Nova aplikacija Pošte Srbije", "A new Pošta Srbije app"),
-               intro=("Konceptni ekrani za sve četiri celine: prijava preko eUprave, paketi, QR preuzimanje, carina i plaćanje. Sve u bojama Srbije i na oba jezika.",
-                      "Concept screens for all four parts: sign-in through eUprava, parcels, QR pickup, customs and payment. In the colours of Serbia and in both languages."), id="app"),
         cards(("1/4", "1/4"), ("Sve poštanske usluge u jednoj aplikaciji", "All postal services in one app"), [
             ("Praćenje", "Tracking", "Svaka pošiljka i svaki korak na jednom mestu.", "Every parcel and every step in one place."),
             ("Obaveštenja", "Notices", "Umesto papirnih izveštaja, obaveštenja u aplikaciji.", "App notices instead of paper slips."),
             ("Formulari", "Forms", "Popunjavaš kod kuće, ne na šalteru.", "Filled in at home, not at the counter."),
             ("Plaćanja", "Payments", "Od praćenja do plaćanja u istom dizajnu kao druge državne usluge.", "From tracking to payment, in the same design as other state services."),
-        ], id="p1", intro=("Mnogo toga na pošti još se radi na papiru i ručno, a red u poslovnici traje. Poslovnice dobijaju skenere i digitalne procese, pa se usluga obavi za nekoliko minuta.",
+        ], id="p1", extra="posta_app", intro=("Mnogo toga na pošti još se radi na papiru i ručno, a red u poslovnici traje. Poslovnice dobijaju skenere i digitalne procese, pa se usluga obavi za nekoliko minuta.",
                            "Much at the pošta is still done on paper and by hand, and the queue at the branch drags on. Branches get scanners and digital processes, so a service takes a few minutes.")),
         flow(("2/4", "2/4"), ("Paket jednim QR kodom", "A parcel with one QR code"), [
             ("Doneseš papirni izveštaj", "Bring a paper notice"), ("Službenica ručno unosi podatke", "The clerk types the data"),
