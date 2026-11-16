@@ -285,3 +285,5 @@ html{scroll-padding-top:112px}
 .lic-card li b{flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:13px;background:#12A150}
 .lic-card li.no b{background:#BDB8B0}.lic-card li.go b{background:var(--th2)}
 .lic-card.alt{background:var(--tint2)}
+
+.pg-hero.no-stats{padding-bottom:clamp(44px,6vw,80px)}

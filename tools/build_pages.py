@@ -320,6 +320,8 @@ def build_all(ctx):
                 .replace("{{VOTE}}", vote_html(n))
                 .replace("{{PREV}}", nb(prev_n, UI["prev"])).replace("{{NEXT}}", nb(next_n, UI["next"]))
                 .replace("{{V}}", ver))
+        if not page["stats"]:
+            html = html.replace('<div class="wrap"><ul class="pg-hstats"></ul></div>', "", 1).replace('<header class="pg-hero" id="top">', '<header class="pg-hero no-stats" id="top">', 1)
         if n in NO_EYEBROW:
             html = re.sub(r'\s*<p class="pg-hero-eye">.*?</p>', "", html, count=1, flags=re.S)
         assert "{{" not in html, re.findall(r"\{\{[A-Z0-9_]+\}\}", html)

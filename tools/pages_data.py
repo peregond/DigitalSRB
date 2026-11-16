@@ -217,9 +217,7 @@ PAGES[30] = {
 
 # ---------------------------------------------------------------- 21 Pošta reform
 PAGES[21] = {
-    "stats": [("35+", ("dana pošiljke stoje na carini", "days parcels sit at customs")),
-              (("99,9%", "99.9%"), ("cilj: carinjenje za 1 radni dan", "target: cleared in 1 working day")),
-              (("23.02.2026.", "23 Feb 2026"), ("Pošta počinje da naplaćuje deklaraciju", "Pošta starts charging for the declaration"))],
+    "stats": [],
     "related": [4, 17, 28, 29],
     "blocks": [
         text(("Pregled", "Overview"), ("Četiri dela jedne reforme", "Four parts of one reform"), [
