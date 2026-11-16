@@ -376,3 +376,8 @@
 .pa-browser .pa-card{padding:12px 14px}
 .pa-browser .pa-btn{padding:10px}
 .pa-browser .pa-wfoot .pa-fine{margin:0}
+
+/* gallery: room around the phones so their shadow is not clipped by the scroll container */
+.pa-row{padding:44px 44px 112px;margin:-36px -44px -84px}
+.pa-ctrl{position:relative;z-index:2}
+.pa-row{padding-left:72px;padding-right:72px;margin-left:-72px;margin-right:-72px}
