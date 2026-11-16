@@ -7,6 +7,7 @@ and "what has to change" lists are drafts that explain how the idea could work: 
 
 # idea number -> (slug, theme colour, darker shade)
 THEMES = {
+    9: ("tax-portal", "#7CA10A", "#4A6206"),
     1: ("qr-counter", "#12A150", "#0A6B36"),
     2: ("two-levels", "#0A9AAE", "#06626F"),
     22: ("business-in-a-day", "#1F6FEB", "#123F96"),
@@ -17,7 +18,7 @@ THEMES = {
     50: ("fast-track", "#D1246A", "#85103F"),
     53: ("driving-licence", "#24407A", "#0F2147"),
 }
-ORDER = [1, 2, 22, 30, 21, 47, 48, 50, 53]
+ORDER = [9, 1, 2, 22, 30, 21, 47, 48, 50, 53]
 
 
 def text(eb, t, p, id=None):
@@ -100,6 +101,40 @@ PAGES[1] = {
             (("Nemam pametan telefon?", "I have no smartphone?"), ("Kod može da se odštampa ili stigne kao link u SMS-u. Šalter ostaje otvoren i za one koji dođu bez ičega, samo sa dužim postupkom.", "The code can be printed or arrive as an SMS link. The counter stays open for people who arrive with nothing, just with a longer procedure.")),
             (("Je li bezbedno pokazati QR kod?", "Is it safe to show a QR code?"), ("QR sadrži samo nasumičnu oznaku predmeta. Službenik mora da bude prijavljen, a svaki pristup tvom predmetu beleži se i vidljiv ti je u aplikaciji.", "The QR holds only a random case reference. The clerk must be logged in, and every access to your case is logged and visible to you in the app.")),
             (("Sistem ne radi?", "The system is down?"), ("Postupak se vraća na današnji, papirni. QR ne uvodi novu zavisnost, samo skraćuje put.", "The procedure falls back to today's paper one. The QR adds no new dependency, it only shortens the path.")),
+        ]), "nav": ("Pitanja", "Q&A")},
+    ],
+}
+
+# ---------------------------------------------------------------- 09 one tax portal
+PAGES[9] = {
+    "stats": [],
+    "related": [22, 26, 44, 17],
+    "blocks": [
+        {**custom("stages9", ("Pregled", "Overview"), ("Jedan portal umesto dva", "One portal instead of two"),
+                  intro=("Danas firmu registruješ u jednom elektronskom sistemu, a poreze plaćaš u drugom, pa moraš da prelaziš sa portala na portal. Predlog je jedinstveni poreski portal u kome je sve to na jednom mestu.",
+                         "Today you register a business in one electronic system and pay taxes in another, so you have to switch from portal to portal. The proposal is a single tax portal where it is all in one place.")),
+         "cls": "compact", "nav": ("Pregled", "Overview")},
+        {**custom("versus9", ("Razlika", "The difference"), ("Koliko sistema moraš da koristiš", "How many systems you have to use")), "nav": ("Razlika", "Difference")},
+        {**flow(("Put", "The path"), ("Registracija i porezi", "Registration and taxes"), [
+            ("Registruješ firmu na portalu APR-a", "You register the business on the APR portal"),
+            ("Prelaziš na portal ePorezi", "You switch to the ePorezi portal"),
+            ("Tamo prijavljuješ i plaćaš poreze", "There you file and pay taxes"),
+            ("Status pratiš u dva sistema", "You follow the status in two systems")],
+            [("Prijaviš se jednom na jedinstveni portal", "You sign in once to the single portal"),
+             ("Registruješ firmu", "You register the business"),
+             ("Plaćaš poreze u istom portalu", "You pay taxes in the same portal"),
+             ("Jedan pregled obaveza i statusa", "One view of obligations and status")],
+            note=("Ilustrativan tok, tačni koraci zavise od konkretne usluge.", "An illustrative path; the exact steps depend on the service."), id="c1", extra="t9_pair"),
+         "nav": ("Portal", "The portal")},
+        {**cards(("Ko šta radi", "Who does what"), ("Ustanove ostaju nezavisne", "The agencies stay independent"), [
+            ("APR", "APR", "Registracija i izmene podataka, kao i do sada. Usluge su dostupne u jedinstvenom portalu.", "Registration and changes of data, as before. The services are available in the single portal."),
+            ("Poreska uprava", "Poreska uprava", "Porezi, prijave i plaćanja, kao i do sada. Usluge su dostupne u jedinstvenom portalu.", "Taxes, filings and payments, as before. The services are available in the single portal."),
+            ("Jedinstveni portal", "The single portal", "Jedna prijava i jedan pregled. Objedinjuju se samo elektronske usluge, ne ustanove.", "One sign-in and one view. Only the electronic services are brought together, not the agencies."),
+        ], intro=("Svaka ustanova i dalje odlučuje o svojim podacima i postupcima.", "Each agency still decides on its own data and procedures.")),
+         "nav": ("Ustanove", "Agencies")},
+        {**faq(QA, ("Šta ako…", "What if…"), [
+            (("Da li se APR i Poreska uprava spajaju?", "Are APR and Poreska uprava merged?"), ("Ne. Ustanove ostaju nezavisne. Spajaju se samo njihove elektronske usluge, na jednom portalu.", "No. The agencies stay independent. Only their electronic services are brought together, on one portal.")),
+            (("Ko odgovara za podatke?", "Who is responsible for the data?"), ("Svaka ustanova za svoje podatke i odluke, kao i danas. Portal ih samo prikazuje na jednom mestu.", "Each agency for its own data and decisions, as today. The portal only shows them in one place.")),
         ]), "nav": ("Pitanja", "Q&A")},
     ],
 }

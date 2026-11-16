@@ -392,3 +392,11 @@
 .pa-screen{aspect-ratio:9/19.5}
 .pa-body{gap:10px;padding:8px 16px 12px}
 .pa-list{gap:8px}
+
+/* olive variant (single tax portal) */
+.pa-olive{--blue:#5C7A0A;--blue2:#7CA10A;--navy:#3F5406;--bg:#F6FAE9;--soft:#E3EEB8;--ln:#E2EBC2;--yellow:#BBD566;--tx:#232E08;--mu:#69734B}
+.pa-olive .pa-screen{background:radial-gradient(70% 36% at 92% 3%,#DCEBA6 0,transparent 70%),radial-gradient(62% 32% at 0% 60%,rgba(124,161,10,.1),transparent 70%),var(--bg)}
+.pa-olive .pa-wbody{background:radial-gradient(60% 40% at 95% 0,#DCEBA6 0,transparent 70%),var(--bg)}
+.pa-olive .pa-bbar{background:#EAF2C9}.pa-olive .pa-browser{border-color:#DCE7B5}
+.pa-tag{margin-left:auto;font-size:10px;font-weight:800;letter-spacing:.04em;padding:3px 8px;border-radius:999px;background:var(--soft);color:var(--navy);flex:none}
+.pa-checks.tagged li{align-items:center}.pa-checks.tagged li>div{flex:1;font-weight:700}

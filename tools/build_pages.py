@@ -498,7 +498,8 @@ def vote_html(n):
 def build_all(ctx):
     """ctx: toc, ideas, tier_of, tiers, featured, ver, template (str)."""
     toc, ideas, tier_of, ver = ctx["toc"], ctx["ideas"], ctx["tier_of"], ctx["ver"]
-    taglines = {47: ("Lična karta i boravak u novčaniku na telefonu.", "Your ID and residence card in your phone wallet.")}
+    taglines = {47: ("Lična karta i boravak u novčaniku na telefonu.", "Your ID and residence card in your phone wallet."),
+                53: ("Zamena strane vozačke dozvole bez nagađanja.", "Exchange a foreign driving licence without the guesswork.")}
     taglines.update({n: (sr, en) for n, sr, en in ctx["featured"]})
     clean = lambda l, n: re.sub(r"\s*\(.*?\)\s*$", "", re.sub(r"</?strong>", "", toc[l][n]))
     titles = {n: (clean("sr", n), clean("en", n)) for n in ORDER}
@@ -547,7 +548,7 @@ def build_all(ctx):
                 .replace("{{EYEBROW}}", B((cat_of(n)["sr"][0], cat_of(n)["en"][0])) + " · " + B(UI["idea"]) + f" {n:02d}")
                 .replace("{{H1}}", B(titles[n], "h1")).replace("{{TAGLINE}}", B(HERO_TEXT.get(n, taglines[n]), "p", "pg-tag"))
                 .replace("{{TIERLINE}}", B(tsub, "p", "pg-tier"))
-                .replace("{{EXTRA_HEAD}}", '<link rel="stylesheet" href="../../assets/posta-app.css?v=%s">' % ver if n in (1, 2, 21, 22, 30, 48, 50) else "").replace("{{LOCAL}}", local).replace("{{HSTATS}}", hstats).replace("{{SECTIONS}}", sections)
+                .replace("{{EXTRA_HEAD}}", '<link rel="stylesheet" href="../../assets/posta-app.css?v=%s">' % ver if n in (1, 2, 9, 21, 22, 30, 48, 50) else "").replace("{{LOCAL}}", local).replace("{{HSTATS}}", hstats).replace("{{SECTIONS}}", sections)
                 .replace("{{RELATED}}", rel).replace("{{SOURCES}}", sources_html(parts))
                 .replace("{{VOTE}}", vote_html(n))
                 .replace("{{PREV}}", nb(prev_n, UI["prev"])).replace("{{NEXT}}", nb(next_n, UI["next"]))
@@ -629,4 +630,17 @@ CUSTOM.update({
     "versus50": make_versus(("Veza", "A connection"), ("Hitnost postoji, ali neformalno: poznanik, usluga ili novac u džep.", "Urgency exists, but informally: an acquaintance, a favour or money into a pocket."),
                             ("Račun", "A receipt"), ("Ista hitnost, ali javna, jednaka za sve i uz zvaničnu potvrdu.", "The same urgency, but public, equal for all and with an official receipt."), words=True),
     "f50_pair": make_pair("f50"),
+})
+
+
+CUSTOM.update({
+    "stages9": make_stages([
+        ("home", ("Jedan ulaz", "One entry point"), ("Jedinstveni poreski portal, jedna prijava.", "A single tax portal, one sign-in.")),
+        ("send", ("Registruješ firmu", "Register a business"), ("Registracija i izmene podataka u istom portalu.", "Registration and changes of data in the same portal.")),
+        ("card", ("Plaćaš poreze", "Pay taxes"), ("Prijave i plaćanja bez prelaska u drugi sistem.", "Filings and payments without moving to another system.")),
+        ("shield", ("Ustanove nezavisne", "Agencies stay independent"), ("Objedinjuju se samo elektronske usluge.", "Only the electronic services are brought together.")),
+    ]),
+    "versus9": make_versus("2", ("Zasebna elektronska sistema: jedan za registraciju firme, drugi za poreze.", "Separate electronic systems: one to register a business, another for taxes."),
+                           "1", ("Jedinstveni poreski portal za registraciju i plaćanje poreza.", "A single tax portal for registration and paying taxes.")),
+    "t9_pair": make_pair("t9"),
 })

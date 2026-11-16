@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="1200" height="900" role="img" aria-hidden="true">
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#EAF0D8"/><stop offset="1" stop-color="#fff"/></linearGradient>
+<filter id="s" x="-25%" y="-25%" width="150%" height="160%"><feDropShadow dx="0" dy="7" stdDeviation="8" flood-color="#111" flood-opacity=".15"/></filter>
+</defs>
+<style>
+.fl{animation:fl 5s ease-in-out infinite}.fl2{animation:fl 6.5s ease-in-out -2s infinite}
+.da{stroke-dasharray:7 9;animation:da 1.2s linear infinite}
+.pu{animation:pu 2.6s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+.wv{animation:wv 2.4s ease-in-out infinite}.wv2{animation:wv 2.4s ease-in-out .4s infinite}.wv3{animation:wv 2.4s ease-in-out .8s infinite}
+.sw{animation:sw 6s ease-in-out infinite;transform-origin:200px 76px}
+.ch{animation:ch 2s ease-in-out infinite}.ch2{animation:ch 2s ease-in-out .3s infinite}.ch3{animation:ch 2s ease-in-out .6s infinite}
+@keyframes fl{50%{transform:translateY(-6px)}}
+@keyframes da{to{stroke-dashoffset:-16}}
+@keyframes pu{50%{transform:scale(1.18);opacity:.55}}
+@keyframes wv{0%,100%{opacity:.25}50%{opacity:1}}
+@keyframes sw{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
+@keyframes ch{0%,100%{opacity:.3}50%{opacity:1}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+<rect width="400" height="300" fill="url(#bg)"/>
+<circle cx="350" cy="30" r="70" fill="#7CA10A" opacity=".08"/><circle cx="30" cy="285" r="80" fill="#7CA10A" opacity=".08"/>
+
+<g class="fl"><rect x="30" y="50" width="120" height="82" rx="12" fill="#fff" stroke="#111" stroke-width="4.5" filter="url(#s)"/>
+<rect x="30" y="50" width="120" height="18" rx="12" fill="#D9D5CF"/><rect x="30" y="60" width="120" height="8" fill="#D9D5CF"/>
+<rect x="46" y="82" width="64" height="8" rx="4" fill="#D9D5CF"/><rect x="46" y="100" width="44" height="8" rx="4" fill="#D9D5CF"/></g>
+<g class="fl2"><rect x="30" y="160" width="120" height="82" rx="12" fill="#fff" stroke="#111" stroke-width="4.5" filter="url(#s)"/>
+<rect x="30" y="160" width="120" height="18" rx="12" fill="#D9D5CF"/><rect x="30" y="170" width="120" height="8" fill="#D9D5CF"/>
+<rect x="46" y="192" width="64" height="8" rx="4" fill="#D9D5CF"/><rect x="46" y="210" width="44" height="8" rx="4" fill="#D9D5CF"/></g>
+<path class="da" d="M158 92Q196 100 204 138M158 202Q196 194 204 160" fill="none" stroke="#7CA10A" stroke-width="5" stroke-linecap="round"/>
+<path d="M196 142l10 -8 10 10" fill="none" stroke="#7CA10A" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="0"/>
+<g class="fl"><rect x="214" y="84" width="160" height="132" rx="16" fill="#7CA10A" filter="url(#s)"/>
+<rect x="214" y="84" width="160" height="22" rx="16" fill="#fff" opacity=".25"/>
+<circle cx="294" cy="152" r="32" fill="#fff"/><path d="M278 152l12 12 22-24" fill="none" stroke="#7CA10A" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="238" y="194" width="112" height="8" rx="4" fill="#fff" opacity=".55"/></g>
+
+</svg>

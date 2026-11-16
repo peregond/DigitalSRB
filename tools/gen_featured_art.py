@@ -191,6 +191,22 @@ ART[2] = (RED, f'''
 <rect x="260" y="192" width="80" height="8" rx="4" fill="#fff" opacity=".55"/></g>
 ''')
 
+# 09 one tax portal
+ART[9] = (RED, f'''
+<g class="fl"><rect x="30" y="50" width="120" height="82" rx="12" fill="#fff" stroke="{INK}" stroke-width="4.5" filter="url(#s)"/>
+<rect x="30" y="50" width="120" height="18" rx="12" fill="{GREY}"/><rect x="30" y="60" width="120" height="8" fill="{GREY}"/>
+<rect x="46" y="82" width="64" height="8" rx="4" fill="{GREY}"/><rect x="46" y="100" width="44" height="8" rx="4" fill="{GREY}"/></g>
+<g class="fl2"><rect x="30" y="160" width="120" height="82" rx="12" fill="#fff" stroke="{INK}" stroke-width="4.5" filter="url(#s)"/>
+<rect x="30" y="160" width="120" height="18" rx="12" fill="{GREY}"/><rect x="30" y="170" width="120" height="8" fill="{GREY}"/>
+<rect x="46" y="192" width="64" height="8" rx="4" fill="{GREY}"/><rect x="46" y="210" width="44" height="8" rx="4" fill="{GREY}"/></g>
+<path class="da" d="M158 92Q196 100 204 138M158 202Q196 194 204 160" fill="none" stroke="{RED}" stroke-width="5" stroke-linecap="round"/>
+<path d="M196 142l10 -8 10 10" fill="none" stroke="{RED}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="0"/>
+<g class="fl"><rect x="214" y="84" width="160" height="132" rx="16" fill="{RED}" filter="url(#s)"/>
+<rect x="214" y="84" width="160" height="22" rx="16" fill="#fff" opacity=".25"/>
+<circle cx="294" cy="152" r="32" fill="#fff"/><path d="M278 152l12 12 22-24" fill="none" stroke="{RED}" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="238" y="194" width="112" height="8" rx="4" fill="#fff" opacity=".55"/></g>
+''')
+
 from pages_data import THEMES
 
 

@@ -307,7 +307,7 @@ def pair_html(part):
     ph, web, cap_a, cap_w = PAIRS[part]
     tag = '<span class="pa-aitag">AI</span>'
     cap = lambda cp, label: f'<figcaption><span class="pa-n">{label}{tag}</span>{B(cp[0], cp[1], "b")}</figcaption>'
-    cls = {"c1": " pa-apr", "q1": " pa-green", "n30": " pa-amber", "l2": " pa-teal", "b48": " pa-red", "f50": " pa-pink"}.get(part, "")
+    cls = {"c1": " pa-apr", "q1": " pa-green", "n30": " pa-amber", "l2": " pa-teal", "b48": " pa-red", "f50": " pa-pink", "t9": " pa-olive"}.get(part, "")
     return (f'<div class="pa pa-pairwrap{cls}"><div class="pa-pair"><figure class="pa-fig">{ph()}{cap(cap_a, "APP")}</figure>'
             f'<figure class="pa-webfig">{web()}{cap(cap_w, "WEB")}</figure></div></div>')
 
@@ -603,3 +603,33 @@ def w_pay50():
 
 
 PAIRS["f50"] = (s_speed, w_pay50, ("Aplikacija: izbor brzine", "App: choosing the speed"), ("Veb: plaćanje takse", "Web: paying the fee"))
+
+
+
+# ------------------------------------------------------------------ one tax portal (olive variant)
+def s_tax():
+    def svc(sr, en, tag):
+        return f'<li><b>{ic("check")}</b><div>{B(sr, en, "span")}</div><span class="pa-tag">{tag}</span></li>'
+    return phone(f'''
+<div class="pa-nav"><span>{ic("back")}</span>{B("Moja firma", "My business", "b")}<span></span></div>
+<div class="pa-card"><div class="pa-co"><i class="pa-ico">{ic("home")}</i><div>{B("Moja firma", "My business", "b")}{B("preduzetnik (primer)", "sole trader (example)", "small")}</div></div>{chip("ok", "Registrovana", "Registered")}</div>
+<div class="pa-card"><p class="pa-k">{B("Usluge na jednom mestu", "Services in one place")}</p><ul class="pa-checks tagged">{svc("Registracija i izmene", "Registration and changes", "APR")}{svc("Prijava poreza", "Tax filing", "Poreska")}{svc("Plaćanje poreza", "Paying taxes", "Poreska")}</ul></div>
+<div class="pa-card center"><p class="pa-k">{B("Za plaćanje", "To pay")} <em class="pa-ex">{B("primer", "example")}</em></p><div class="pa-bigamt">16.000 <small>RSD</small></div></div>
+<button class="pa-btn primary">{B("Plati sve odjednom", "Pay everything at once")}</button>''', tab=None)
+
+
+def w_tax():
+    nav = "".join(f'<span class="{"on" if i == 0 else ""}">{B(*t)}</span>' for i, t in enumerate([("Firma", "Business"), ("Registracija", "Registration"), ("Porezi", "Taxes"), ("Izveštaji", "Reports")]))
+    def row(sr, en, tag):
+        return f'<li><b>{ic("check")}</b>{B(sr, en)}<span class="pa-tag">{tag}</span></li>'
+    return browser(f'''
+<div class="pa-wnav"><span class="pa-wlogo">{ic("home")}</span><b>{B("Poreski portal", "Tax portal")}</b><nav>{nav}</nav><span class="pa-wuser">{ic("user")}eUprava</span></div>
+<div class="pa-wgrid">
+<div class="pa-card"><p class="pa-k">{B("Moja firma", "My business")} <em class="pa-ex">{B("primer", "example")}</em></p><ul class="pa-checks tagged">{row("Registracija i izmene podataka", "Registration and changes of data", "APR")}{row("Prijava poreza", "Tax filing", "Poreska")}{row("Plaćanje poreza", "Paying taxes", "Poreska")}</ul>
+{B("Svaku uslugu i dalje pruža njena ustanova.", "Each service is still provided by its own agency.", "small")}</div>
+<div class="pa-card"><p class="pa-k">{B("Obaveze i status", "Obligations and status")}</p>
+<div class="pa-line">{B("Porez", "Tax")}<b>9.600 RSD</b></div><div class="pa-line">{B("Doprinosi", "Contributions")}<b>6.400 RSD</b></div><div class="pa-line tot">{B("Ukupno", "Total")}<b>16.000 RSD</b></div>{chip("ok", "Registracija: u redu", "Registration: in order")}</div></div>
+<div class="pa-wfoot row"><button class="pa-btn primary">{ic("card")}{B("Plati sve odjednom", "Pay everything at once")}</button><button class="pa-btn ghost">{ic("qr")}{B("Plati preko IPS QR", "Pay by IPS QR")}</button></div>''', url="portal.gov.rs")
+
+
+PAIRS["t9"] = (s_tax, w_tax, ("Aplikacija: moja firma i porezi", "App: my business and taxes"), ("Veb: jedinstveni poreski portal", "Web: the single tax portal"))
