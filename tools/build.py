@@ -50,7 +50,9 @@ FEATURED = [
 ]
 
 # Ready-made pictures that replace the drawn SVG of an idea (assets/ideas/NN.webp).
-PHOTOS = {34: {"sr": "Obaveštenje eUprave na telefonu: Vaš pasoš ističe za 30 dana (vizuelizacija uz pomoć AI)",
+PHOTOS = {55: {"sr": "Gomila papira sa pečatima, a papiri lete naviše (vizuelizacija uz pomoć AI)",
+               "en": "A pile of stamped paperwork with sheets flying up from it (AI-made visual)", "wh": (1100, 825)},
+          34: {"sr": "Obaveštenje eUprave na telefonu: Vaš pasoš ističe za 30 dana (vizuelizacija uz pomoć AI)",
                "en": "An eUprava notification on a phone: your passport expires in 30 days (AI-made visual)"},
           47: {"sr": "Pasoš Republike Srbije u Apple Wallet-u na telefonu (vizuelizacija uz pomoć AI)",
                "en": "A Serbian passport card in Apple Wallet on a phone (AI-made visual)", "cut": (955, 1000)},
@@ -169,7 +171,7 @@ def render_idea(num, by_lang, tier, toc, wide):
         if num in PHOTOS:
             alt = PHOTOS[num][l]
             cut = PHOTOS[num].get("cut")
-            wh = cut or (1672, 941)
+            wh = cut or PHOTOS[num].get("wh") or (1672, 941)
             visual = (f'<img class="photo{" cut" if cut else ""}" src="assets/ideas/{num:02d}.webp" alt="{alt}" width="{wh[0]}" height="{wh[1]}" loading="lazy" decoding="async">')
         for i, p in enumerate(parts):
             if p["mock"]:
