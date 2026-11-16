@@ -242,13 +242,6 @@ PAGES[21] = {
         ], note=("Danas nema zakonskog roka za carinjenje. Izvor: Kurir, pošiljke na carini i više od 35 dana.", "Today there is no legal deadline for clearance. Source: Kurir, parcels at customs for over 35 days."), id="p4", extra="posta_p4", unit=("dana", "days"),
             intro=("Cilj je 99,9% pošiljki ocarinjeno u roku od jednog radnog dana. To je izvodljivo jer su deklaracija i plaćanje već onlajn i unapred, a sistem je gotovo potpuno automatizovan. Na odluku automata možeš da se žališ, pa je pregleda živ čovek.",
                    "The target is 99.9% of parcels cleared within one working day of arrival. That is feasible because the declaration and payment are already online and in advance, and the system is almost fully automated. You can appeal an automatic decision, and a human then reviews it.")),
-        check(CHANGE, ("Šta treba da se uradi", "What needs to happen"), [
-            ("tech", ("Aplikacija Pošte Srbije sa prijavom preko eUprave i dvofaktorskom potvrdom", "A Pošta Srbije app with eUprava login and two-factor confirmation")),
-            ("tech", ("QR za preuzimanje i NBS IPS QR za doplatu na adresi", "A pickup QR and an NBS IPS QR for top-ups at the door")),
-            ("tech", ("Skeneri i digitalni procesi u poslovnicama", "Scanners and digital processes in branches")),
-            ("org", ("Javni kalkulator carine, PDV-a i naknada", "A public duty, PDV and fee calculator")),
-            ("org", ("Automatizovana carinska obrada sa pravom na žalbu i pregled od strane čoveka", "Automated customs handling with the right to appeal and human review")),
-        ]),
         faq(QA, ("Šta ako…", "What if…"), [
             (("Nemam aplikaciju?", "I do not have the app?"), ("Lična karta i šalter ostaju za one koji dođu, samo sa sporijim tokom. Aplikacija je prečica, ne obaveza.", "The ID and the counter stay for people who come in, just with a slower flow. The app is a shortcut, not a duty.")),
             (("Šta ako automat pogreši?", "What if the machine is wrong?"), ("Žališ se i tada odluku pregleda čovek. Složeni slučajevi idu onlajn, a po potrebi možeš doći sa dokumentima.", "You appeal and a human reviews the decision. Complex cases go online, and if needed you can come in with documents.")),
