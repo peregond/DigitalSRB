@@ -1,6 +1,6 @@
 """Concept screens for a redesigned Pošta Srbije app (static visual, not interactive).
 
-phones_html() is used on the Pošta reform page; build_standalone() writes mockups/posta-app/index.html.
+phones_html() is used in Part 1 of the Pošta reform page.
 Edit the texts and layout of each screen in the functions below, then run `python3 tools/build.py`.
 Colours: Serbian flag (blue, red, white) with the Pošta yellow as a small accent.
 All names, tracking numbers, amounts and branches are placeholders.
@@ -219,12 +219,4 @@ def phones_html():
     note = B("Vizualizacija je napravljena uz pomoć veštačke inteligencije (AI) i predstavlja koncept. Imena, brojevi pošiljki, iznosi i poslovnice su primeri.",
              "This visual was created with the help of AI and shows a concept. Names, tracking numbers, amounts and branches are examples.", "p", "pa-note")
     note = f'<div class="pa-ai"><span class="pa-ai-tag">AI</span>{note}</div>'
-    return f'<div class="pa"><div class="pa-row">{figs}</div>{note}</div>'
-
-
-def build_standalone(ver):
-    tpl = (ROOT / "tools" / "posta_app_template.html").read_text(encoding="utf-8")
-    out = tpl.replace("{{PHONES}}", phones_html()).replace("{{V}}", ver)
-    d = ROOT / "mockups" / "posta-app"
-    d.mkdir(parents=True, exist_ok=True)
-    (d / "index.html").write_text(out, encoding="utf-8")
+    return f'<div class="pa">{note}<div class="pa-row">{figs}</div></div>'

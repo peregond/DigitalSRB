@@ -238,9 +238,7 @@ def c_posta_app(b):
             + B(("Nova aplikacija Pošte Srbije: prijava preko eUprave, paketi, QR preuzimanje, carina i plaćanje, u bojama Srbije.",
                  "A new Pošta Srbije app: sign-in through eUprava, parcels, QR pickup, customs and payment, in the colours of Serbia."), "p", "pg-intro")
             + "</div>")
-    link = ('<p class="pg-note"><a class="idea-more" href="../../mockups/posta-app/">'
-            + B(("Otvori na celom ekranu", "Open full screen")) + " ›</a></p>")
-    return lead + posta_app.phones_html() + link
+    return lead + posta_app.phones_html()
 
 
 CUSTOM = {"posta_app": c_posta_app, "licence53": c_licence53, "clerk": c_clerk, "journey22": c_journey22, "network30": c_network30, "stats30": c_stats30,

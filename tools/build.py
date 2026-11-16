@@ -283,8 +283,6 @@ def main():
     (ROOT / "index.html").write_text(out, encoding="utf-8")
     build_pages.build_all({"toc": toc, "ideas": ideas, "tier_of": tier_of, "featured": FEATURED, "ver": ver,
                            "template": (ROOT / "tools" / "page_template.html").read_text(encoding="utf-8")})
-    import posta_app
-    posta_app.build_standalone(ver)
     print(f"index.html: {len(out) // 1024} KB, {len(ideas)} ideas")
 
 
