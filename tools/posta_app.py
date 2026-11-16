@@ -72,22 +72,18 @@ def qr(size=100, fill="#0A335F"):
     return f'<svg viewBox="0 0 {size} {size}" width="{size}" height="{size}" aria-hidden="true"><path d="{d}" fill="{fill}"/></svg>'
 
 
-TABS = [("home", ("Početna", "Home")), ("box", ("Paketi", "Parcels")), ("qr", None), ("card", ("Plaćanja", "Payments")), ("user", ("Profil", "Profile"))]
+TABS = [("home", ("Početna", "Home")), ("box", ("Paketi", "Parcels")), ("card", ("Plaćanja", "Payments")), ("user", ("Profil", "Profile"))]
 
 
 def tabs(active):
-    out = ""
-    for key, label in TABS:
-        if label is None:
-            out += f'<span class="pa-tab-qr">{ic("qr")}</span>'
-        else:
-            out += f'<span class="pa-tab{" on" if key == active else ""}">{ic(key)}{B(*label, "em")}</span>'
+    out = "".join(f'<span class="pa-tab{" on" if key == active else ""}">{ic(key)}{B(*label, "em")}</span>' for key, label in TABS)
     return f'<nav class="pa-tabs">{out}</nav>'
 
 
 def phone(body, tab=None, dark=False):
+    tabs_on = tab is not None
     status = ('<div class="pa-status"><b>9:41</b><span class="pa-sig"><i></i><i></i><i></i><i></i></span></div>')
-    return (f'<div class="pa-phone"><span class="pa-island"></span><div class="pa-screen{" dark" if dark else ""}">{status}'
+    return (f'<div class="pa-phone"><span class="pa-island"></span><div class="pa-screen{" dark" if dark else ""}{" has-tabs" if tabs_on else ""}">{status}'
             f'<div class="pa-body">{body}</div>{tabs(tab) if tab else ""}</div></div>')
 
 
