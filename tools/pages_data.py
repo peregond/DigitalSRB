@@ -139,8 +139,8 @@ PAGES[22] = {
             ("Ali brisanje i dalje traje, a konačan obračun poreza često stigne 2–3 meseca posle odjave. Ljudi zatvore firmu, a ne znaju koliko duguju.",
              "But closing still takes time, and the final tax assessment often arrives 2–3 months after deregistration. People close a business without knowing what they owe."),
         ]),
-        custom("journey22", TODAY, ("Dve vremenske linije", "Two timelines"),
-               intro=("Danas se završni račun čeka mesecima. U predlogu se sve zatvara istog dana.", "Today the final bill is a matter of months. In the proposal everything is closed the same day.")),
+        custom("journey22", TODAY, ("Koliko dugo ne znaš koliko duguješ", "How long you wait to know what you owe"),
+               intro=("Vreme između zatvaranja firme i trenutka kada saznaš konačan porez.", "The time between closing the business and learning the final tax.")),
         steps(HOW, ("Zatvaranje firme za jedan dan", "Closing a business in one day"), [
             (("Podnosiš prijavu onlajn", "File the request online"), ("Jedan zahtev u APR-u, bez dolaska na šalter.", "One request at APR, no visit to a counter.")),
             (("Poreska obračunava odmah", "Tax is calculated at once"), ("Poreska uprava iz podataka koje već ima izračuna konačan porez dok čekaš.", "Poreska uprava works out the final tax from data it already holds, while you wait.")),

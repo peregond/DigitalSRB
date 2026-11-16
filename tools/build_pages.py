@@ -163,16 +163,15 @@ def c_clerk(b):
 
 
 def c_journey22(b):
-    axis = "".join(f'<span style="left:{p}%">{B(t)}</span>' for p, t in
-                   ((0, ("dan 0", "day 0")), (33.3, ("1 mesec", "1 month")), (66.6, ("2 meseca", "2 months")), (100, ("3 meseca", "3 months"))))
-    return f'''<div class="jr"><div class="jr-axis">{axis}</div>
-<div class="jr-row"><p class="jr-name">{B(UI["today"])}</p><div class="jr-track">
-<i class="jr-dot" style="left:0"></i><span class="jr-wait">{B(("čekanje na konačan obračun", "waiting for the final assessment"))}</span>
-<span class="jr-win" style="left:66.6%;width:33.4%">{B(("2–3 meseca", "2–3 months"))}</span></div>
-{B(("Čekanje na konačan obračun: 2–3 meseca.", "Waiting for the final assessment: 2–3 months."), "p", "jr-cap")}</div>
-<div class="jr-row after"><p class="jr-name">{B(UI["after"])}</p><div class="jr-track">
-<span class="jr-pill">{B(("isti dan: prijava, porez, plaćanje", "same day: request, tax, payment"))}</span></div>
-{B(("Isti dan: prijava, porez i plaćanje.", "Same day: request, tax and payment."), "p", "jr-cap")}</div></div>'''
+    def node(day, what, cls=""):
+        return f'<span class="jr2-node {cls}"><i></i>{B(day, "b")}{B(what, "small")}</span>'
+    today = (node(("Dan 0", "Day 0"), ("Zatvaraš firmu", "You close the business"))
+             + f'<span class="jr2-gap">{B(("Mesecima ne znaš koliko duguješ", "Months of not knowing what you owe"))}</span>'
+             + node(("Posle 2–3 meseca", "After 2–3 months"), ("Stiže konačan porez", "The final tax bill arrives"), "late"))
+    after = (node(("Dan 0", "Day 0"), ("Zatvaraš firmu, vidiš porez i plaćaš", "You close, see the final tax and pay"), "ok")
+             + f'<span class="jr2-done"><i>✓</i>{B(("Gotovo istog dana", "Done the same day"))}</span>')
+    return (f'<div class="jr2"><div class="jr2-row"><p class="jr2-name">{B(("Danas", "Today"))}</p><div class="jr2-line">{today}</div></div>'
+            f'<div class="jr2-row after"><p class="jr2-name">{B(("Predlog", "Proposal"))}</p><div class="jr2-line">{after}</div></div></div>')
 
 
 NODES = [("Matične knjige", "Civil registers"), ("MUP", "MUP"), ("Poreska uprava", "Poreska uprava"), ("PIO", "PIO"),
