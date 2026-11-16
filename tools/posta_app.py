@@ -307,7 +307,7 @@ def pair_html(part):
     ph, web, cap_a, cap_w = PAIRS[part]
     tag = '<span class="pa-aitag">AI</span>'
     cap = lambda cp, label: f'<figcaption><span class="pa-n">{label}{tag}</span>{B(cp[0], cp[1], "b")}</figcaption>'
-    cls = " pa-apr" if part == "c1" else ""
+    cls = {"c1": " pa-apr", "q1": " pa-green"}.get(part, "")
     return (f'<div class="pa pa-pairwrap{cls}"><div class="pa-pair"><figure class="pa-fig">{ph()}{cap(cap_a, "APP")}</figure>'
             f'<figure class="pa-webfig">{web()}{cap(cap_w, "WEB")}</figure></div></div>')
 
@@ -453,3 +453,32 @@ def web_gallery(items):
 
 def phone_pair(items):
     return '<div class="pa pa-phonepair">' + "".join(phone_fig(s, cap) for s, cap in items) + "</div>"
+
+
+# ------------------------------------------------------------------ QR at every counter (eUprava concept, green variant)
+def s_case():
+    def st(kind, sr, en):
+        mark = ic("check") if kind == "done" else ""
+        return f'<li class="{kind}"><i>{mark}</i><div>{B(sr, en, "b")}</div></li>'
+    return phone(f'''
+<div class="pa-nav"><span>{ic("back")}</span>{B("Moj predmet", "My case", "b")}<span></span></div>
+<div class="pa-card"><p class="pa-k">{B("Obnova boravišne dozvole", "Residence permit renewal")} <em class="pa-ex">{B("primer", "example")}</em></p>{chip("warn", "Nedostaje jedan dokument", "One document missing")}</div>
+<div class="pa-qrcard"><div class="pa-qrframe">{qr(120)}</div>{B("Pokaži službeniku", "Show to the clerk", "p")}{B("Službenik skenira kod i odmah vidi ceo slučaj.", "The clerk scans the code and sees the whole case at once.", "small")}</div>
+<ul class="pa-steps">{st("done", "Zahtev podnet", "Application filed")}{st("now", "Dokaz o adresi", "Proof of address")}{st("todo", "Taksa i termin", "Fee and slot")}</ul>''', tab=None)
+
+
+def w_case():
+    def chk(kind, sr, en):
+        mark = {"ok": ic("check"), "miss": "!", "next": "›"}[kind]
+        return f'<li class="{kind}"><b>{mark}</b>{B(sr, en)}</li>'
+    return browser(f'''
+<div class="pa-wnav"><span class="pa-wlogo">{ic("scan")}</span><b>{B("Šalter 2 · Opština (primer)", "Counter 2 · Municipality (example)")}</b><span class="pa-wuser">{ic("scan")}{B("Skenirano", "Scanned")}</span></div>
+<div class="pa-wgrid">
+<div class="pa-card"><p class="pa-k">{B("Predmet", "Case")}</p>{B("Obnova boravišne dozvole", "Residence permit renewal", "h5")}
+<div class="pa-line">{B("Podnosilac", "Applicant")}<b>{B("Ime Prezime (primer)", "Name Surname (example)")}</b></div>
+<div class="pa-line">{B("Podneto", "Filed")}<b>{B("pre 2 dana", "2 days ago")}</b></div>{chip("ok", "Podaci već u sistemu", "Data already in the system")}</div>
+<div class="pa-card"><p class="pa-k">{B("Status", "Status")}</p><ul class="pa-checks case">{chk("ok", "Zahtev podnet", "Application filed")}{chk("ok", "Fotografija priložena", "Photo attached")}{chk("miss", "Nedostaje: dokaz o adresi", "Missing: proof of address")}{chk("next", "Sledeće: taksa, pa termin", "Next: pay the fee, then book a slot")}</ul></div></div>
+<div class="pa-wfoot"><button class="pa-btn primary">{B("Pitaj samo ono što fali", "Ask only what is missing")}</button><p class="pa-fine">{B("Ništa se ne objašnjava iznova i ništa se ne kuca ručno.", "Nothing is explained again and nothing is typed by hand.")}</p></div>''', url="gov.rs/sluzbenik")
+
+
+PAIRS["q1"] = (s_case, w_case, ("Aplikacija: tvoj predmet i QR", "App: your case and QR"), ("Šalter: službenik vidi ceo slučaj", "Counter: the clerk sees the whole case"))

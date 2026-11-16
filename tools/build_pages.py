@@ -373,7 +373,37 @@ def c_countries22(b):
     return f'<div class="pg-countries">{cards}</div>'
 
 
-CUSTOM = {"posta_target": c_posta_target, "posta_part2": c_posta_part2, "posta_part3": c_posta_part3, "posta_part4": c_posta_part4, "stages22": c_stages22, "versus22": c_versus22, "countries22": c_countries22, "biz_c1": _pair("c1"), "posta_p2": _pair("p2"), "posta_p3": _pair("p3"), "posta_p4": _pair("p4"), "posta_stages": c_posta_stages, "posta_app": c_posta_app, "licence53": c_licence53, "clerk": c_clerk, "journey22": c_journey22, "network30": c_network30, "stats30": c_stats30,
+STAGES1 = [
+    ("qr", ("QR kod za predmet", "A QR code per case"), ("U eUpravi svaki predmet ima lični QR kod.", "In eUprava every case has a personal QR code.")),
+    ("send", ("Pokažeš ga na šalteru", "Show it at the counter"), ("Telefonom, odštampano ili linkom iz SMS-a.", "On your phone, printed or as an SMS link.")),
+    ("scan", ("Službenik skenira", "The clerk scans"), ("Otvara se tvoj slučaj: istorija i status.", "Your case opens: its history and status.")),
+    ("check", ("Samo što fali", "Only what is missing"), ("Službenik pita samo konkretno, ti vidiš novi status.", "The clerk asks only what is specific, and you see the new status.")),
+]
+
+
+def c_stages1(b):
+    import posta_app
+    cards = "".join(
+        f'<a class="pg-stage" href="#c1"><span class="pg-stage-top"><b>{i:02d}</b><i>{posta_app.ic(icon)}</i></span>'
+        f'{B(title, "h3")}{B(text, "p")}<span class="pg-stage-go" aria-hidden="true">›</span></a>'
+        for i, (icon, title, text) in enumerate(STAGES1, 1))
+    return f'<div class="pg-stages">{cards}</div>'
+
+
+def c_versus1(b):
+    return (f'<div class="pg-versus"><div class="pg-vs today"><p class="pg-vs-k">{B(("Danas", "Today"))}</p>'
+            f'<b class="pg-vs-n w">{B(("Objašnjavaš", "You explain"))}</b>{B(("Isto na svakom šalteru, a službenik pogađa postupak i prepisuje podatke.", "The same story at every counter, while the clerk guesses the procedure and retypes the data."), "p")}</div>'
+            f'<span class="pg-vs-arrow" aria-hidden="true">›</span>'
+            f'<div class="pg-vs after"><p class="pg-vs-k">{B(("Predlog", "Proposal"))}</p>'
+            f'<b class="pg-vs-n w">{B(("Skeniraš", "You scan"))}</b>{B(("Službenik odmah vidi tvoj slučaj, a ti ništa ne objašnjavaš.", "The clerk sees your case at once and you explain nothing."), "p")}</div></div>')
+
+
+def _qr_pair(b):
+    import posta_app
+    return posta_app.pair_html("q1")
+
+
+CUSTOM = {"stages1": c_stages1, "versus1": c_versus1, "qr_pair": _qr_pair, "posta_target": c_posta_target, "posta_part2": c_posta_part2, "posta_part3": c_posta_part3, "posta_part4": c_posta_part4, "stages22": c_stages22, "versus22": c_versus22, "countries22": c_countries22, "biz_c1": _pair("c1"), "posta_p2": _pair("p2"), "posta_p3": _pair("p3"), "posta_p4": _pair("p4"), "posta_stages": c_posta_stages, "posta_app": c_posta_app, "licence53": c_licence53, "clerk": c_clerk, "journey22": c_journey22, "network30": c_network30, "stats30": c_stats30,
           "phone47": c_phone47, "border48": c_border48, "speed50": c_speed50}
 RENDER = {"text": r_text, "cards": r_cards, "flow": r_flow, "steps": r_steps, "bars": r_bars, "table": r_table,
           "check": r_check, "faq": r_faq}
@@ -449,7 +479,7 @@ def build_all(ctx):
                 .replace("{{EYEBROW}}", B((cat_of(n)["sr"][0], cat_of(n)["en"][0])) + " · " + B(UI["idea"]) + f" {n:02d}")
                 .replace("{{H1}}", B(titles[n], "h1")).replace("{{TAGLINE}}", B(HERO_TEXT.get(n, taglines[n]), "p", "pg-tag"))
                 .replace("{{TIERLINE}}", B(tsub, "p", "pg-tier"))
-                .replace("{{EXTRA_HEAD}}", '<link rel="stylesheet" href="../../assets/posta-app.css?v=%s">' % ver if n in (21, 22) else "").replace("{{LOCAL}}", local).replace("{{HSTATS}}", hstats).replace("{{SECTIONS}}", sections)
+                .replace("{{EXTRA_HEAD}}", '<link rel="stylesheet" href="../../assets/posta-app.css?v=%s">' % ver if n in (1, 21, 22) else "").replace("{{LOCAL}}", local).replace("{{HSTATS}}", hstats).replace("{{SECTIONS}}", sections)
                 .replace("{{RELATED}}", rel).replace("{{SOURCES}}", sources_html(parts))
                 .replace("{{VOTE}}", vote_html(n))
                 .replace("{{PREV}}", nb(prev_n, UI["prev"])).replace("{{NEXT}}", nb(next_n, UI["next"]))

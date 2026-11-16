@@ -314,3 +314,10 @@
 .pa-wgallery .pa-btn{padding:11px;font-size:12.5px}
 
 @media (max-width:620px){.pa-kpis{grid-template-columns:1fr}.pa-kan{grid-template-columns:1fr 1fr}.pa-wgallery .pa-wfoot.row{grid-template-columns:1fr}}
+
+/* green variant (eUprava counters) */
+.pa-green{--blue:#0E7A3E;--blue2:#12A150;--navy:#0A5A2C;--bg:#F1FAF4;--soft:#D9F1E2;--ln:#DCEBE1;--yellow:#9ADBB4;--tx:#14301F;--mu:#5E7566}
+.pa-green .pa-screen{background:radial-gradient(70% 36% at 92% 3%,#C9F0D8 0,transparent 70%),radial-gradient(62% 32% at 0% 60%,rgba(18,161,80,.1),transparent 70%),var(--bg)}
+.pa-green .pa-wbody{background:radial-gradient(60% 40% at 95% 0,#C9F0D8 0,transparent 70%),var(--bg)}
+.pa-green .pa-bbar{background:#E3F2E8}.pa-green .pa-browser{border-color:#D3E8DA}
+.pa-checks.case li.miss b{background:#F2A100}.pa-checks.case li.next b{background:var(--blue)}

@@ -72,57 +72,34 @@ PAGES = {}
 
 # ---------------------------------------------------------------- 01 QR at every counter
 PAGES[1] = {
-    "stats": [("1", ("QR kod po predmetu", "QR code per case")),
-              ("0", ("zakona za izmenu", "laws to change")),
-              ("3–12", ("meseci, okvirno", "months, roughly"))],
+    "stats": [],
     "related": [2, 6, 24, 30],
     "blocks": [
-        text(PROBLEM, ("Svaki put sve iz početka", "Starting from zero every time"), [
-            ("Na šalteru u MUP-u, APR-u ili opštini moraš sam da objasniš šta ti treba. Službenik pogađa koji je postupak, traži papire i ručno kuca podatke u sistem.",
-             "At a MUP, APR or opština counter you have to explain what you need yourself. The clerk guesses which procedure applies, asks for papers and types the data into the system by hand."),
-            ("Svaki razgovor zavisi od iskustva i raspoloženja dvoje ljudi. Gde nema jasnih pravila i procesa, lični odnos između vlasti i građanina postaje prostor za „vezu” i za koruptivne šeme.",
-             "Every conversation depends on the experience and mood of two people. Where there are no clear rules and processes, the personal relationship between the authorities and the citizen becomes room for “connections” and corruption schemes."),
-        ]),
-        cards(TODAY, ("Četiri stvari koje se stalno ponavljaju", "Four things that keep repeating"), [
-            ("Objašnjavaš iznova", "You explain, again", "Ista priča na svakom šalteru, iako država već zna ko si i šta si podneo.", "The same story at every counter, although the state already knows who you are and what you filed."),
-            ("Pogađanje postupka", "Guessing the procedure", "Službenik mora da pogodi koji se postupak odnosi na tebe.", "The clerk has to guess which procedure applies to you."),
-            ("Papiri na zahtev", "Papers on request", "Traže se dokumenta koja su možda već u sistemu.", "Documents are requested that may already be in the system."),
-            ("Ručno kucanje", "Typing by hand", "Podaci se prepisuju, a svako prepisivanje je prilika za grešku.", "Data is retyped, and every retyping is a chance for a mistake."),
-        ]),
-        flow(("Put do rešenja", "The path"), ("Isti šalter, dva puta", "The same counter, two ways"), [
+        {**custom("stages1", ("Pregled", "Overview"), ("Kako radi jedan QR kod", "How one QR code works"),
+                  intro=("Na šalteru u MUP-u, APR-u ili opštini danas moraš sam da objasniš šta ti treba, a službenik pogađa postupak, traži papire i ručno kuca podatke. Sa QR kodom predmeta sve to nestaje.",
+                         "At a MUP, APR or opština counter today you have to explain what you need, and the clerk guesses the procedure, asks for papers and types the data by hand. With a case QR code all of that goes away.")),
+         "cls": "compact", "nav": ("Pregled", "Overview")},
+        {**custom("versus1", ("Razlika", "The difference"), ("Na šalteru", "At the counter")), "nav": ("Razlika", "Difference")},
+        {**flow(("Put do rešenja", "The path"), ("Isti šalter, dva puta", "The same counter, two ways"), [
             ("Čekaš u redu", "Wait in line"), ("Objašnjavaš šta ti treba", "Explain what you need"),
             ("Službenik pogađa postupak", "Clerk guesses the procedure"), ("Predaješ papire", "Hand over papers"),
             ("Službenik kuca podatke", "Clerk types the data"), ("Odgovor ili povratak sutra", "An answer, or come back tomorrow")],
             [("Otvaraš predmet u eUpravi", "Open the case in eUprava"), ("Pokazuješ QR kod", "Show your QR code"),
              ("Službenik skenira, predmet se otvara", "Clerk scans, the case opens"),
              ("Samo konkretna dodatna pitanja", "Only specific follow-up questions"), ("Odmah vidiš sledeći korak", "The next step is clear at once")],
-            note=("Ilustrativan tok, koraci se razlikuju od službe do službe.", "Illustrative path; the steps differ from office to office.")),
-        custom("clerk", ("Predlog", "The proposal"), ("Šta službenik vidi posle skeniranja", "What the clerk sees after the scan"),
-               intro=("Umesto pitanja „šta vam treba?” službenik dobija ekran sa tvojim predmetom: šta je podneto, šta nedostaje i koji je sledeći korak.",
-                      "Instead of “what do you need?” the clerk gets a screen with your case: what was filed, what is missing and what comes next.")),
-        steps(HOW, ("Četiri koraka", "Four steps"), [
-            (("Predmet dobija QR", "Every case gets a QR"), ("U aplikaciji eUprava svaki predmet ima lični QR kod. Nastaje kada podneseš zahtev ili zakažeš termin.", "In the eUprava app every case has a personal QR code. It appears when you file a request or book an appointment.")),
-            (("Pokažeš ga na šalteru", "Show it at the counter"), ("Telefonom, a ko nema pametan telefon, odštampanim kodom ili linkom iz SMS-a.", "On your phone or, for people without a smartphone, a printed code or an SMS link.")),
-            (("Službenik skenira", "The clerk scans"), ("U sistemu se odmah otvara tvoj konkretan slučaj, sa istorijom i statusom.", "Your specific case opens in the system at once, with its history and status.")),
-            (("Sistem vodi dalje", "The system takes it forward"), ("Službenik postavlja samo pitanja koja stvarno nedostaju, a ti u aplikaciji vidiš novi status.", "The clerk asks only what is really missing, and you see the new status in the app.")),
-        ]),
-        cards(WHO, ("Dobiti mogu svi", "Everyone gains"), [
+            note=("Ilustrativan tok, koraci se razlikuju od službe do službe.", "Illustrative path; the steps differ from office to office."), id="c1", extra="qr_pair"),
+         "nav": ("Šalter", "Counter")},
+        {**cards(WHO, ("Dobiti mogu svi", "Everyone gains"), [
             ("Građani", "Citizens", "Ništa ne objašnjavaš, manje papira i manje odlazaka.", "Nothing to explain, fewer papers and fewer trips."),
             ("Stranci", "Foreigners", "Isti tok na engleskom, bez potrebe da znaš lokalni žargon.", "The same flow in English, without needing to know the local jargon."),
             ("Službenici", "Clerks", "Jedan standardan ekran, manje kucanja i manje sporova.", "One standard screen, less typing and fewer disputes."),
             ("Država", "The state", "Manje grešaka, jasan trag svakog koraka i manje prostora za „vezu”.", "Fewer errors, a clear trace of every step and less room for “connections”."),
-        ]),
-        check(CHANGE, ("Šta treba da se uradi", "What needs to happen"), [
-            ("tech", ("Jedinstven format QR koda i broja predmeta u eUpravi", "A single QR format and case number in eUprava")),
-            ("tech", ("Prikaz predmeta za službenike u sistemima MUP-a, APR-a, opština i pošte", "A case view for clerks in the MUP, APR, opština and pošta systems")),
-            ("org", ("Zajednički katalog postupaka, da svaka služba zna koji je korak sledeći", "A shared catalogue of procedures, so every office knows what comes next")),
-            ("org", ("Pravila privatnosti: QR je nasumična oznaka, ne podaci, a svaki pristup se beleži", "Privacy rules: the QR is a random reference, not data, and every access is logged")),
-        ], intro=("Nijedan zakon se ne menja. Potrebni su programeri, dizajn i volja službe.", "No law needs to change. Developers, design and the will of the office are enough.")),
-        faq(QA, ("Šta ako…", "What if…"), [
+        ]), "nav": ("Ko dobija", "Who gains")},
+        {**faq(QA, ("Šta ako…", "What if…"), [
             (("Nemam pametan telefon?", "I have no smartphone?"), ("Kod može da se odštampa ili stigne kao link u SMS-u. Šalter ostaje otvoren i za one koji dođu bez ičega, samo sa dužim postupkom.", "The code can be printed or arrive as an SMS link. The counter stays open for people who arrive with nothing, just with a longer procedure.")),
             (("Je li bezbedno pokazati QR kod?", "Is it safe to show a QR code?"), ("QR sadrži samo nasumičnu oznaku predmeta. Službenik mora da bude prijavljen, a svaki pristup tvom predmetu beleži se i vidljiv ti je u aplikaciji.", "The QR holds only a random case reference. The clerk must be logged in, and every access to your case is logged and visible to you in the app.")),
             (("Sistem ne radi?", "The system is down?"), ("Postupak se vraća na današnji, papirni. QR ne uvodi novu zavisnost, samo skraćuje put.", "The procedure falls back to today's paper one. The QR adds no new dependency, it only shortens the path.")),
-        ]),
+        ]), "nav": ("Pitanja", "Q&A")},
     ],
 }
 
