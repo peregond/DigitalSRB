@@ -275,7 +275,7 @@ def write_extras(ver):
 
 def main():
     intro, ideas, toc, src_items, src_note = parse()
-    assert sorted(ideas) == list(range(1, 61)), sorted(ideas)
+    assert sorted(ideas) == [i for i in range(1, 61) if i != 25], sorted(ideas)
 
     intro_html = ""
     for l in LANGS:
@@ -289,7 +289,7 @@ def main():
 
     tier_cards, tier_chips = "", ""
     for t in TIERS:
-        count = t["last"] - t["first"] + 1
+        count = sum(1 for k in toc["sr"] if t["first"] <= k <= t["last"])
         tier_cards += (
             f'<a class="tile reveal" href="#ideas" data-tier-filter="{t["n"]}" style="--tc:{t["color"]}">'
             f'<p class="tile-eyebrow"><i class="tdot"></i>{bi({l: UI["tier"][l] + " " + str(t["n"]) for l in LANGS})}</p>'
