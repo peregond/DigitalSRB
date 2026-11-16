@@ -258,6 +258,19 @@
     }).catch(function (e) { console.warn(e); });
   }
 
+  /* ---------- optional privacy-friendly analytics (see assets/config.js) ---------- */
+  (function () {
+    var s;
+    if (cfg.plausibleDomain) {
+      s = document.createElement("script"); s.defer = true;
+      s.setAttribute("data-domain", cfg.plausibleDomain); s.src = "https://plausible.io/js/script.js";
+    } else if (cfg.goatcounterCode) {
+      s = document.createElement("script"); s.async = true;
+      s.setAttribute("data-goatcounter", "https://" + cfg.goatcounterCode + ".goatcounter.com/count"); s.src = "https://gc.zgo.at/count.js";
+    }
+    if (s) document.head.appendChild(s);
+  })();
+
   /* ---------- most supported ideas (home page, needs shared totals) ---------- */
   function buildTop() {
     var host = document.getElementById("topvoted");
