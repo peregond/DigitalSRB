@@ -387,3 +387,8 @@
 .pa-screen{height:auto;width:100%;aspect-ratio:9/16}
 .pa-body{gap:8px;padding:6px 16px 10px}
 .pa-list{gap:6px}
+
+/* the DISPLAY is 9:19.5 like a modern iPhone (322 x 698); the bezel is added around it */
+.pa-screen{aspect-ratio:9/19.5}
+.pa-body{gap:10px;padding:8px 16px 12px}
+.pa-list{gap:8px}
