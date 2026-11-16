@@ -27,6 +27,8 @@ UI = {
     "skip": ("Preskoči na sadržaj", "Skip to content"),
     "example": ("Primer", "Example"),
 }
+# block kinds that are not shown on the pages (the data stays in pages_data.py)
+SKIP_KINDS = {"check"}
 # pages whose hero has no "topic · idea number" line
 NO_EYEBROW = set(ORDER)
 # pages whose hero text differs from the short tagline on the home-page card
@@ -311,6 +313,8 @@ def build_all(ctx):
         tsub = tuple(f'{tier[l]["name"]} · {tier[l]["sub"]} · {tier[l]["time"]}' for l in LANGS)
         sections, navitems = "", []
         for i, blk in enumerate(page["blocks"]):
+            if blk["k"] in SKIP_KINDS:
+                continue
             if blk["k"] == "custom":
                 inner = CUSTOM[blk["name"]](blk)
             else:
