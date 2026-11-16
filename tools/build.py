@@ -50,7 +50,9 @@ FEATURED = [
 ]
 
 # Ready-made pictures that replace the drawn SVG of an idea (assets/ideas/NN.webp).
-PHOTOS = {4: {"sr": "Diploma sa QR kodom, skeniranje telefonom i stranica eUprave sa potvrdom da je dokument važeći (vizuelizacija uz pomoć AI)",
+PHOTOS = {47: {"sr": "Pasoš Republike Srbije u Apple Wallet-u na telefonu (vizuelizacija uz pomoć AI)",
+               "en": "A Serbian passport card in Apple Wallet on a phone (AI-made visual)", "cut": (955, 1000)},
+          4: {"sr": "Diploma sa QR kodom, skeniranje telefonom i stranica eUprave sa potvrdom da je dokument važeći (vizuelizacija uz pomoć AI)",
               "en": "A diploma with a QR code, scanned with a phone, and an eUprava page confirming the document is valid (AI-made visual)"}}
 
 UI = {
@@ -164,10 +166,13 @@ def render_idea(num, by_lang, tier, toc, wide):
         text, visual, tail = [], "", []
         if num in PHOTOS:
             alt = PHOTOS[num][l]
-            visual = (f'<img class="photo" src="assets/ideas/{num:02d}.webp" alt="{alt}" width="1672" height="941" loading="lazy" decoding="async">')
+            cut = PHOTOS[num].get("cut")
+            wh = cut or (1672, 941)
+            visual = (f'<img class="photo{" cut" if cut else ""}" src="assets/ideas/{num:02d}.webp" alt="{alt}" width="{wh[0]}" height="{wh[1]}" loading="lazy" decoding="async">')
         for i, p in enumerate(parts):
             if p["mock"]:
-                visual = p["svg"]
+                if num not in PHOTOS:
+                    visual = p["svg"]
                 continue
             blk = []
             if series:
