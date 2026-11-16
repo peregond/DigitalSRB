@@ -114,16 +114,15 @@ ART[30] = (AMBER, f'''
 
 # 21 parcel with one QR code, customs within one working day
 ART[21] = (GREEN, f'''
-<g class="fl"><path d="M70 122l22-34h186l22 34z" fill="#D9A55F"/>
-<rect x="76" y="122" width="248" height="124" rx="10" fill="#EBC48A" filter="url(#s)"/>
-<rect x="182" y="88" width="36" height="158" fill="#fff" opacity=".55"/>
-<rect x="96" y="150" width="58" height="8" rx="4" fill="#B9854A" opacity=".6"/><rect x="96" y="168" width="40" height="8" rx="4" fill="#B9854A" opacity=".6"/>
-<rect x="232" y="150" width="76" height="76" rx="8" fill="#fff"/>{qr(242,160,56)}</g>
-<g class="fl2"><circle cx="318" cy="70" r="42" fill="#fff" stroke="{GREEN}" stroke-width="7" filter="url(#s)"/>
-<path d="M318 70V46M318 70l16 10" stroke="{INK}" stroke-width="6" stroke-linecap="round" fill="none"/><circle cx="318" cy="70" r="4" fill="{INK}"/></g>
-{check(352,112,15,GREEN)}
-<path class="da" d="M24 160h34M14 186h44M30 212h28" stroke="{GREEN}" stroke-width="5" stroke-linecap="round"/>
+<g class="fl"><rect x="96" y="112" width="208" height="126" rx="10" fill="#EBC48A" filter="url(#s)"/>
+<rect x="88" y="88" width="224" height="38" rx="9" fill="#D9A55F"/>
+<rect x="88" y="118" width="224" height="8" fill="#000" opacity=".08"/>
+<rect x="184" y="88" width="32" height="150" fill="#fff" opacity=".55"/>
+<rect x="112" y="150" width="56" height="8" rx="4" fill="#B9854A" opacity=".65"/><rect x="112" y="168" width="38" height="8" rx="4" fill="#B9854A" opacity=".65"/>
+<rect x="228" y="150" width="62" height="62" rx="8" fill="#fff"/>{qr(237,159,44)}</g>
+<path class="da" d="M24 142h34M14 168h44M30 194h28" stroke="{GREEN}" stroke-width="5" stroke-linecap="round"/>
 ''')
+
 
 # 47 ID and residence card in the phone wallet
 ART[47] = (RED, f'''
