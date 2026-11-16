@@ -29,6 +29,11 @@ UI = {
 }
 # pages whose hero has no "topic · idea number" line
 NO_EYEBROW = set(ORDER)
+# pages whose hero text differs from the short tagline on the home-page card
+HERO_TEXT = {
+    21: ("Digitalizujemo sve što se i dalje radi na papiru i ukidamo ručni posao koji usporava svaki korak pošte: od slanja i obrade do isporuke i preuzimanja.",
+         "We digitalise what is still done on paper and remove the manual work that slows every stage of the post: from sending and processing to delivery and pickup."),
+}
 KIND = {"law": ("Zakon", "Law"), "tech": ("Tehnika", "Technology"), "org": ("Organizacija", "Organisation")}
 
 
@@ -313,7 +318,7 @@ def build_all(ctx):
                 .replace("{{HL}}", "#F1BD40" if n == 21 else "#FFFFFF").replace("{{TH}}", th).replace("{{TH2}}", dk).replace("{{TINT}}", mix(th, 9)).replace("{{TINT2}}", mix(th, 18))
                 .replace("{{NUM}}", f"{n:02d}").replace("{{N}}", str(n))
                 .replace("{{EYEBROW}}", B((cat_of(n)["sr"][0], cat_of(n)["en"][0])) + " · " + B(UI["idea"]) + f" {n:02d}")
-                .replace("{{H1}}", B(titles[n], "h1")).replace("{{TAGLINE}}", B(taglines[n], "p", "pg-tag"))
+                .replace("{{H1}}", B(titles[n], "h1")).replace("{{TAGLINE}}", B(HERO_TEXT.get(n, taglines[n]), "p", "pg-tag"))
                 .replace("{{TIERLINE}}", B(tsub, "p", "pg-tier"))
                 .replace("{{EXTRA_HEAD}}", '<link rel="stylesheet" href="../../assets/posta-app.css?v=%s">' % ver if n == 21 else "").replace("{{LOCAL}}", local).replace("{{HSTATS}}", hstats).replace("{{SECTIONS}}", sections)
                 .replace("{{RELATED}}", rel).replace("{{SOURCES}}", sources_html(parts))
