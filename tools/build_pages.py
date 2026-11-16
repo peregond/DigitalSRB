@@ -66,6 +66,8 @@ def r_text(b):
 
 def r_cards(b):
     n = len(b["items"])
+    if not n:
+        return ""
     cols = 5 if n == 5 else (3 if n % 3 == 0 or n == 3 else 2 if n == 2 else 4)
     items = "".join(
         f'<article class="pg-card"><span class="pg-dot"></span>{B((i[0], i[1]), "h3")}{B((i[2], i[3]), "p")}</article>'
