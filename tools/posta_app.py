@@ -160,6 +160,22 @@ def s_pickup():
 <div class="pa-row-info">{ic("pin")}<div>{B("Poslovnica Beograd 1", "Branch Belgrade 1", "b")}{B("Radi do 20h", "Open until 8 pm", "small")}</div></div>''', tab=None)
 
 
+def s_declare():
+    def chips_(items):
+        return "".join(f'<span class="{"on" if i == 0 else ""}">{B(*t)}</span>' for i, t in enumerate(items))
+    return phone(f'''
+<div class="pa-nav"><span>{ic("back")}</span>{B("Deklaracija", "Declaration", "b")}<span class="pa-step">1/3</span></div>
+<div class="pa-progress"><i class="d"></i><i></i><i></i></div>
+<div class="pa-card">
+<div class="pa-field">{B("Poreklo pošiljke", "Where it comes from", "small")}<div class="pa-select">{B("Inostranstvo", "Abroad")}{ic("back", "pa-chev")}</div></div>
+<div class="pa-field">{B("Šta je u paketu?", "What is inside?", "small")}<div class="pa-chips">{chips_([("Odeća", "Clothing"), ("Elektronika", "Electronics"), ("Knjige", "Books"), ("Ostalo", "Other")])}</div></div>
+<div class="pa-field">{B("Vrednost", "Value", "small")}<div>6.000 RSD</div></div>
+<div class="pa-attach">{ic("scan")}<div>{B("Račun priložen", "Invoice attached", "b")}{B("Podaci su popunjeni sa računa", "Details filled in from the invoice", "small")}</div><i class="ok">{ic("check")}</i></div>
+</div>
+<div class="pa-estimate">{B("Procena dažbina", "Estimated duties")}<b>2.170 RSD</b></div>
+<button class="pa-btn primary">{B("Nastavi na obračun", "Continue to the calculation")}</button>''', tab=None)
+
+
 def s_customs():
     def row(sr, en, amt, cls=""):
         return f'<div class="pa-line {cls}">{B(sr, en)}<b>{amt}</b></div>'
@@ -205,6 +221,7 @@ SCREENS = [
     (s_list, ("Paketi i jasni statusi", "Parcels with clear statuses"), ("Za preuzimanje, u toku i istorija.", "To collect, in transit and history.")),
     (s_detail, ("Carinjenje za jedan radni dan", "Customs in one working day"), ("Svaki korak vidljiv, uz pravo na žalbu.", "Every step visible, with the right to appeal.")),
     (s_pickup, ("Paket jednim QR kodom", "A parcel with one QR code"), ("Službenik skenira, ništa se ne kuca.", "The clerk scans, nothing is typed.")),
+    (s_declare, ("Deklaracija robe u aplikaciji", "Declaring the goods in the app"), ("Poreklo, sadržaj i vrednost, uz račun koji se učitava.", "Origin, contents and value, with the invoice read in.")),
     (s_customs, ("Carina i PDV unapred", "Duty and VAT up front"), ("Javni obračun i plaćanje onlajn.", "A public calculation and online payment.")),
     (s_ips, ("Doplata: IPS QR", "Top-up: IPS QR"), ("Plaćanje na vratima iz bankarske aplikacije.", "Pay at the door from a banking app.")),
     (s_branches, ("Poslovnice i gužva", "Branches and queues"), ("Najbliža poslovnica sa kratkim redom.", "The nearest branch with a short queue.")),
@@ -279,7 +296,7 @@ def w_status():
 
 PAIRS = {
     "p2": (s_pickup, w_clerk, ("Aplikacija: QR i kod", "App: QR and code"), ("Šalter: službenik skenira", "Counter: the clerk scans")),
-    "p3": (s_customs, w_declaration, ("Aplikacija: obračun i plaćanje", "App: calculation and payment"), ("Veb: deklaracija i kalkulator", "Web: declaration and calculator")),
+    "p3": (s_declare, w_declaration, ("Aplikacija: deklaracija robe", "App: declaring the goods"), ("Veb: deklaracija i kalkulator", "Web: declaration and calculator")),
     "p4": (s_detail, w_status, ("Aplikacija: status i žalba", "App: status and appeal"), ("Veb: status i žalba", "Web: status and appeal")),
 }
 
