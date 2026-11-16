@@ -397,3 +397,5 @@ html{scroll-padding-top:112px}
 .pg-sub+.pg-intro{margin-top:0;margin-bottom:26px}
 
 .pg-sec .pg-steps+.pg-bars{margin-top:clamp(28px,4vw,40px)}
+
+.pg-intro+.pa,.pg-intro+.pg-bars{margin-top:24px}

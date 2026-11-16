@@ -341,3 +341,18 @@ def w_close():
 
 
 PAIRS["c1"] = (s_close, w_close, ("Aplikacija: plati i zatvori", "App: pay and close"), ("Veb: portal za zatvaranje", "Web: the closing portal"))
+
+
+# ------------------------------------------------------------------ employee side: the postman's phone
+def s_postman():
+    return phone(f'''
+<div class="pa-nav"><span>{ic("back")}</span>{B("Dostava", "Delivery", "b")}<span></span></div>
+<div class="pa-card"><p class="pa-k">{B("Adresa dostave", "Delivery address")}</p>
+<div class="pa-co"><i class="pa-ico">{ic("pin")}</i><div>{B("Primer ulice 12, Beograd", "Example Street 12, Belgrade", "b")}{B("Paket 3 od 14 danas", "Parcel 3 of 14 today", "small")}</div></div>
+<code>RS ••••• ••••• RS</code></div>
+<div class="pa-card center"><p class="pa-k">{B("Za doplatu", "To be paid")}</p><div class="pa-bigamt">1.250 <small>RSD</small></div>{B("Carinska doplata, primer.", "A customs top-up, example.", "small")}</div>
+<ul class="pa-checks flat"><li><b>{ic("check")}</b>{B("Primalac potvrđen QR kodom", "Recipient confirmed by QR")}</li><li><b>{ic("check")}</b>{B("Ništa se ne kuca ručno", "Nothing typed by hand")}</li></ul>
+<button class="pa-btn primary">{ic("qr")}{B("Napravi NBS IPS QR", "Create the NBS IPS QR")}</button>''', tab=None)
+
+
+PAIRS["emp"] = (s_postman, w_clerk, ("Aplikacija poštara: doplata", "Postman app: top-up"), ("Šalter: službenik skenira", "Counter: the clerk scans"))
