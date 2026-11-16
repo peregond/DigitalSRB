@@ -28,9 +28,12 @@ CATEGORIES = [
     {"id": "justice", "ideas": [34, 50, 52, 53, 57, 58],
      "sr": ("Pravosuđe i integritet", "Sudovi, javni beležnici i zapošljavanje bez „veze”."),
      "en": ("Justice and integrity", "Courts, notaries and hiring without “connections”.")},
-    {"id": "transport", "ideas": [19, 20, 21, 59],
-     "sr": ("Saobraćaj i pošta", "Karte, parking, vozila i pošta bez gužve."),
-     "en": ("Transport and post", "Tickets, parking, vehicles and the post without the crush.")},
+    {"id": "transport", "ideas": [19, 20, 59],
+     "sr": ("Saobraćaj", "Karte, parking i vozila bez gužve i bez papirnih nalepnica."),
+     "en": ("Transport", "Tickets, parking and vehicles without the crush and without paper stickers.")},
+    {"id": "post", "ideas": [21],
+     "sr": ("Pošta i carina", "Pošta Srbije kao normalna aplikacija, paket jednim QR kodom i carinjenje za jedan dan."),
+     "en": ("Post and customs", "Pošta Srbije as a proper app, a parcel with one QR code and customs clearance in a day.")},
 ]
 
 _ALL = sorted(i for c in CATEGORIES for i in c["ideas"])
