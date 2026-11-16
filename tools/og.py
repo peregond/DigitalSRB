@@ -22,12 +22,11 @@ OUT = ROOT / "assets" / "og"
 CSS = """
 *{box-sizing:border-box;margin:0;padding:0}html,body{width:1200px;height:630px;overflow:hidden}
 body{font-family:'Manrope',system-ui,sans-serif;color:#fff;position:relative}
-.top{position:absolute;left:64px;top:52px;display:flex;align-items:center;gap:14px;font-family:'Unbounded',sans-serif;font-weight:700;font-size:26px}
-.top i{display:block;width:28px;height:20px;border-radius:4px;background:linear-gradient(#C6363C 0 33.3%,#0C4076 33.3% 66.6%,#fff 66.6%)}
+.top{position:absolute;left:64px;top:44px;display:flex;align-items:center;gap:14px;padding:13px 26px 13px 18px;border-radius:999px;background:#fff;color:#111;box-shadow:0 10px 30px rgba(0,0,0,.22);font-family:'Unbounded',sans-serif;font-weight:700;font-size:26px}
+.top i{display:block;width:28px;height:20px;border-radius:4px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.18);background:linear-gradient(#C6363C 0 33.3%,#0C4076 33.3% 66.6%,#fff 66.6%)}
 .txt{position:absolute;left:64px;top:150px;width:560px}
 h1{font-family:'Unbounded',sans-serif;font-weight:800;letter-spacing:-.03em;line-height:1.08}
 p{font-size:28px;font-weight:600;line-height:1.3;margin-top:22px;opacity:.92}
-.url{position:absolute;left:64px;bottom:48px;font-size:24px;font-weight:700;opacity:.8}
 .art{position:absolute;right:56px;top:96px;width:520px;height:390px;border-radius:36px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.35)}
 .art img{width:100%;height:100%;display:block}
 .three{position:absolute;right:48px;top:80px;width:540px;height:470px}
@@ -41,7 +40,7 @@ def page(bg, title, tag, size, art_html):
             f'family=Unbounded:wght@700;800&display=swap" rel="stylesheet"><style>{CSS}</style></head><body style="background:{bg}">'
             f'<div class="top"><i></i>Digitalna Srbija</div>'
             f'<div class="txt"><h1 style="font-size:{size}px">{html.escape(title)}</h1><p>{html.escape(tag)}</p></div>'
-            f'{art_html}<div class="url">serbia.peregon.cc</div></body></html>')
+            f'{art_html}</body></html>')
 
 
 def main():
