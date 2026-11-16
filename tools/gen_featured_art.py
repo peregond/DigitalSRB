@@ -201,7 +201,7 @@ ART[2] = (RED, f'''
 ''')
 
 # 09 one tax portal: three registers send money and documents to one coin
-P9 = {"tl": "M92 92Q136 100 154 130", "tr": "M308 92Q264 100 246 130", "br": "M308 208Q264 200 246 170"}
+P9 = {"tl": "M92 92Q136 100 154 130", "br": "M308 208Q264 200 246 170"}
 def flow(path, item, dur, delay):
     return (f'<g>{item}<animateMotion dur="{dur}s" begin="{delay}s" repeatCount="indefinite" path="{path}" keyPoints="0;1" keyTimes="0;1" calcMode="linear"/></g>')
 COIN9 = f'<circle r="8" fill="{AMBER}" stroke="#fff" stroke-width="2"/><circle r="3" fill="none" stroke="#fff" stroke-width="1.5"/>'
@@ -209,11 +209,10 @@ DOC9 = (f'<g transform="rotate(-8)"><path d="M-10-13h13l7 7v19a2 2 0 0 1-2 2h-18
         f'<path d="M3-13v5a2 2 0 0 0 2 2h5z" fill="{GREY}"/><path d="M-6-3h10M-6 2h12M-6 7h12M-6 12h7" stroke="{GREY}" stroke-width="2" stroke-linecap="round"/></g>')
 ART[9] = (RED, f'''
 <g class="fl">{cyl(58,70,56,64,RED)}</g>
-<g class="fl2">{cyl(342,70,56,64,RED)}</g>
 <g class="fl">{cyl(342,232,56,64,RED)}</g>
 {"".join(f'<path class="da" d="{d}" fill="none" stroke="{RED}" stroke-width="4" stroke-linecap="round" opacity=".55"/>' for d in P9.values())}
 {flow(P9["tl"], COIN9, 2.4, 0)}{flow(P9["tl"], COIN9, 2.4, 1.2)}
-{flow(P9["tr"], DOC9, 2.6, 0.4)}{flow(P9["br"], DOC9, 2.6, 0)}{flow(P9["br"], COIN9, 2.6, 1.3)}
+{flow(P9["br"], DOC9, 2.4, 0)}{flow(P9["br"], DOC9, 2.4, 1.2)}
 <g class="fl2"><circle cx="200" cy="150" r="58" fill="{AMBER}" opacity=".22" class="pu"/>
 <circle cx="200" cy="150" r="50" fill="{AMBER}" filter="url(#s)"/>
 <circle cx="200" cy="150" r="41" fill="none" stroke="#fff" stroke-width="3.5" opacity=".9"/>
