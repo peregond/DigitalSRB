@@ -439,7 +439,38 @@ def _n30_pair(b):
     return posta_app.pair_html("n30")
 
 
-CUSTOM = {"stages30": c_stages30, "versus30": c_versus30, "board30": c_board30, "n30_pair": _n30_pair, "stages1": c_stages1, "versus1": c_versus1, "qr_pair": _qr_pair, "posta_target": c_posta_target, "posta_part2": c_posta_part2, "posta_part3": c_posta_part3, "posta_part4": c_posta_part4, "stages22": c_stages22, "versus22": c_versus22, "countries22": c_countries22, "biz_c1": _pair("c1"), "posta_p2": _pair("p2"), "posta_p3": _pair("p3"), "posta_p4": _pair("p4"), "posta_stages": c_posta_stages, "posta_app": c_posta_app, "licence53": c_licence53, "clerk": c_clerk, "journey22": c_journey22, "network30": c_network30, "stats30": c_stats30,
+STAGES2 = [
+    ("user", ("Osnovni nivo", "Basic level"), ("E-pošta i snimak dokumenta, odmah i za strance.", "An email and a document scan, at once and also for foreigners.")),
+    ("shield", ("Puni nivo", "Full level"), ("Potvrda preko banke, čip lične karte ili pošte.", "Confirmation through a bank, a chip ID card or the pošta.")),
+    ("check", ("Bez šaltera", "No counter"), ("Bez dolaska na šalter i bez aktivacionog koda.", "No counter visit and no activation code.")),
+    ("globe", ("Za strance", "For foreigners"), ("Osnovni pristup odmah, puni sa boravkom.", "Basic access at once, full access with residence.")),
+]
+
+
+def c_stages2(b):
+    import posta_app
+    cards = "".join(
+        f'<a class="pg-stage" href="#c1"><span class="pg-stage-top"><b>{i:02d}</b><i>{posta_app.ic(icon)}</i></span>'
+        f'{B(title, "h3")}{B(text, "p")}<span class="pg-stage-go" aria-hidden="true">›</span></a>'
+        for i, (icon, title, text) in enumerate(STAGES2, 1))
+    return f'<div class="pg-stages">{cards}</div>'
+
+
+def c_versus2(b):
+    return (f'<div class="pg-versus"><div class="pg-vs today"><p class="pg-vs-k">{B(("Danas", "Today"))}</p>'
+            f'<b class="pg-vs-n">3<small>{B(("načina", "ways"))}</small></b>{B(("Lozinka, ConsentID i sertifikat, a viši nivo traži šalter.", "A password, ConsentID and a certificate, and the higher level needs a counter."), "p")}</div>'
+            f'<span class="pg-vs-arrow" aria-hidden="true">›</span>'
+            f'<div class="pg-vs after"><p class="pg-vs-k">{B(("Predlog", "Proposal"))}</p>'
+            f'<b class="pg-vs-n">2<small>{B(("nivoa", "levels"))}</small></b>{B(("Osnovni i puni, bez dolaska na šalter.", "Basic and full, with no counter visit."), "p")}</div></div>'
+            + B(("Izvor: eID portal, prijava lozinkom, aplikacijom ConsentID ili sertifikatom.", "Source: the eID portal, sign-in by password, the ConsentID app or a certificate."), "p", "pg-note"))
+
+
+def _l2_pair(b):
+    import posta_app
+    return posta_app.pair_html("l2")
+
+
+CUSTOM = {"stages2": c_stages2, "versus2": c_versus2, "l2_pair": _l2_pair, "stages30": c_stages30, "versus30": c_versus30, "board30": c_board30, "n30_pair": _n30_pair, "stages1": c_stages1, "versus1": c_versus1, "qr_pair": _qr_pair, "posta_target": c_posta_target, "posta_part2": c_posta_part2, "posta_part3": c_posta_part3, "posta_part4": c_posta_part4, "stages22": c_stages22, "versus22": c_versus22, "countries22": c_countries22, "biz_c1": _pair("c1"), "posta_p2": _pair("p2"), "posta_p3": _pair("p3"), "posta_p4": _pair("p4"), "posta_stages": c_posta_stages, "posta_app": c_posta_app, "licence53": c_licence53, "clerk": c_clerk, "journey22": c_journey22, "network30": c_network30, "stats30": c_stats30,
           "phone47": c_phone47, "border48": c_border48, "speed50": c_speed50}
 RENDER = {"text": r_text, "cards": r_cards, "flow": r_flow, "steps": r_steps, "bars": r_bars, "table": r_table,
           "check": r_check, "faq": r_faq}
@@ -467,7 +498,8 @@ def vote_html(n):
 def build_all(ctx):
     """ctx: toc, ideas, tier_of, tiers, featured, ver, template (str)."""
     toc, ideas, tier_of, ver = ctx["toc"], ctx["ideas"], ctx["tier_of"], ctx["ver"]
-    taglines = {n: (sr, en) for n, sr, en in ctx["featured"]}
+    taglines = {47: ("Lična karta i boravak u novčaniku na telefonu.", "Your ID and residence card in your phone wallet.")}
+    taglines.update({n: (sr, en) for n, sr, en in ctx["featured"]})
     clean = lambda l, n: re.sub(r"\s*\(.*?\)\s*$", "", re.sub(r"</?strong>", "", toc[l][n]))
     titles = {n: (clean("sr", n), clean("en", n)) for n in ORDER}
     tpl = ctx["template"]
@@ -515,7 +547,7 @@ def build_all(ctx):
                 .replace("{{EYEBROW}}", B((cat_of(n)["sr"][0], cat_of(n)["en"][0])) + " · " + B(UI["idea"]) + f" {n:02d}")
                 .replace("{{H1}}", B(titles[n], "h1")).replace("{{TAGLINE}}", B(HERO_TEXT.get(n, taglines[n]), "p", "pg-tag"))
                 .replace("{{TIERLINE}}", B(tsub, "p", "pg-tier"))
-                .replace("{{EXTRA_HEAD}}", '<link rel="stylesheet" href="../../assets/posta-app.css?v=%s">' % ver if n in (1, 21, 22, 30) else "").replace("{{LOCAL}}", local).replace("{{HSTATS}}", hstats).replace("{{SECTIONS}}", sections)
+                .replace("{{EXTRA_HEAD}}", '<link rel="stylesheet" href="../../assets/posta-app.css?v=%s">' % ver if n in (1, 2, 21, 22, 30) else "").replace("{{LOCAL}}", local).replace("{{HSTATS}}", hstats).replace("{{SECTIONS}}", sections)
                 .replace("{{RELATED}}", rel).replace("{{SOURCES}}", sources_html(parts))
                 .replace("{{VOTE}}", vote_html(n))
                 .replace("{{PREV}}", nb(prev_n, UI["prev"])).replace("{{NEXT}}", nb(next_n, UI["next"]))

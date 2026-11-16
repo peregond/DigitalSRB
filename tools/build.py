@@ -42,7 +42,7 @@ FEATURED = [
     (22, "Firma se otvara i zatvara za jedan dan. Konačni porez odmah.", "Open or close a business in a day. Final tax paid on the spot."),
     (30, "Država već ima tvoja dokumenta. Ne nosi ih više.", "The state already has your papers. Stop carrying them."),
     (21, "Paket jednim QR kodom, carina u roku od jednog radnog dana.", "A parcel with one QR code, customs within one working day."),
-    (47, "Lična karta i boravak u novčaniku na telefonu.", "Your ID and residence card in your phone wallet."),
+    (2, "Dva nivoa naloga umesto tri, bez dolaska na šalter.", "Two account levels instead of three, with no counter visit."),
     (48, "Nema više prijave boravka stranaca u roku od 24 sata.", "No more 24-hour registration of stay for foreigners."),
     (50, "Tri zvanična roka. Taksa ide u budžet, ne u džep.", "Three official speeds. The fee goes to the budget, not a pocket."),
     (53, "Zamena strane vozačke dozvole bez nagađanja.", "Exchange a foreign driving licence without the guesswork."),

@@ -178,6 +178,19 @@ ART[53] = (RED, f'''
 {check(362,196,20,GREEN)}</g>
 ''')
 
+# 02 two eUprava levels
+ART[2] = (RED, f'''
+<g class="fl"><rect x="34" y="96" width="146" height="124" rx="16" fill="#fff" stroke="{INK}" stroke-width="4.5" filter="url(#s)"/>
+<rect x="56" y="118" width="48" height="34" rx="6" fill="none" stroke="{INK}" stroke-width="4"/><path d="M56 122l24 17 24-17" fill="none" stroke="{INK}" stroke-width="4" stroke-linejoin="round"/>
+<rect x="56" y="170" width="86" height="8" rx="4" fill="{GREY}"/><rect x="56" y="188" width="60" height="8" rx="4" fill="{GREY}"/></g>
+<path class="da" d="M190 158H214" stroke="{RED}" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M208 146l14 12-14 12" fill="none" stroke="{RED}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<g class="fl2"><rect x="230" y="62" width="140" height="158" rx="16" fill="{RED}" filter="url(#s)"/>
+<path d="M300 92l34 12v28c0 22-14 36-34 44-20-8-34-22-34-44v-28z" fill="#fff"/>
+<path d="M284 134l12 12 22-24" fill="none" stroke="{RED}" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="260" y="192" width="80" height="8" rx="4" fill="#fff" opacity=".55"/></g>
+''')
+
 from pages_data import THEMES
 
 

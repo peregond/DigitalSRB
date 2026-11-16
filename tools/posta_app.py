@@ -307,7 +307,7 @@ def pair_html(part):
     ph, web, cap_a, cap_w = PAIRS[part]
     tag = '<span class="pa-aitag">AI</span>'
     cap = lambda cp, label: f'<figcaption><span class="pa-n">{label}{tag}</span>{B(cp[0], cp[1], "b")}</figcaption>'
-    cls = {"c1": " pa-apr", "q1": " pa-green", "n30": " pa-amber"}.get(part, "")
+    cls = {"c1": " pa-apr", "q1": " pa-green", "n30": " pa-amber", "l2": " pa-teal"}.get(part, "")
     return (f'<div class="pa pa-pairwrap{cls}"><div class="pa-pair"><figure class="pa-fig">{ph()}{cap(cap_a, "APP")}</figure>'
             f'<figure class="pa-webfig">{web()}{cap(cap_w, "WEB")}</figure></div></div>')
 
@@ -522,3 +522,33 @@ def w_board():
 
 
 PAIRS["n30"] = (s_apply, w_justify, ("Aplikacija: podaci stižu sami", "App: the data arrives by itself"), ("Šalter: papir samo uz razlog", "Counter: a paper only with a reason"))
+
+
+# ------------------------------------------------------------------ two eUprava levels (teal variant)
+def s_level():
+    def opt(sr, en):
+        return f'<span class="pa-opt">{B(sr, en)}{ic("back", "pa-chev")}</span>'
+    return phone(f'''
+<div class="pa-nav"><span>{ic("back")}</span>{B("Nivo naloga", "Account level", "b")}<span></span></div>
+<div class="pa-card"><div class="pa-lv"><i class="pa-ico">{ic("user")}</i><div>{B("Osnovni nivo", "Basic level", "b")}{B("E-pošta i snimak dokumenta", "Email and a document scan", "small")}</div>{chip("ok", "Aktivan", "Active")}</div></div>
+<div class="pa-card"><div class="pa-lv"><i class="pa-ico">{ic("shield")}</i><div>{B("Puni nivo", "Full level", "b")}{B("Sve usluge i potpis", "Every service and signing", "small")}</div></div>
+<p class="pa-k">{B("Potvrdi identitet", "Confirm your identity")}</p>
+{opt("Preko banke", "Through a bank")}{opt("Čip lična karta", "Chip ID card")}{opt("Preko pošte", "Through the pošta")}</div>
+<p class="pa-fine c">{B("Bez dolaska na šalter.", "With no counter visit.")}</p>''', tab=None)
+
+
+def w_verify():
+    def bank(i):
+        return f'<span class="pa-bank"><i></i>{B("Banka " + i, "Bank " + i)}</span>'
+    return browser(f'''
+<div class="pa-wnav"><span class="pa-wlogo">{ic("user")}</span><b>eUprava</b><span class="pa-wuser">{ic("shield")}{B("Puni nivo", "Full level")}</span></div>
+<div class="pa-stepper"><span class="d">{ic("check")}{B("E-pošta", "Email")}</span><span class="d">{ic("check")}{B("Snimak dokumenta", "Document scan")}</span><span class="n">3 {B("Potvrda identiteta", "Identity check")}</span></div>
+<div class="pa-wgrid">
+<div class="pa-card"><p class="pa-k">{B("Izaberi način potvrde", "Pick how to confirm")}</p><div class="pa-banks2">{bank("A")}{bank("B")}{bank("C")}</div>
+<div class="pa-line">{B("Čip lična karta", "Chip ID card")}<b>NFC</b></div><div class="pa-line">{B("Pošta", "Pošta")}<b>{B("jednom", "once")}</b></div></div>
+<div class="pa-card"><p class="pa-k">{B("Šta dobijaš", "What you get")}</p><ul class="pa-checks">
+<li><b>{ic("check")}</b>{B("Sve usluge eUprave", "Every eUprava service")}</li><li><b>{ic("check")}</b>{B("Elektronski potpis", "Electronic signing")}</li><li><b>{ic("check")}</b>{B("Bez šaltera i aktivacionog koda", "No counter, no activation code")}</li></ul>{chip("blue", "eIDAS standard", "eIDAS standard")}</div></div>
+<div class="pa-wfoot"><button class="pa-btn primary">{B("Potvrdi preko banke", "Confirm through a bank")}</button><p class="pa-fine">{B("Stranci dobijaju osnovni nivo odmah, a puni sa boravkom.", "Foreigners get the basic level at once and the full level with residence.")}</p></div>''', url="euprava.gov.rs")
+
+
+PAIRS["l2"] = (s_level, w_verify, ("Aplikacija: izbor nivoa", "App: choosing the level"), ("Veb: potvrda identiteta", "Web: the identity check"))

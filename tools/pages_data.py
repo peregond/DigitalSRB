@@ -8,6 +8,7 @@ and "what has to change" lists are drafts that explain how the idea could work: 
 # idea number -> (slug, theme colour, darker shade)
 THEMES = {
     1: ("qr-counter", "#12A150", "#0A6B36"),
+    2: ("two-levels", "#0A9AAE", "#06626F"),
     22: ("business-in-a-day", "#1F6FEB", "#123F96"),
     30: ("no-papers", "#E08A00", "#8F5300"),
     21: ("posta-reform", "#F1BD40", "#1D3F72"),
@@ -16,7 +17,7 @@ THEMES = {
     50: ("fast-track", "#D1246A", "#85103F"),
     53: ("driving-licence", "#24407A", "#0F2147"),
 }
-ORDER = [1, 22, 30, 21, 47, 48, 50, 53]
+ORDER = [1, 2, 22, 30, 21, 47, 48, 50, 53]
 
 
 def text(eb, t, p, id=None):
@@ -99,6 +100,34 @@ PAGES[1] = {
             (("Nemam pametan telefon?", "I have no smartphone?"), ("Kod može da se odštampa ili stigne kao link u SMS-u. Šalter ostaje otvoren i za one koji dođu bez ičega, samo sa dužim postupkom.", "The code can be printed or arrive as an SMS link. The counter stays open for people who arrive with nothing, just with a longer procedure.")),
             (("Je li bezbedno pokazati QR kod?", "Is it safe to show a QR code?"), ("QR sadrži samo nasumičnu oznaku predmeta. Službenik mora da bude prijavljen, a svaki pristup tvom predmetu beleži se i vidljiv ti je u aplikaciji.", "The QR holds only a random case reference. The clerk must be logged in, and every access to your case is logged and visible to you in the app.")),
             (("Sistem ne radi?", "The system is down?"), ("Postupak se vraća na današnji, papirni. QR ne uvodi novu zavisnost, samo skraćuje put.", "The procedure falls back to today's paper one. The QR adds no new dependency, it only shortens the path.")),
+        ]), "nav": ("Pitanja", "Q&A")},
+    ],
+}
+
+# ---------------------------------------------------------------- 02 two eUprava levels
+PAGES[2] = {
+    "stats": [],
+    "related": [3, 5, 6, 47],
+    "blocks": [
+        {**custom("stages2", ("Pregled", "Overview"), ("Dva nivoa umesto tri", "Two levels instead of three"),
+                  intro=("Već postoji: eID ima tri načina prijave, lozinku, aplikaciju ConsentID i kvalifikovani sertifikat (čip lična karta ili oblak sertifikat). Za viši nivo aktivacioni kod se podiže na šalteru ili preko sertifikata, a tri nivoa zbunjuju ljude.",
+                         "Already exists: eID has three ways to log in, a password, the ConsentID app and a qualified certificate (chip ID card or cloud certificate). For the higher level the activation code is collected at a counter or via a certificate, and three levels confuse people.")),
+         "cls": "compact", "nav": ("Pregled", "Overview")},
+        {**custom("versus2", ("Razlika", "The difference"), ("Koliko nivoa moraš da razumeš", "How many levels you have to understand")), "nav": ("Razlika", "Difference")},
+        {**flow(("Put do punog naloga", "The path to a full account"), ("Od zbunjenosti do dva jasna nivoa", "From confusion to two clear levels"), [
+            ("Biraš između lozinke, ConsentID i sertifikata", "Choose between a password, ConsentID and a certificate"),
+            ("Ne znaš koji nivo ti treba", "You do not know which level you need"),
+            ("Za viši nivo ideš na šalter po aktivacioni kod", "For the higher level you go to a counter for an activation code"),
+            ("Tek tada koristiš sve usluge", "Only then can you use every service")],
+            [("Osnovni nivo: e-pošta i snimak dokumenta", "Basic: an email and a scan of a document"),
+             ("Odmah koristiš osnovne usluge", "You use the basic services at once"),
+             ("Puni nivo: potvrda preko banke, čip lične karte ili pošte", "Full: confirm through a bank, a chip ID card or the pošta"),
+             ("Bez dolaska na šalter, po eIDAS standardu", "With no counter visit, under the eIDAS standard")],
+            note=("Stranci dobijaju osnovni pristup odmah, a puni sa boravkom.", "Foreigners get basic access at once and full access with residence."), id="c1", extra="l2_pair"),
+         "nav": ("Nivoi", "Levels")},
+        {**faq(QA, ("Šta ako…", "What if…"), [
+            (("Nemam račun u banci?", "I do not have a bank account?"), ("Identitet možeš da potvrdiš i čip ličnom kartom ili preko pošte. Banka je samo jedna od tri mogućnosti.", "You can also confirm your identity with a chip ID card or through the pošta. The bank is just one of three options.")),
+            (("Šta je sa strancima?", "What about foreigners?"), ("Dobijaju osnovni pristup odmah, a puni čim dobiju boravak.", "They get basic access at once and full access once they have residence.")),
         ]), "nav": ("Pitanja", "Q&A")},
     ],
 }
