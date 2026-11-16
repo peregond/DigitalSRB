@@ -65,70 +65,67 @@ def page(css, body, bg):
 
 # ------------------------------------------------------------------ the new portal
 PORTAL_CSS = """
-.win{background:#F6FAE9}
-.chrome{background:#EAF2CF}.url{background:rgba(255,255,255,.75);color:#4a5a1a}
-.pg{flex:1;min-height:0;padding:18px 28px 18px;display:grid;grid-template-rows:auto auto 1fr auto;gap:14px;
-  background:radial-gradient(52% 42% at 96% 0,#DCEBA6 0,transparent 70%),radial-gradient(46% 40% at 0 78%,rgba(124,161,10,.13),transparent 70%),#F6FAE9;color:#232E08}
-.nav{display:flex;align-items:center;gap:16px;background:rgba(255,255,255,.72);border:1px solid rgba(255,255,255,.95);border-radius:999px;padding:9px 12px;box-shadow:0 10px 26px rgba(60,80,10,.09),inset 0 1px 0 #fff}
-.logo{width:36px;height:36px;border-radius:12px;background:linear-gradient(145deg,#9BC21B,#5C7A0A);color:#fff;display:grid;place-items:center}
-.logo svg{width:20px;height:20px}
-.nav b{font-size:17px;font-weight:800;letter-spacing:-.01em}
-.tabs{display:flex;gap:4px;margin-left:10px}
-.tabs span{padding:9px 18px;border-radius:999px;font-weight:700;font-size:14.5px;color:#69734B}
-.tabs span.on{background:#fff;color:#3F5406;box-shadow:0 2px 10px rgba(60,80,10,.16)}
-.srch{margin-left:auto;display:flex;align-items:center;gap:9px;background:rgba(92,122,10,.08);border-radius:999px;padding:9px 16px;font-weight:600;font-size:14px;color:#69734B;min-width:230px}
+.win{background:#fff}
+.chrome{background:#F5F5F7}.url{background:#E8E8ED;color:#6e6e73}
+.pg{flex:1;min-height:0;padding:0 34px 18px;display:grid;grid-template-rows:auto auto 1fr auto;gap:14px;background:#fff;color:#1d1d1f}
+.nav{display:flex;align-items:center;gap:18px;height:56px;border-bottom:1px solid #E8E8ED;margin:0 -34px;padding:0 34px}
+.logo{width:32px;height:32px;border-radius:10px;background:#1d1d1f;color:#fff;display:grid;place-items:center}
+.logo svg{width:18px;height:18px}
+.nav b{font-size:17px;font-weight:700;letter-spacing:-.01em}
+.tabs{display:flex;gap:4px;margin-left:14px}
+.tabs span{padding:8px 14px;font-weight:500;font-size:14.5px;color:#6e6e73;border-radius:999px}
+.tabs span.on{color:#1d1d1f;font-weight:700;background:#F5F5F7}
+.srch{margin-left:auto;display:flex;align-items:center;gap:9px;background:#F5F5F7;border-radius:999px;padding:9px 16px;font-weight:500;font-size:14px;color:#6e6e73;min-width:230px}
 .srch svg{width:16px;height:16px}
-.lang{display:flex;background:rgba(92,122,10,.1);border-radius:999px;padding:3px}
-.lang i{font-style:normal;font-weight:800;font-size:12px;padding:6px 12px;border-radius:999px;color:#69734B}
-.lang i.on{background:#fff;color:#3F5406;box-shadow:0 1px 5px rgba(60,80,10,.2)}
-.bell{position:relative;width:38px;height:38px;border-radius:50%;background:#fff;display:grid;place-items:center;color:#3F5406;box-shadow:0 2px 8px rgba(60,80,10,.14)}
-.bell svg{width:18px;height:18px}.bell u{position:absolute;top:8px;right:9px;width:9px;height:9px;border-radius:50%;background:#E5333D;border:2px solid #fff}
-.av{width:38px;height:38px;border-radius:50%;background:linear-gradient(145deg,#9BC21B,#3F5406);color:#fff;display:grid;place-items:center}.av svg{width:19px;height:19px}
-.hero{display:flex;justify-content:space-between;align-items:flex-end;padding:0 6px}
-.hi{font-size:15px;font-weight:600;color:#69734B}
-h1{font-size:42px;font-weight:800;letter-spacing:-.035em;line-height:1.08;display:flex;align-items:center;gap:14px}
-.ex{font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;background:#FFF0CC;color:#8A5A00;border-radius:7px;padding:4px 9px}
+.lang{display:flex;background:#F5F5F7;border-radius:999px;padding:3px}
+.lang i{font-style:normal;font-weight:700;font-size:12px;padding:6px 12px;border-radius:999px;color:#6e6e73}
+.lang i.on{background:#fff;color:#1d1d1f;box-shadow:0 1px 4px rgba(0,0,0,.14)}
+.bell{position:relative;width:36px;height:36px;border-radius:50%;background:#F5F5F7;display:grid;place-items:center;color:#1d1d1f}
+.bell svg{width:18px;height:18px}.bell u{position:absolute;top:8px;right:9px;width:9px;height:9px;border-radius:50%;background:#0071E3;border:2px solid #F5F5F7}
+.av{width:36px;height:36px;border-radius:50%;background:#1d1d1f;color:#fff;display:grid;place-items:center}.av svg{width:18px;height:18px}
+.hero{display:flex;justify-content:space-between;align-items:flex-end;padding:4px 4px 0}
+.hi{font-size:15px;font-weight:600;color:#6e6e73}
+h1{font-size:52px;font-weight:800;letter-spacing:-.04em;line-height:1.04;display:flex;align-items:center;gap:14px}
+.ex{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:#F5F5F7;color:#6e6e73;border-radius:7px;padding:4px 9px}
 .pills{display:flex;gap:9px}
-.pill{display:flex;align-items:center;gap:7px;font-weight:800;font-size:13px;padding:8px 15px;border-radius:999px;background:#DDF4E6;color:#0C7A3B}
-.pill.b{background:#E5ECCB;color:#3F5406}
-.pill svg{width:14px;height:14px;stroke-width:3}
+.pill{display:flex;align-items:center;gap:7px;font-weight:600;font-size:13.5px;padding:8px 15px;border-radius:999px;background:#F5F5F7;color:#1d1d1f}
+.pill.b{color:#0066CC}
+.pill svg{width:14px;height:14px;stroke-width:3;color:#30B454}.pill.b svg{color:#0066CC}
 .grid{display:grid;grid-template-columns:1.2fr 1fr 1fr;grid-template-rows:1fr 1fr;gap:14px;min-height:0}
-.card{background:rgba(255,255,255,.74);border:1px solid rgba(255,255,255,.96);border-radius:28px;padding:18px 20px;box-shadow:0 12px 30px rgba(60,80,10,.08),inset 0 1px 0 #fff;display:flex;flex-direction:column;gap:9px;min-height:0;overflow:hidden}
-.k{display:flex;align-items:center;gap:9px;font-size:12.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:#69734B}
-.tag{margin-left:auto;font-size:11px;font-weight:800;letter-spacing:.03em;padding:4px 10px;border-radius:999px;background:#E3EEB8;color:#3F5406;text-transform:none}
-.big{grid-row:1/3;background:linear-gradient(150deg,#86AB10 0%,#5C7A0A 45%,#3A4C05 100%);color:#fff;border-color:rgba(255,255,255,.3);padding:22px 26px;gap:10px;
-  box-shadow:0 26px 54px rgba(63,84,6,.38),inset 0 1px 0 rgba(255,255,255,.45)}
-.big .k{color:rgba(255,255,255,.82)}
-.amt{font-size:70px;font-weight:800;letter-spacing:-.045em;line-height:1}.amt small{font-size:24px;font-weight:700;letter-spacing:0;opacity:.92;margin-left:6px}
-.bar{display:flex;gap:5px;height:13px}.bar i{display:block;border-radius:7px;background:#CFE58A}.bar i+i{background:rgba(255,255,255,.55)}
-.leg{display:flex;gap:22px;font-size:14px;font-weight:700;color:rgba(255,255,255,.92)}.leg span{display:flex;align-items:center;gap:7px}.leg u{width:10px;height:10px;border-radius:50%;background:#CFE58A}.leg u.b{background:rgba(255,255,255,.7)}
+.card{background:#F5F5F7;border-radius:28px;padding:18px 22px;display:flex;flex-direction:column;gap:9px;min-height:0;overflow:hidden}
+.k{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:700;letter-spacing:0;color:#6e6e73}
+.tag{margin-left:auto;font-size:11.5px;font-weight:700;padding:4px 11px;border-radius:999px;background:#fff;color:#1d1d1f;text-transform:none}
+.big{grid-row:1/3;background:linear-gradient(160deg,#2a2a2d 0%,#111113 100%);color:#fff;padding:22px 26px;gap:10px}
+.big .k{color:rgba(255,255,255,.65)}
+.amt{font-size:72px;font-weight:800;letter-spacing:-.05em;line-height:1}.amt small{font-size:24px;font-weight:700;letter-spacing:0;color:rgba(255,255,255,.7);margin-left:6px}
+.bar{display:flex;gap:5px;height:12px}.bar i{display:block;border-radius:6px;background:#fff}.bar i+i{background:#6e6e73}
+.leg{display:flex;gap:22px;font-size:14px;font-weight:600;color:rgba(255,255,255,.85)}.leg span{display:flex;align-items:center;gap:7px}.leg u{width:10px;height:10px;border-radius:50%;background:#fff}.leg u.b{background:#6e6e73}
 .due{display:grid;gap:8px;margin-top:2px}
-.due div{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.24);border-radius:18px;padding:9px 16px;font-weight:700;font-size:15px}
-.due svg{width:18px;height:18px}.due span{flex:1}.due b{color:#E4F2A8;font-weight:800}
+.due div{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.08);border-radius:18px;padding:10px 16px;font-weight:600;font-size:15px}
+.due svg{width:18px;height:18px;color:rgba(255,255,255,.7)}.due span{flex:1}.due b{color:#fff;font-weight:700}
 .btns{display:grid;gap:9px;margin-top:auto}
-.btn{display:flex;align-items:center;justify-content:center;gap:9px;border-radius:999px;padding:13px;font-weight:800;font-size:15.5px}
+.btn{display:flex;align-items:center;justify-content:center;gap:9px;border-radius:999px;padding:13px;font-weight:700;font-size:15.5px}
 .btn svg{width:18px;height:18px}
-.btn.w{background:#fff;color:#3F5406;box-shadow:0 10px 24px rgba(0,0,0,.22)}
-.btn.g{background:rgba(255,255,255,.15);color:#fff;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.5)}
-.btn.s{padding:9px 17px;font-size:13.5px;align-self:flex-start;background:#fff;color:#3F5406;box-shadow:inset 0 0 0 1.5px rgba(92,122,10,.35)}
+.btn.w{background:#fff;color:#1d1d1f}
+.btn.g{background:rgba(255,255,255,.1);color:#fff}
+.btn.s{padding:0;font-size:14.5px;align-self:flex-start;background:none;color:#0066CC;font-weight:600}
+.btn.s svg{width:16px;height:16px}
 .list{list-style:none;display:grid;gap:11px}
 .list li{display:flex;align-items:center;gap:12px;font-weight:700;font-size:14.5px}
-.list li>div{flex:1;display:grid;gap:1px}.list small{font-size:12.5px;color:#69734B;font-weight:600}
-.dot{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:#12A150;color:#fff}.dot svg{width:15px;height:15px;stroke-width:3}
-.dot.c{background:#E3EEB8;color:#3F5406}.dot.c svg{stroke-width:2}.dot.s{background:#CFE58A}
+.list li>div{flex:1;display:grid;gap:1px}.list small{font-size:12.5px;color:#6e6e73;font-weight:500}
+.dot{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:#30B454;color:#fff}.dot svg{width:15px;height:15px;stroke-width:3}
+.dot.c{background:#fff;color:#1d1d1f}.dot.c svg{stroke-width:2}.dot.s{background:#1d1d1f;color:#fff}.dot.s svg{stroke-width:2}
 .chart{display:flex;align-items:flex-end;gap:16px;height:100%;min-height:0;padding-top:4px}
 .chart>div{flex:1;display:flex;flex-direction:column;align-items:center;gap:7px;justify-content:flex-end;height:100%}
 .pair{display:flex;gap:5px;align-items:flex-end;height:100%;width:100%;justify-content:center}
-.pair i{display:block;width:36%;border-radius:8px 8px 3px 3px;background:linear-gradient(180deg,#B4D456,#86AB10)}.pair i+i{background:linear-gradient(180deg,#5C7A0A,#3F5406)}
-.chart span{font-size:12px;font-weight:700;color:#69734B}
+.pair i{display:block;width:36%;border-radius:8px 8px 3px 3px;background:#C7C7CC}.pair i+i{background:#1d1d1f}
+.chart span{font-size:12px;font-weight:600;color:#6e6e73}
 .chartwrap{flex:1;min-height:0;display:flex;flex-direction:column;gap:8px}
-.lg{display:flex;gap:16px;font-size:12.5px;font-weight:700;color:#69734B}.lg span{display:flex;align-items:center;gap:6px}.lg u{width:10px;height:10px;border-radius:3px;background:#86AB10}.lg u.b{background:#3F5406}
+.lg{display:flex;gap:16px;font-size:12.5px;font-weight:600;color:#6e6e73}.lg span{display:flex;align-items:center;gap:6px}.lg u{width:10px;height:10px;border-radius:3px;background:#C7C7CC}.lg u.b{background:#1d1d1f}
 .notes{display:flex;gap:14px}
-.note{flex:1;display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.74);border:1px solid rgba(255,255,255,.96);border-radius:22px;padding:12px 16px;font-weight:700;font-size:14px;box-shadow:0 10px 24px rgba(60,80,10,.07)}
-.note .tag{font-size:10.5px}
-.note small{display:block;font-size:12px;color:#69734B;font-weight:600}
+.note{flex:1;display:flex;align-items:center;gap:12px;background:#F5F5F7;border-radius:22px;padding:11px 16px;font-weight:700;font-size:14px}
+.note small{display:block;font-size:12px;color:#6e6e73;font-weight:500}
 .note>div{flex:1}
-.foot{display:flex;align-items:center;gap:10px;padding:0 8px;font-size:13px;font-weight:600;color:#69734B}.foot svg{width:16px;height:16px;color:#7CA10A}
 """
 
 STR = {
@@ -190,7 +187,7 @@ def portal_html(lang):
 <div class="note"><span class="dot">{ic('check')}</span><div>{t['n2']}<small>{t['n2d']}</small></div></div>
 <div class="note"><span class="dot">{ic('check')}</span><div>{t['n3']}<small>{t['n3d']}</small></div></div></div>
 </div></div>"""
-    return page(PORTAL_CSS, body, "linear-gradient(135deg,#DDEBB0 0%,#EDF4D2 55%,#F7F9E8 100%)")
+    return page(PORTAL_CSS, body, "linear-gradient(135deg,#E5E5EA 0%,#F2F2F5 60%,#FAFAFC 100%)")
 
 
 # ------------------------------------------------------------------ today: two deliberately dated pages

@@ -24,4 +24,4 @@ def portal_html():
            f'<img src="{base}portal-en.webp" alt="The single tax portal: business overview, obligations and deadlines" loading="lazy" width="2160" height="1215"></a>'
            f'<figcaption><span class="pa-n">{B("PREDLOG", "PROPOSAL")}{ai}</span>'
            f'{B("Jedinstveni poreski portal: registracija, porezi i obaveze na jednom ekranu", "The single tax portal: registration, taxes and obligations on one screen", "b")}</figcaption></figure>')
-    return f'<div class="pa pa-portal">{note}<div class="pa-shots"><div class="shots-old">{olds}</div>{new}</div></div>'
+    return f'<div class="pa pa-portal pa-apple">{note}<div class="pa-shots"><div class="shots-old">{olds}</div>{new}</div></div>'

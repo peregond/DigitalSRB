@@ -495,3 +495,5 @@
 .shot figcaption b{font-family:var(--display);font-size:14px;line-height:1.25;color:var(--ink)}
 .shot.new figcaption b{font-size:16px}
 @media (max-width:860px){.pa-shots{grid-template-columns:1fr}}
+
+.pa-apple{--navy:#1d1d1f}
