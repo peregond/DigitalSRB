@@ -23,7 +23,7 @@
 <script>(function(){var d=document.documentElement,l;try{l=new URLSearchParams(location.search).get('lang')||localStorage.getItem('dsrb.lang')}catch(e){}if(l!=='sr'&&l!=='en'){l='sr'}d.dataset.lang=l;d.lang=l==='sr'?'sr-Latn':'en';d.classList.add('js')})();</script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Manrope:wght@400;500;700;800&subset=latin-ext,cyrillic&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/styles.css?v=3a34db9b">
+<link rel="stylesheet" href="assets/styles.css?v=7c83fb0d">
 </head>
 <body>
 <a class="skip" href="#main"><span lang="sr-Latn">Preskoči na sadržaj</span><span lang="en">Skip to content</span></a>
@@ -35,6 +35,7 @@
       <a href="#why"><span lang="sr-Latn">Zašto</span><span lang="en">Why</span></a>
       <a href="#topics"><span lang="sr-Latn">Teme</span><span lang="en">Topics</span></a>
       <a href="#ideas"><span lang="sr-Latn">Ideje</span><span lang="en">Ideas</span></a>
+      <a href="#suggest"><span lang="sr-Latn">Predlog</span><span lang="en">Suggest</span></a>
       <a href="#sources"><span lang="sr-Latn">Izvori</span><span lang="en">Sources</span></a>
     </div>
     <div class="lang" role="group" aria-label="Jezik / Language">
@@ -191,6 +192,26 @@
   <p class="empty" id="empty" hidden><span lang="sr-Latn">Nema ideja za ovu kombinaciju. Probaj drugu težinu ili temu.</span><span lang="en">No ideas for this combination. Try another difficulty or topic.</span></p>
 </div>
 
+<section class="suggest" id="suggest">
+  <div class="wrap narrow">
+    <h2 class="reveal"><span lang="sr-Latn">Predloži ideju.</span><span lang="en">Suggest an idea.</span></h2>
+    <p class="sug-lead reveal"><span lang="sr-Latn">Imaš ideju koje nema ovde, ili komentar na neku od postojećih? Napiši nam. Poruke ne objavljujemo.</span><span lang="en">Have an idea that is not here, or a comment on an existing one? Write to us. Messages are not published.</span></p>
+    <form class="sug-form" id="sugForm" novalidate>
+      <label><span class="lb"><span lang="sr-Latn">Tvoja ideja ili komentar</span><span lang="en">Your idea or comment</span></span>
+        <textarea name="message" rows="5" maxlength="1500" required data-ph-sr="Šta bi trebalo da se promeni i zašto?" data-ph-en="What should change, and why?" placeholder="Šta bi trebalo da se promeni i zašto?"></textarea></label>
+      <div class="sug-row">
+        <label><span class="lb"><span lang="sr-Latn">Broj ideje, ako se odnosi na neku (opciono)</span><span lang="en">Idea number, if it is about one (optional)</span></span>
+          <input name="idea" type="number" min="1" max="60" inputmode="numeric" placeholder="1–60"></label>
+        <label><span class="lb"><span lang="sr-Latn">Kontakt, ako želiš odgovor (opciono)</span><span lang="en">Contact, if you want a reply (optional)</span></span>
+          <input name="contact" type="text" maxlength="200" autocomplete="off" data-ph-sr="E-pošta ili Telegram" data-ph-en="Email or Telegram" placeholder="E-pošta ili Telegram"></label>
+      </div>
+      <input class="hp" name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <div class="sug-foot"><button type="submit" class="btn"><span lang="sr-Latn">Pošalji</span><span lang="en">Send</span></button>
+        <p class="sug-msg" id="sugMsg" role="status" hidden></p></div>
+    </form>
+  </div>
+</section>
+
 <section class="sources" id="sources">
   <div class="wrap narrow">
     <h2><span lang="sr-Latn">Izvori.</span><span lang="en">Sources.</span></h2>
@@ -207,8 +228,8 @@
   </div>
 </footer>
 
-<script src="assets/translit.js?v=3a34db9b"></script>
-<script src="assets/config.js?v=3a34db9b"></script>
-<script src="assets/app.js?v=3a34db9b"></script>
+<script src="assets/translit.js?v=7c83fb0d"></script>
+<script src="assets/config.js?v=7c83fb0d"></script>
+<script src="assets/app.js?v=7c83fb0d"></script>
 </body>
 </html>

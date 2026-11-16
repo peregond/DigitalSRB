@@ -279,6 +279,45 @@
     if (cyr) applyScript(true);
   }
 
+  /* ---------- suggestion form (needs the Supabase table, see docs/supabase-suggestions.sql) ---------- */
+  var sugForm = document.getElementById("sugForm");
+  if (sugForm) {
+    var sugMsg = document.getElementById("sugMsg");
+    var say = function (kind, sr, en) {
+      sugMsg.className = "sug-msg " + kind;
+      sugMsg.innerHTML = '<span lang="sr-Latn">' + sr + '</span><span lang="en">' + en + "</span>";
+      sugMsg.hidden = false;
+      if (cyr) applyScript(true);
+    };
+    sugForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var f = sugForm.elements;
+      if (f.website.value) return; // honeypot
+      var text = f.message.value.trim();
+      if (text.length < 10) { say("err", "Napiši bar nekoliko reči (10 znakova).", "Please write at least a few words (10 characters)."); return; }
+      var last = Number(store.get("dsrb.sug") || 0);
+      if (Date.now() - last < 60000) { say("err", "Sačekaj minut pre sledeće poruke.", "Please wait a minute before the next message."); return; }
+      if (!api) { say("err", "Slanje trenutno nije dostupno.", "Sending is not available right now."); return; }
+      var idea = f.idea.value ? Number(f.idea.value) : null;
+      if (idea !== null && (idea < 1 || idea > 60)) idea = null;
+      var btn = sugForm.querySelector("button[type=submit]");
+      btn.disabled = true;
+      fetch(api + "/suggestions", {
+        method: "POST",
+        headers: { apikey: cfg.supabaseAnonKey, Authorization: "Bearer " + cfg.supabaseAnonKey, "Content-Type": "application/json", Prefer: "return=minimal" },
+        body: JSON.stringify({ message: text.slice(0, 1500), idea: idea, contact: f.contact.value.trim().slice(0, 200) || null, lang: root.dataset.lang })
+      }).then(function (r) {
+        if (!r.ok) throw new Error("HTTP " + r.status);
+        store.set("dsrb.sug", String(Date.now()));
+        sugForm.reset();
+        say("ok", "Hvala! Poruka je poslata.", "Thank you! Your message was sent.");
+      }).catch(function (err) {
+        console.warn(err);
+        say("err", "Nije uspelo. Pokušaj ponovo kasnije.", "That did not work. Please try again later.");
+      }).then(function () { btn.disabled = false; });
+    });
+  }
+
   /* ---------- share ---------- */
   var toastTimer = null;
   function toast(sr, en) {

@@ -60,3 +60,13 @@ grant execute on function cast_vote to anon;
 2. Put the project URL and the public `anon` key into `assets/config.js`.
 
 The counts then appear next to + and −. This is an honest-visitor counter, not a secure poll: one person can vote again from another browser.
+
+## Suggestions form
+
+The "Predloži ideju / Suggest an idea" form on the home page stores messages in your Supabase project. Run `docs/supabase-suggestions.sql` once in the SQL editor. Visitors can only add rows; you read the messages in the dashboard (Table editor, `suggestions`). Until the table exists the form shows a "try again later" message.
+
+## Other settings
+
+- **Link previews / SEO:** `python3 tools/og.py` renders `assets/og/*.jpg`; `tools/build.py` writes `sitemap.xml`, `robots.txt` and `404.html` (the site address comes from `CNAME`).
+- **Latin / Cyrillic:** `assets/translit.js` converts the Serbian text in the browser; names that must stay Latin are listed in `KEEP`.
+- **Showcase images:** `python3 tools/shots.py`. **Review of the drafted text:** `docs/REVIEW.md`.
