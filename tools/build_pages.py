@@ -28,7 +28,7 @@ UI = {
     "example": ("Primer", "Example"),
 }
 # pages whose hero has no "topic · idea number" line
-NO_EYEBROW = {21}
+NO_EYEBROW = set(ORDER)
 KIND = {"law": ("Zakon", "Law"), "tech": ("Tehnika", "Technology"), "org": ("Organizacija", "Organisation")}
 
 
