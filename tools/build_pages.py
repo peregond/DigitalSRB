@@ -644,3 +644,11 @@ CUSTOM.update({
                            "1", ("Jedinstveni poreski portal za registraciju i plaćanje poreza.", "A single tax portal for registration and paying taxes.")),
     "t9_pair": make_pair("t9"),
 })
+
+
+def _portal9(b):
+    import portal_mock
+    return portal_mock.portal_html()
+
+
+CUSTOM["portal9"] = _portal9

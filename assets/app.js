@@ -298,9 +298,9 @@
   /* ---------- fixed 9:16 phones and 16:9 browser windows: shrink to fit, never squeeze ---------- */
   function fitMocks() {
     $$(".pa-browser").forEach(function (b) {
-      var avail = b.parentNode.clientWidth;
+      var avail = b.parentNode.clientWidth, w = b.classList.contains("lg") ? 1280 : 840;
       b.style.zoom = 1;
-      b.style.zoom = avail && avail < 840 ? (avail / 840).toFixed(4) : 1;
+      b.style.zoom = avail && avail < w ? (avail / w).toFixed(4) : 1;
     });
     $$(".pa-pair .pa-fig, .pa-phonepair .pa-fig").forEach(function (f) {
       var avail = f.parentNode.clientWidth;

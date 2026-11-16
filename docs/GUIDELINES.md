@@ -7,7 +7,7 @@ Rules for the concept visuals and pages on this site. Keep new pages consistent 
 | Mock | Proportion | Design size | Where it lives |
 | --- | --- | --- | --- |
 | Phone screen (app), the display itself | **9 : 19.5** (like a modern iPhone) | 322 × 698 px (the frame adds a 9 px bezel: 340 × 716) | `.pa-screen` inside `.pa-phone` in `assets/posta-app.css` |
-| Web / browser window | **16 : 9** | 840 × 473 px | `.pa-browser` in `assets/posta-app.css` |
+| Web / browser window | **16 : 9** | 840 × 473 px; a large showcase variant `.pa-browser.lg` is 1280 × 720 px | `.pa-browser` in `assets/posta-app.css` |
 
 - Both are drawn at their design size and **never stretched or squeezed**. On narrower screens `assets/app.js` (`fitMocks`) shrinks them with `zoom`, so the proportion stays exact on phones too.
 - Do **not** use viewport media queries (`@media (max-width…)`) to rearrange the inside of a mock. The mock is a fixed picture, not a responsive page.
