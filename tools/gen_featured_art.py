@@ -187,12 +187,16 @@ def mix(hexc, pct):
     return "#%02X%02X%02X" % tuple(round(255 - (255 - v) * pct / 100) for v in (r, g, bl))
 
 
+# idea -> (main colour of the drawing, colour of the background tint)
+ART_COLORS = {21: ("#0C4076", "#FBBA00")}
+
 OUT.mkdir(parents=True, exist_ok=True)
 for n, (c, body) in ART.items():
     svg = wrap(c, body)
     theme = THEMES[n][1]
-    if theme != c:  # recolour the tier colour to the page's own colour
-        svg = svg.replace(TINT[c], mix(theme, 16)).replace(c, theme)
+    accent, tint = ART_COLORS.get(n, (theme, theme))
+    if accent != c or tint != theme:  # recolour the tier colour to the page's own colour
+        svg = svg.replace(TINT[c], mix(tint, 16)).replace(c, accent)
         if n == 50:
             svg = svg.replace("#F4A3A8", mix(theme, 45))
     (OUT / f"{n:02d}.svg").write_text(svg, encoding="utf-8")

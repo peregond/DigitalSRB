@@ -10,7 +10,7 @@ THEMES = {
     1: ("qr-counter", "#12A150", "#0A6B36"),
     22: ("business-in-a-day", "#1F6FEB", "#123F96"),
     30: ("no-papers", "#E08A00", "#8F5300"),
-    21: ("posta-reform", "#0A9AAE", "#06626F"),
+    21: ("posta-reform", "#FBBA00", "#0C4076"),
     47: ("wallet-id", "#6A45F0", "#3A1FA8"),
     48: ("no-registration", "#E30613", "#8F040D"),
     50: ("fast-track", "#D1246A", "#85103F"),
