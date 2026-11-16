@@ -23,7 +23,8 @@
     <a class="brand" href="#top"><span class="flag" aria-hidden="true">🇷🇸</span><span lang="sr-Latn">Digitalna Srbija</span><span lang="en">Digital Serbia</span></a>
     <div class="nav-links">
       <a href="#why"><span lang="sr-Latn">Zašto</span><span lang="en">Why</span></a>
-      {{NAV_LINKS}}
+      <a href="#topics"><span lang="sr-Latn">Teme</span><span lang="en">Topics</span></a>
+      <a href="#ideas"><span lang="sr-Latn">Ideje</span><span lang="en">Ideas</span></a>
       <a href="#sources"><span lang="sr-Latn">Izvori</span><span lang="en">Sources</span></a>
     </div>
     <div class="lang" role="group" aria-label="Jezik / Language">
@@ -66,25 +67,40 @@
   </div>
 </section>
 
+<section class="cats" id="topics">
+  <div class="wrap">
+    <h2 class="reveal"><span lang="sr-Latn">Teme.<br><span class="dim">Ideje razvrstane po oblastima.</span></span><span lang="en">Topics.<br><span class="dim">Ideas sorted by subject.</span></span></h2>
+    <div class="cat-tiles">{{CAT_TILES}}</div>
+  </div>
+</section>
+
 <section class="tiers" id="tiers">
   <div class="wrap">
-    <h2 class="reveal"><span lang="sr-Latn">Tri nivoa.<br><span class="dim">Od najlakšeg do najtežeg.</span></span><span lang="en">Three tiers.<br><span class="dim">From easiest to hardest.</span></span></h2>
+    <h2 class="reveal"><span lang="sr-Latn">Koliko je teško.<br><span class="dim">Tri nivoa, od najlakšeg do najtežeg.</span></span><span lang="en">How hard it is.<br><span class="dim">Three tiers, from easiest to hardest.</span></span></h2>
     <div class="tiles">{{TIER_CARDS}}</div>
-    <p class="note reveal"><span lang="sr-Latn">Rokovi su gruba procena i služe samo za orijentaciju.</span><span lang="en">Timelines are rough estimates, for orientation only.</span></p>
+    <p class="note reveal"><span lang="sr-Latn">Rokovi su gruba procena i služe samo za orijentaciju. Brojevi ideja su samo oznake, ne redosled važnosti.</span><span lang="en">Timelines are rough estimates, for orientation only. The idea numbers are just labels, not a ranking.</span></p>
   </div>
 </section>
 
 <div id="ideas" class="ideas-area">
+  <div class="ideas-top">
+    <p class="diff-label"><span lang="sr-Latn">Težina</span><span lang="en">Difficulty</span></p>
+    <div class="tierchips" role="group" aria-label="Difficulty">
+      <button type="button" class="chip on" data-tier="all" aria-pressed="true"><span lang="sr-Latn">Sve</span><span lang="en">Any</span></button>
+      {{TIER_CHIPS}}
+    </div>
+    <p class="tally" id="tally" hidden><span lang="sr-Latn">Tvoji glasovi</span><span lang="en">Your votes</span> <b class="up">+<span data-tally="up">0</span></b> <b class="down">−<span data-tally="down">0</span></b></p>
+  </div>
   <div class="filterbar" id="filterbar">
     <div class="filter-in">
-      <div class="chips" role="group" aria-label="Filter">
-        <button type="button" class="chip on" data-filter="all" aria-pressed="true"><span lang="sr-Latn">Sve</span><span lang="en">All</span><b>60</b></button>
-        {{FILTERS}}
+      <div class="chips" role="group" aria-label="Topic">
+        <button type="button" class="chip on" data-cat="all" aria-pressed="true"><span lang="sr-Latn">Sve teme</span><span lang="en">All topics</span><b>60</b></button>
+        {{CAT_CHIPS}}
       </div>
-      <p class="tally" id="tally" hidden><span lang="sr-Latn">Tvoji glasovi</span><span lang="en">Your votes</span> <b class="up">+<span data-tally="up">0</span></b> <b class="down">−<span data-tally="down">0</span></b></p>
     </div>
   </div>
-  {{TIER_SECTIONS}}
+  {{CAT_SECTIONS}}
+  <p class="empty" id="empty" hidden><span lang="sr-Latn">Nema ideja za ovu kombinaciju. Probaj drugu težinu ili temu.</span><span lang="en">No ideas for this combination. Try another difficulty or topic.</span></p>
 </div>
 
 <section class="sources" id="sources">

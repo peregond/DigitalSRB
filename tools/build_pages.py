@@ -3,6 +3,7 @@ import re
 from html import escape
 from pathlib import Path
 
+from categories import cat_of
 from pages_data import ORDER, PAGES, THEMES
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -250,7 +251,7 @@ def build_all(ctx):
         slug, th, dk = THEMES[n]
         page, tier = PAGES[n], tier_of(n)
         tname = (tier["sr"]["name"], tier["en"]["name"])
-        tsub = (f'{tier["sr"]["sub"]} · {tier["sr"]["time"]}', f'{tier["en"]["sub"]} · {tier["en"]["time"]}')
+        tsub = tuple(f'{tier[l]["name"]} · {tier[l]["sub"]} · {tier[l]["time"]}' for l in LANGS)
         sections, navitems = "", []
         for i, blk in enumerate(page["blocks"]):
             if blk["k"] == "custom":
@@ -283,7 +284,7 @@ def build_all(ctx):
                 .replace("{{DESC_SR}}", escape(taglines[n][0])).replace("{{DESC_EN}}", escape(taglines[n][1]))
                 .replace("{{TH}}", th).replace("{{TH2}}", dk).replace("{{TINT}}", mix(th, 9)).replace("{{TINT2}}", mix(th, 18))
                 .replace("{{NUM}}", f"{n:02d}").replace("{{N}}", str(n))
-                .replace("{{EYEBROW}}", B(UI["idea"]) + f" {n:02d} · " + B(tname))
+                .replace("{{EYEBROW}}", B((cat_of(n)["sr"][0], cat_of(n)["en"][0])) + " · " + B(UI["idea"]) + f" {n:02d}")
                 .replace("{{H1}}", B(titles[n], "h1")).replace("{{TAGLINE}}", B(taglines[n], "p", "pg-tag"))
                 .replace("{{TIERLINE}}", B(tsub, "p", "pg-tier"))
                 .replace("{{LOCAL}}", local).replace("{{HSTATS}}", hstats).replace("{{SECTIONS}}", sections)

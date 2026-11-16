@@ -12,6 +12,7 @@ Repository **Settings → Pages → Build and deployment → Deploy from a branc
 | --- | --- |
 | Idea texts, visuals, sources (both languages) | `source/print.html` (the A4 print document) |
 | Hero, navigation, page shell | `tools/template.html` |
+| Topics (which idea belongs to which category) | `tools/categories.py` |
 | Tier names and UI labels | top of `tools/build.py` |
 | Detail pages of the 8 main ideas (texts, infographics) | `tools/pages_data.py`, layout in `tools/build_pages.py` and `tools/page_template.html`, look in `assets/page.css` |
 | Colours of each detail page | `THEMES` in `tools/pages_data.py` |

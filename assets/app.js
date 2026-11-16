@@ -53,28 +53,58 @@
     b.addEventListener("click", function () { setLang(b.dataset.setLang); });
   });
 
-  /* ---------- tier filter ---------- */
-  var chips = $$(".chip[data-filter]");
-  function setFilter(f) {
-    chips.forEach(function (c) {
-      var on = c.dataset.filter === f;
-      c.classList.toggle("on", on);
-      c.setAttribute("aria-pressed", String(on));
+  /* ---------- filters: topic and difficulty ---------- */
+  var state = { cat: "all", tier: "all" };
+  var catChips = $$(".chip[data-cat]"), tierChips = $$(".chip[data-tier]"), emptyMsg = document.getElementById("empty");
+  function applyFilters() {
+    function mark(list, key, val) {
+      list.forEach(function (c) {
+        var on = c.dataset[key] === val;
+        c.classList.toggle("on", on);
+        c.setAttribute("aria-pressed", String(on));
+      });
+    }
+    mark(catChips, "cat", state.cat);
+    mark(tierChips, "tier", state.tier);
+    var shown = 0;
+    $$(".cat-section").forEach(function (s) {
+      var any = 0;
+      $$(".idea", s).forEach(function (a) {
+        var ok = (state.cat === "all" || s.dataset.cat === state.cat) && (state.tier === "all" || a.dataset.tier === state.tier);
+        a.hidden = !ok;
+        if (ok) any++;
+      });
+      s.hidden = !any;
+      shown += any;
     });
-    $$(".tier-section").forEach(function (s) { s.hidden = f !== "all" && s.dataset.tier !== f; });
+    if (emptyMsg) emptyMsg.hidden = shown > 0;
   }
-  chips.forEach(function (c) {
-    c.addEventListener("click", function () {
-      setFilter(c.dataset.filter);
-      var area = document.getElementById("ideas");
-      if (area.getBoundingClientRect().top < 0) area.scrollIntoView();
+  function toList() {
+    var area = document.getElementById("ideas");
+    if (area && area.getBoundingClientRect().top < 0) area.scrollIntoView();
+  }
+  catChips.forEach(function (c) {
+    c.addEventListener("click", function () { state.cat = c.dataset.cat; applyFilters(); toList(); });
+  });
+  tierChips.forEach(function (c) {
+    c.addEventListener("click", function () { state.tier = c.dataset.tier; applyFilters(); toList(); });
+  });
+  $$("[data-tier-filter]").forEach(function (a) {
+    a.addEventListener("click", function (e) {
+      e.preventDefault();
+      state.cat = "all"; state.tier = a.dataset.tierFilter;
+      applyFilters();
+      document.getElementById("ideas").scrollIntoView();
     });
   });
-  // a link to a hidden tier or idea must show it first
+  // a link to a hidden topic or idea must show it first
   function revealTarget() {
     var el = location.hash.length > 1 && document.getElementById(location.hash.slice(1));
-    var sec = el && el.closest(".tier-section");
-    if (sec && sec.hidden) { setFilter("all"); el.scrollIntoView(); }
+    if (el && (el.hidden || el.closest("[hidden]"))) {
+      state.cat = "all"; state.tier = "all";
+      applyFilters();
+      el.scrollIntoView();
+    }
   }
   window.addEventListener("hashchange", revealTarget);
 

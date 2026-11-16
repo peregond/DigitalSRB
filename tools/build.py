@@ -11,6 +11,7 @@ from pathlib import Path
 from bs4 import BeautifulSoup
 
 import build_pages
+from categories import CATEGORIES, cat_of
 from pages_data import THEMES
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -194,7 +195,7 @@ def render_idea(num, by_lang, tier, toc, wide):
     )
     return (
         f'<article class="idea reveal{" wide" if wide else ""}" id="idea-{num}" data-tier="{tier["n"]}" style="--tc:{tier["color"]}">'
-        f'<p class="idea-num"><span>{num:02d}</span><i class="tdot"></i>{bi({l: tier[l]["name"] for l in LANGS}, cls="tname")}</p>'
+        f'<p class="idea-num"><span class="idnum">№ {num:02d}</span><i class="tdot"></i>{bi({l: tier[l]["name"] for l in LANGS}, cls="tname")}</p>'
         f'{"".join(body)}{more}{vote}</article>'
     )
 
@@ -215,7 +216,7 @@ def render_featured(toc):
             f'<span class="fc-n">{n:02d}</span>'
             f'<img class="fc-img" src="assets/featured/{n:02d}.svg" alt="" loading="lazy" decoding="async" '
             f'onerror="this.style.display=\'none\'"></div>'
-            f'<div class="fc-body"><p class="fc-tier"><i class="tdot"></i>{bi({l: t[l]["name"] for l in LANGS})}</p>'
+            f'<div class="fc-body"><p class="fc-tier"><i class="tdot"></i>{bi({l: cat_of(n)[l][0] for l in LANGS})}</p>'
             f'{bi(title, "h3")}{bi({"sr": sr, "en": en}, "p", "fc-text")}</div></a>'
         )
     return "".join(out)
@@ -231,38 +232,50 @@ def main():
         intro_html += (f'<div lang="{LANG_ATTR[l]}"><p class="lead">{inner(ps[0])}</p>'
                        + "".join(f"<p>{inner(p)}</p>" for p in ps[1:]) + "</div>")
 
-    tier_cards, tier_sections, nav_links, filters = "", "", "", ""
+    def sr_count(n):
+        word = "ideja" if n % 10 in (0, 1, 5, 6, 7, 8, 9) or 11 <= n % 100 <= 14 else "ideje"
+        return f"{n} {word}"
+
+    tier_cards, tier_chips = "", ""
     for t in TIERS:
         count = t["last"] - t["first"] + 1
         tier_cards += (
-            f'<a class="tile reveal" href="#tier-{t["n"]}" style="--tc:{t["color"]}">'
+            f'<a class="tile reveal" href="#ideas" data-tier-filter="{t["n"]}" style="--tc:{t["color"]}">'
             f'<p class="tile-eyebrow"><i class="tdot"></i>{bi({l: UI["tier"][l] + " " + str(t["n"]) for l in LANGS})}</p>'
             f'<p class="tile-count">{count}<small>{bi("ideas")}</small></p>'
             f'{bi({l: t[l]["name"] for l in LANGS}, "h3")}'
             f'{bi({l: t[l]["sub"] + " · " + t[l]["time"] for l in LANGS}, "p", "tile-sub")}'
             f'{bi({l: t[l]["desc"] for l in LANGS}, "p", "tile-desc")}</a>'
         )
-        nav_links += f'<a href="#tier-{t["n"]}">{bi({l: t[l]["name"] for l in LANGS})}</a>'
-        filters += (f'<button type="button" class="chip" data-filter="{t["n"]}" aria-pressed="false" style="--tc:{t["color"]}">'
-                    f'<i class="tdot"></i>{bi({l: t[l]["name"] for l in LANGS})}<b>{count}</b></button>')
-        nums = range(t["first"], t["last"] + 1)
+        tier_chips += (f'<button type="button" class="chip" data-tier="{t["n"]}" aria-pressed="false" style="--tc:{t["color"]}">'
+                       f'<i class="tdot"></i>{bi({l: t[l]["name"] for l in LANGS})}<b>{count}</b></button>')
+
+    cat_tiles, cat_chips, cat_sections = "", "", ""
+    for c in CATEGORIES:
+        nums = c["ideas"]
+        name = {l: c[l][0] for l in LANGS}
+        desc = {l: c[l][1] for l in LANGS}
+        cnt = {"sr": sr_count(len(nums)), "en": f"{len(nums)} ideas"}
+        cat_tiles += (f'<a class="cat-tile reveal" href="#cat-{c["id"]}">{bi(name, "h3")}{bi(desc, "p")}'
+                      f'{bi(cnt, "span", "cat-count")}</a>')
+        cat_chips += (f'<button type="button" class="chip" data-cat="{c["id"]}" aria-pressed="false">'
+                      f'{bi(name)}<b>{len(nums)}</b></button>')
         wide = wide_set(nums, ideas)
         toc_html = "".join(
             f'<li><a href="#idea-{n}"><b>{n:02d}</b>{bi({l: re.sub(r"</?strong>", "", toc[l][n]) for l in LANGS})}</a></li>'
             for n in nums)
-        tier_sections += (
-            f'<section class="tier-section" id="tier-{t["n"]}" data-tier="{t["n"]}" style="--tc:{t["color"]}">'
-            f'<header class="tier-head reveal"><p class="eyebrow"><i class="tdot"></i>'
-            f'{bi({l: UI["tier"][l] + " " + str(t["n"]) + " · " + t[l]["sub"] + " · " + t[l]["time"] for l in LANGS})}</p>'
-            f'{bi({l: t[l]["name"] for l in LANGS}, "h2")}{bi({l: t[l]["desc"] for l in LANGS}, "p", "tier-desc")}'
-            f'<details class="toc"><summary>{bi("list")} <span class="n">{count}</span></summary><ol>{toc_html}</ol></details></header>'
-            f'<div class="ideas">{"".join(render_idea(n, ideas[n], t, toc, n in wide) for n in nums)}</div></section>'
+        cat_sections += (
+            f'<section class="cat-section" id="cat-{c["id"]}" data-cat="{c["id"]}">'
+            f'<header class="tier-head reveal"><p class="eyebrow">{bi(cnt)}</p>'
+            f'{bi(name, "h2")}{bi(desc, "p", "tier-desc")}'
+            f'<details class="toc"><summary>{bi("list")} <span class="n">{len(nums)}</span></summary><ol>{toc_html}</ol></details></header>'
+            f'<div class="ideas">{"".join(render_idea(n, ideas[n], tier_of(n), toc, n in wide) for n in nums)}</div></section>'
         )
 
     tpl = (ROOT / "tools" / "template.html").read_text(encoding="utf-8")
     out = (tpl.replace("{{INTRO}}", intro_html).replace("{{TIER_CARDS}}", tier_cards)
-           .replace("{{NAV_LINKS}}", nav_links).replace("{{FILTERS}}", filters).replace("{{FEATURED}}", render_featured(toc))
-           .replace("{{TIER_SECTIONS}}", tier_sections).replace("{{SOURCES}}", src_items)
+           .replace("{{TIER_CHIPS}}", tier_chips).replace("{{CAT_CHIPS}}", cat_chips).replace("{{CAT_TILES}}", cat_tiles)
+           .replace("{{FEATURED}}", render_featured(toc)).replace("{{CAT_SECTIONS}}", cat_sections).replace("{{SOURCES}}", src_items)
            .replace("{{SOURCES_NOTE}}", bi(src_note, "p", "note")))
     ver = hashlib.md5(b"".join((ROOT / "assets" / f).read_bytes() for f in ("styles.css", "page.css", "app.js", "config.js"))).hexdigest()[:8]
     out = out.replace("{{V}}", ver)
