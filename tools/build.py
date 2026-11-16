@@ -49,6 +49,10 @@ FEATURED = [
     (50, "Tri zvanična roka. Taksa ide u budžet, ne u džep.", "Three official speeds. The fee goes to the budget, not a pocket."),
 ]
 
+# Ready-made pictures that replace the drawn SVG of an idea (assets/ideas/NN.webp).
+PHOTOS = {4: {"sr": "Diploma sa QR kodom, skeniranje telefonom i stranica eUprave sa potvrdom da je dokument važeći (vizuelizacija uz pomoć AI)",
+              "en": "A diploma with a QR code, scanned with a phone, and an eUprava page confirming the document is valid (AI-made visual)"}}
+
 UI = {
     "problem": {"sr": "Problem", "en": "The problem"},
     "proposal": {"sr": "Predlog", "en": "The proposal"},
@@ -158,6 +162,9 @@ def render_idea(num, by_lang, tier, toc, wide):
         title = re.sub(r"\s*\(.*?\)\s*$", "", toc[l][num]) if series else parts[0]["title"]
         h = [f'<div class="idea-body" lang="{LANG_ATTR[l]}">', f"<h3>{title}</h3>"]
         text, visual, tail = [], "", []
+        if num in PHOTOS:
+            alt = PHOTOS[num][l]
+            visual = (f'<img class="photo" src="assets/ideas/{num:02d}.webp" alt="{alt}" width="1672" height="941" loading="lazy" decoding="async">')
         for i, p in enumerate(parts):
             if p["mock"]:
                 visual = p["svg"]
@@ -171,7 +178,7 @@ def render_idea(num, by_lang, tier, toc, wide):
                 blk.append(f'<p class="src">{p["src"]}</p>')
             elif p["src"]:
                 tail.append(f'<p class="src">{p["src"]}</p>')
-            if p["svg"]:
+            if p["svg"] and num not in PHOTOS:
                 visual = p["svg"]
             if p["extra"]:
                 cols = []
