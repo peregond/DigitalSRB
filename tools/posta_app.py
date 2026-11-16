@@ -307,7 +307,7 @@ def pair_html(part):
     ph, web, cap_a, cap_w = PAIRS[part]
     tag = '<span class="pa-aitag">AI</span>'
     cap = lambda cp, label: f'<figcaption><span class="pa-n">{label}{tag}</span>{B(cp[0], cp[1], "b")}</figcaption>'
-    cls = {"c1": " pa-apr", "q1": " pa-green", "n30": " pa-amber", "l2": " pa-teal", "b48": " pa-red", "f50": " pa-pink", "t9": " pa-olive"}.get(part, "")
+    cls = {"c1": " pa-apr", "q1": " pa-green", "n30": " pa-amber", "l2": " pa-teal", "b48": " pa-red", "f50": " pa-pink", "t9": " pa-olive", "w47": " pa-violet", "d53": " pa-navy"}.get(part, "")
     return (f'<div class="pa pa-pairwrap{cls}"><div class="pa-pair"><figure class="pa-fig">{ph()}{cap(cap_a, "APP")}</figure>'
             f'<figure class="pa-webfig">{web()}{cap(cap_w, "WEB")}</figure></div></div>')
 

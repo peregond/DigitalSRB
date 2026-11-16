@@ -276,42 +276,29 @@ for _blk in PAGES[21]["blocks"]:
 
 # ---------------------------------------------------------------- 47 ID in Wallet
 PAGES[47] = {
-    "stats": [("18013-5", ("ISO standard za mobilne dokumente", "ISO standard for mobile documents")),
-              ("EUDI", ("evropski novčanik digitalnog identiteta", "the EU digital identity wallet")),
-              ("1 s", ("provera, QR ili NFC", "to check, QR or NFC"))],
+    "stats": [],
     "related": [4, 5, 6, 11],
     "blocks": [
-        text(PROBLEM, ("Kartica se gubi i uvek mora da se nosi", "A card gets lost and must always be carried"), [
-            ("Fizička lična karta i boravišna dozvola gube se, zaboravljaju kod kuće i moraju da se pokažu pri svakoj proveri, a pokazuješ sve što je na njima.",
-             "A physical ID and residence card gets lost, is forgotten at home and has to be shown at every check, and you show everything printed on it."),
-        ]),
-        text(PROPOSAL, ("Isti dokument, u telefonu", "The same document, in your phone"), [
-            ("Digitalna lična karta i boravišna dozvola u Apple i Google novčaniku, po standardu ISO 18013-5 i evropskom EUDI novčaniku, sa istom pravnom snagom kao kartica.",
-             "A digital ID and residence card in Apple and Google Wallet, following ISO 18013-5 and the EU EUDI wallet, with the same legal force as the card."),
-        ]),
-        custom("phone47", ("Pokazuješ samo potrebno", "Share only what is needed"), ("Provera koja ne otkriva sve", "A check that does not reveal everything"),
-               intro=("Čitač traži samo jedan podatak, na primer da si punoletan. Ti potvrđuješ, a JMBG i adresa ostaju u telefonu.", "The reader asks for just one fact, for example that you are over 18. You approve, and the personal number and address stay in your phone.")),
-        table(("Poređenje", "Comparison"), ("Kartica i digitalna isprava", "Card and digital document"),
-              [("", ""), ("Fizička kartica", "Physical card"), ("Digitalna isprava", "Digital document")],
-              [[("Gubitak", "Loss"), ("Gubi se i zaboravlja", "Gets lost or forgotten"), ("Uvek u telefonu", "Always on the phone")],
-               [("Provera", "Check"), ("Pokazuješ celu karticu", "Show the whole card"), ("Sekunda, QR ili NFC", "A second, QR or NFC")],
-               [("Šta deliš", "What you share"), ("Sve što je na kartici", "Everything printed on it"), ("Samo traženi podatak", "Only the requested fact")],
-               [("Pravna snaga", "Legal force"), ("Puna", "Full"), ("Ista kao kartica", "The same as the card")]], hl=None),
-        steps(("Šta treba da postoji", "What has to be in place"), ("Četiri uslova", "Four conditions"), [
-            (("Zakon", "A law"), ("Digitalna isprava dobija istu pravnu snagu kao kartica.", "The digital document gets the same legal force as the card.")),
-            (("ISO 18013-5", "ISO 18013-5"), ("Usklađenost sa standardom za mobilne vozačke i lične isprave.", "Compliance with the standard for mobile driving licences and IDs.")),
-            (("Apple i Google", "Apple and Google"), ("Dogovor sa kompanijama koje drže novčanike.", "An agreement with the companies that run the wallets.")),
-            (("EUDI", "EUDI"), ("Praćenje istog evropskog standarda koji EU uvodi, da isprava radi i van Srbije.", "Following the same European standard the EU is introducing, so the document works beyond Serbia.")),
-        ], intro=("Težina je visoka: potreban je zakon, a ne samo tehnika.", "Difficulty is high: it takes a law, not just technology.")),
-        cards(WHO, ("Prednosti", "Benefits"), [
+        {**custom("stages47", ("Pregled", "Overview"), ("Ista isprava, u telefonu", "The same document, in your phone"),
+                  intro=("Fizička lična karta i boravišna dozvola gube se, zaboravljaju kod kuće i pokazuju se cele pri svakoj proveri. Predlog je digitalna isprava u Apple i Google novčaniku, po standardu ISO 18013-5 i evropskom EUDI novčaniku, sa istom pravnom snagom kao kartica.",
+                         "A physical ID and residence card gets lost, is forgotten at home and is shown in full at every check. The proposal is a digital document in Apple and Google Wallet, following ISO 18013-5 and the EU EUDI wallet, with the same legal force as the card.")),
+         "cls": "compact", "nav": ("Pregled", "Overview")},
+        {**custom("versus47", ("Razlika", "The difference"), ("Šta pokazuješ pri proveri", "What you show at a check")), "nav": ("Razlika", "Difference")},
+        {**flow(("Provera", "The check"), ("Od cele kartice do jednog podatka", "From the whole card to one fact"), [
+            ("Nosiš karticu sa sobom", "You carry the card"), ("Pokazuješ celu karticu", "You show the whole card"),
+            ("Provera je vizuelna i spora", "The check is visual and slow"), ("Zaboravljena ili izgubljena kartica je problem", "A forgotten or lost card is a problem")],
+            [("Dodaš ispravu u novčanik", "You add the document to the wallet"), ("Prineseš telefon čitaču ili pokažeš QR", "Hold the phone to a reader or show a QR"),
+             ("Čitač traži samo jedan podatak", "The reader asks for just one fact"), ("Potvrdiš na telefonu", "You approve on the phone"), ("Deli se samo taj podatak", "Only that fact is shared")],
+            id="c1", extra="w47_pair"), "nav": ("Provera", "The check")},
+        {**cards(WHO, ("Prednosti", "Benefits"), [
             ("Građani", "Citizens", "Dokument je uvek u telefonu i ne može da se izgubi kao kartica.", "The document is always on your phone and cannot be lost like a card."),
             ("Stranci", "Foreigners", "Boravišna dozvola uvek uz sebe, na novčaniku koji već koriste.", "The residence permit always at hand, in the wallet they already use."),
             ("Provera", "Checks", "Traje sekundu, a pokazuje se samo ono što je potrebno.", "Takes a second and shows only what is necessary."),
-        ]),
-        faq(QA, ("Šta ako…", "What if…"), [
+        ]), "nav": ("Ko dobija", "Who gains")},
+        {**faq(QA, ("Šta ako…", "What if…"), [
             (("Telefon ostane bez baterije ili se izgubi?", "My phone dies or is lost?"), ("Pitanje za zakon i uslove izdavanja. Predlog daje digitalnoj ispravi istu snagu kao kartici, a da li plastična kartica ostaje uz nju odlučuje zakon.", "A question for the law and the issuing rules. The proposal gives the digital document the same force as the card, and whether the plastic card stays alongside is for the law to decide.")),
             (("Zašto baš ISO 18013-5 i EUDI?", "Why exactly ISO 18013-5 and EUDI?"), ("Zato što su to standardi koje Apple, Google i EU već koriste, pa isprava radi bez posebnih rešenja.", "Because these are the standards Apple, Google and the EU already use, so the document works without special arrangements.")),
-        ]),
+        ]), "nav": ("Pitanja", "Q&A")},
     ],
 }
 
@@ -377,45 +364,32 @@ PAGES[50] = {
 
 # ---------------------------------------------------------------- 53 exchange a foreign driving licence
 PAGES[53] = {
-    "stats": [("6", ("meseci: dokle stalno nastanjeni voze sa stranom dozvolom", "months: how long permanent residents may drive on a foreign licence")),
-              ("1", ("javna stranica sa pravilima po zemlji izdavanja", "public page with the rules per country of issue"))],
+    "stats": [],
     "related": [11, 14, 17, 49],
     "blocks": [
-        text(PROBLEM, ("Pravilo postoji, uputstvo ne", "The rule exists, the instructions do not"), [
-            ("Stranac sa odobrenim stalnim boravkom, kao i državljanin Srbije koji se vraća da stalno živi u zemlji, sme da vozi sa stranom vozačkom dozvolom do šest meseci od ulaska u zemlju. Posle toga mora da je zameni ili da izvadi novu srpsku.",
-             "A foreigner with approved permanent residence, like a Serbian citizen returning to live in the country, may drive on a foreign licence for up to six months from entering Serbia. After that they must exchange it or apply for a new Serbian one."),
-            ("Zvanične stranice za strance to kažu, ali ne opisuju kako se zamena radi: gde, sa kojim dokumentima i da li treba polagati. Zato se odgovori traže po blogovima i forumima.",
-             "The official pages for foreigners say so, but do not describe how an exchange is done: where, with which documents, and whether a test is needed. So answers are sought on blogs and forums."),
-        ]),
-        flow(("Put do dozvole", "The path"), ("Od nagađanja do jasnog toka", "From guessing to a clear flow"), [
+        {**custom("stages53", ("Pregled", "Overview"), ("Zamena strane vozačke dozvole bez nagađanja", "Exchanging a foreign licence without the guesswork"),
+                  intro=("Stranac sa odobrenim stalnim boravkom, kao i državljanin koji se vraća da stalno živi u Srbiji, sme da vozi sa stranom dozvolom do šest meseci od ulaska u zemlju, a posle toga mora da je zameni ili da izvadi novu. Zvanične stranice ne opisuju kako se zamena radi.",
+                         "A foreigner with approved permanent residence, like a citizen returning to live in Serbia, may drive on a foreign licence for up to six months from entering the country, and after that must exchange it or apply for a new one. The official pages do not describe how an exchange works.")),
+         "cls": "compact", "nav": ("Pregled", "Overview")},
+        {**custom("versus53", ("Razlika", "The difference"), ("Gde saznaješ šta ti treba", "Where you find out what you need")), "nav": ("Razlika", "Difference")},
+        {**flow(("Put do dozvole", "The path"), ("Od nagađanja do jasnog toka", "From guessing to a clear flow"), [
             ("Pročitaš da dozvolu moraš da zameniš", "You read that the licence must be exchanged"), ("Tražiš dokumenta po forumima", "Search forums for the documents"),
             ("Ne znaš da li se polaže", "You do not know whether a test is needed"), ("Dođeš na šalter, nešto fali", "Go to a counter, something is missing"), ("Vraćaš se", "Come back")],
             [("Biraš zemlju izdavanja", "Pick the country of issue"), ("Vidiš pravilo i spisak dokumenata", "See the rule and the list of documents"),
              ("Podnosiš zahtev i plaćaš onlajn", "Apply and pay online"), ("Zakazuješ samo ono što mora uživo", "Book only what must be done in person"), ("Pratiš status do dozvole", "Track the status until the licence")],
-            note=("Ilustrativan tok. Tačne korake određuju propisi i nadležna služba.", "Illustrative path. The exact steps are set by the regulations and the competent office.")),
-        custom("licence53", ("Predlog", "The proposal"), ("Javna stranica po zemlji izdavanja", "A public page per country of issue"),
-               intro=("Odgovor na pitanje „šta mi treba?” treba da stoji na jednom mestu, pre nego što ikoga pitaš.", "The answer to “what do I need?” should be in one place, before you ask anyone.")),
-        steps(HOW, ("Četiri dela rešenja", "Four parts of the fix"), [
-            (("Pravila po zemlji", "Rules per country"), ("Za svaku zemlju izdavanja piše da li se dozvola priznaje, da li treba polaganje, koja su dokumenta i koliko košta.", "For each country of issue it says whether the licence is recognised, whether a test is needed, which documents are required and what it costs.")),
-            (("Jedan onlajn tok", "One online flow"), ("Zahtev, dokumenta i taksa u istom koraku, bez prepisivanja podataka.", "The application, documents and fee in one step, without retyping data.")),
-            (("Uživo samo što mora", "In person only what must be"), ("Termin se zakazuje samo za korak koji se ne može obaviti onlajn.", "An appointment is booked only for the step that cannot be done online.")),
-            (("Status i rok", "Status and deadline"), ("Vidiš gde je zahtev i do kada stiže odluka.", "You see where the application is and when a decision is due.")),
-        ]),
-        cards(WHO, ("Koristi svima koji menjaju dozvolu", "Useful to everyone exchanging a licence"), [
+            note=("Ilustrativan tok. Tačne korake određuju propisi i nadležna služba.", "Illustrative path. The exact steps are set by the regulations and the competent office."), id="c1", extra="d53_pair"),
+         "nav": ("Tok", "The flow")},
+        {**custom("licence53", ("Predlog", "The proposal"), ("Javna stranica po zemlji izdavanja", "A public page per country of issue"),
+                  intro=("Odgovor na pitanje „šta mi treba?” treba da stoji na jednom mestu, pre nego što ikoga pitaš.", "The answer to “what do I need?” should be in one place, before you ask anyone.")),
+         "nav": ("Po zemljama", "Per country")},
+        {**cards(WHO, ("Koristi svima koji menjaju dozvolu", "Useful to everyone exchanging a licence"), [
             ("Stranci sa boravkom", "Foreigners with residence", "Znaju šta da ponesu i šta da očekuju pre nego što odu na šalter.", "They know what to bring and what to expect before going to a counter."),
             ("Građani koji se vraćaju", "Returning citizens", "Isto šestomesečno pravilo važi i za njih.", "The same six-month rule applies to them."),
             ("Službe", "Offices", "Manje nepotpunih zahteva i ponovnih dolazaka.", "Fewer incomplete applications and repeat visits."),
-        ]),
-        check(CHANGE, ("Šta treba da se uradi", "What needs to happen"), [
-            ("law", ("Jasan, propisan režim priznavanja stranih dozvola, i sporazumi sa zemljama koje ga nemaju", "A clear, legally defined regime for recognising foreign licences, and agreements with countries that lack one")),
-            ("tech", ("Onlajn zahtev sa dokumentima i plaćanjem takse u istom toku", "An online application with documents and fee payment in the same flow")),
-            ("org", ("Javna i ažurna stranica sa pravilima po zemlji izdavanja", "A public, up-to-date page with the rules per country of issue")),
-            ("org", ("Rok za odluku i javan status zahteva", "A deadline for the decision and a public status of the application")),
-        ], intro=("Objašnjenje pravila je brzo, a šire priznavanje stranih dozvola traži sporazume ili izmenu propisa.", "Explaining the rules is quick; recognising more foreign licences takes agreements or a change in regulations.")),
-        faq(QA, ("Šta ako…", "What if…"), [
+        ]), "nav": ("Ko dobija", "Who gains")},
+        {**faq(QA, ("Šta ako…", "What if…"), [
             (("Menja li ovo ko mora da zameni dozvolu?", "Does this change who has to exchange a licence?"), ("Ne. Pravilo od šest meseci ostaje kakvo jeste, predlog samo čini jasnim kako se postupa.", "No. The six-month rule stays as it is; the proposal only makes it clear how to proceed.")),
             (("Šta je sa bezbednošću u saobraćaju?", "What about road safety?"), ("Provere koje danas važe ostaju. Razlika je u tome što ih unapred vidiš i što se dokumenta ne nose više puta.", "The checks that apply today stay. The difference is that you see them in advance and do not carry documents more than once.")),
-            (("Zašto javna stranica po zemljama?", "Why a public page per country?"), ("Jer pravila treba da budu vidljiva na jednom mestu, a ne da se saznaju tek na šalteru.", "Because the rules should be visible in one place, not discovered at the counter.")),
-        ]),
+        ]), "nav": ("Pitanja", "Q&A")},
     ],
 }

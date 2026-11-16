@@ -548,7 +548,7 @@ def build_all(ctx):
                 .replace("{{EYEBROW}}", B((cat_of(n)["sr"][0], cat_of(n)["en"][0])) + " · " + B(UI["idea"]) + f" {n:02d}")
                 .replace("{{H1}}", B(titles[n], "h1")).replace("{{TAGLINE}}", B(HERO_TEXT.get(n, taglines[n]), "p", "pg-tag"))
                 .replace("{{TIERLINE}}", B(tsub, "p", "pg-tier"))
-                .replace("{{EXTRA_HEAD}}", '<link rel="stylesheet" href="../../assets/posta-app.css?v=%s">' % ver if n in (1, 2, 9, 21, 22, 30, 48, 50) else "").replace("{{LOCAL}}", local).replace("{{HSTATS}}", hstats).replace("{{SECTIONS}}", sections)
+                .replace("{{EXTRA_HEAD}}", '<link rel="stylesheet" href="../../assets/posta-app.css?v=%s">' % ver if n in (1, 2, 9, 21, 22, 30, 47, 48, 50, 53) else "").replace("{{LOCAL}}", local).replace("{{HSTATS}}", hstats).replace("{{SECTIONS}}", sections)
                 .replace("{{RELATED}}", rel).replace("{{SOURCES}}", sources_html(parts))
                 .replace("{{VOTE}}", vote_html(n))
                 .replace("{{PREV}}", nb(prev_n, UI["prev"])).replace("{{NEXT}}", nb(next_n, UI["next"]))
@@ -652,3 +652,27 @@ def _portal9(b):
 
 
 CUSTOM["portal9"] = _portal9
+
+
+import screens_wl  # noqa: F401  (registers the Wallet and licence screens)
+
+CUSTOM.update({
+    "stages47": make_stages([
+        ("wallet", ("Isprava u novčaniku", "The document in the wallet"), ("Lična karta i boravak u Apple i Google novčaniku.", "ID and residence card in Apple and Google Wallet.")),
+        ("clock", ("Provera za sekundu", "A check in a second"), ("QR ili NFC, bez vađenja kartice.", "QR or NFC, without taking out a card.")),
+        ("shield", ("Deliš samo potrebno", "Share only what is needed"), ("Na primer samo da si punoletan.", "For example only that you are over 18.")),
+        ("check", ("Ista pravna snaga", "The same legal force"), ("Kao kartica, po ISO 18013-5 i EUDI.", "As the card, under ISO 18013-5 and EUDI.")),
+    ]),
+    "versus47": make_versus(("Celu karticu", "The whole card"), ("Pri svakoj proveri pokazuješ sve što je na njoj.", "At every check you show everything printed on it."),
+                            ("Jedan podatak", "One fact"), ("Čitač dobija samo traženo, na primer da si punoletan.", "The reader gets only what it asks for, for example that you are over 18."), words=True),
+    "w47_pair": make_pair("w47"),
+    "stages53": make_stages([
+        ("globe", ("Pravila po zemlji", "Rules per country"), ("Priznaje li se dozvola, treba li polaganje, dokumenta i taksa.", "Whether the licence is recognised, a test, documents and the fee.")),
+        ("send", ("Jedan onlajn tok", "One online flow"), ("Zahtev, dokumenta i taksa u istom koraku.", "The application, documents and fee in one step.")),
+        ("user", ("Uživo samo što mora", "In person only what must be"), ("Termin samo za korak koji ne ide onlajn.", "An appointment only for the step that cannot be done online.")),
+        ("clock", ("Status i rok", "Status and deadline"), ("Vidiš gde je zahtev i do kada stiže odluka.", "You see where it stands and when a decision is due.")),
+    ]),
+    "versus53": make_versus(("Forumi", "Forums"), ("Odgovore na „šta mi treba?” tražiš po blogovima i forumima.", "You look for the answer to “what do I need?” on blogs and forums."),
+                            ("Jedna stranica", "One page"), ("Pravila, dokumenta i taksa za tvoju zemlju, na jednom mestu.", "The rules, documents and fee for your country, in one place."), words=True),
+    "d53_pair": make_pair("d53"),
+})
