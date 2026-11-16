@@ -8,7 +8,7 @@
   };
 
   /* ---------- language ---------- */
-  var TITLES = { sr: "Digitalna Srbija · 59 ideja", en: "Digital Serbia · 59 ideas" };
+  var TITLES = { sr: "Digitalna Srbija · 60 ideja", en: "Digital Serbia · 60 ideas" };
 
   function applyLang(lang) {
     root.dataset.lang = lang;

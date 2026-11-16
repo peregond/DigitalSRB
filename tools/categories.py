@@ -1,4 +1,4 @@
-"""Thematic categories of the 59 ideas. The numbers stay as ids, the topic is what readers browse by."""
+"""Thematic categories of the 60 ideas. The numbers stay as ids, the topic is what readers browse by."""
 
 CATEGORIES = [
     {"id": "identity", "ideas": [2, 3, 5, 6, 7, 8, 18, 36, 47],
@@ -19,6 +19,9 @@ CATEGORIES = [
     {"id": "payments", "ideas": [17, 23, 28, 29, 42],
      "sr": ("Plaćanja", "Računi i takse na jednom mestu, i za one bez domaće kartice."),
      "en": ("Payments", "Bills and fees in one place, also for people without a local card.")},
+    {"id": "telecom", "ideas": [25],
+     "sr": ("Mobilni i internet", "Mesečno plaćanje bez ugovorne obaveze i bez penala."),
+     "en": ("Mobile and internet", "Monthly payment with no contract lock-in and no penalties.")},
     {"id": "health", "ideas": [10, 33, 40, 41, 60],
      "sr": ("Zdravlje", "Jedna aplikacija, jedna lista čekanja i rezultati svuda."),
      "en": ("Health", "One app, one waiting list and results everywhere.")},
@@ -40,8 +43,7 @@ CATEGORIES = [
 ]
 
 _ALL = sorted(i for c in CATEGORIES for i in c["ideas"])
-REMOVED = {25}  # merged into idea 9; the other numbers stay as they are so votes keep their ideas
-assert _ALL == [i for i in range(1, 61) if i not in REMOVED], "every idea must be in exactly one category"
+assert _ALL == list(range(1, 61)), "every idea must be in exactly one category"
 
 
 def cat_of(n):
@@ -50,6 +52,7 @@ def cat_of(n):
 
 # line icons (24x24, stroke) for the topic tiles on the home page
 ICONS = {
+    "telecom": "M7 2h10a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1zM11 18.5h2",
     "identity": "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10zM9 12l2 2 4-4",
     "counters": "M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zM12 6v6l4 2",
     "documents": "M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zM14 2v6h6M8 13h8M8 17h6",

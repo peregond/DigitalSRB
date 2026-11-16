@@ -275,7 +275,7 @@ def write_extras(ver):
 
 def main():
     intro, ideas, toc, src_items, src_note = parse()
-    assert sorted(ideas) == [i for i in range(1, 61) if i != 25], sorted(ideas)
+    assert sorted(ideas) == list(range(1, 61)), sorted(ideas)
 
     intro_html = ""
     for l in LANGS:
