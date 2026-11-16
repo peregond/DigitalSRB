@@ -17,7 +17,7 @@ from PIL import Image
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "assets" / "shots"
 TMP = ROOT / "tools" / "shots"
-W, H, SCALE = 1440, 810, 1.5
+W, H, SCALE = 1348, 730, 1.6   # the window only: transparent corners, no backdrop; the page adds the shadow
 
 ICON = {
     "home": "M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z",
@@ -52,10 +52,10 @@ def ic(n, cls=""):
 # ------------------------------------------------------------------ shared browser frame
 FRAME_CSS = """
 *{box-sizing:border-box;margin:0;padding:0}
-html,body{width:1440px;height:810px;overflow:hidden}
+html,body{width:1348px;height:730px;overflow:hidden;background:transparent}
 body{font-family:'Manrope','Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;position:relative}
-.win{position:absolute;left:46px;top:34px;right:46px;bottom:46px;border-radius:20px;background:#fff;overflow:hidden;display:flex;flex-direction:column;
-  box-shadow:0 40px 90px rgba(20,30,5,.28),0 6px 18px rgba(0,0,0,.14),0 0 0 1px rgba(0,0,0,.08)}
+.win{position:absolute;left:0;top:0;right:0;bottom:0;border-radius:20px;background:#fff;overflow:hidden;display:flex;flex-direction:column;
+  box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
 .chrome{height:48px;flex:none;display:flex;align-items:center;gap:9px;padding:0 18px}
 .chrome i{width:12px;height:12px;border-radius:50%;display:block}
 .chrome i:nth-child(1){background:#FF5F57}.chrome i:nth-child(2){background:#FEBC2E}.chrome i:nth-child(3){background:#28C840}
@@ -67,7 +67,7 @@ body{font-family:'Manrope','Inter',system-ui,sans-serif;-webkit-font-smoothing:a
 def page(css, body, bg):
     return (f'<!doctype html><html><head><meta charset="utf-8"><link rel="preconnect" href="https://fonts.googleapis.com">'
             f'<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">'
-            f'<style>{FRAME_CSS}{css}</style></head><body style="background:{bg}">{body}</body></html>')
+            f'<style>{FRAME_CSS}{css}</style></head><body style="background:transparent">{body}</body></html>')
 
 
 # ------------------------------------------------------------------ the new portal
@@ -328,7 +328,7 @@ EPOREZI_OLD = """
 
 def old_html(inner):
     return (f'<!doctype html><html><head><meta charset="utf-8"><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;800&display=swap" rel="stylesheet">'
-            f'<style>{FRAME_CSS}{OLD_CSS}</style></head><body style="background:linear-gradient(135deg,#D9DDE3,#EEF0F3)">{inner}</body></html>')
+            f'<style>{FRAME_CSS}{OLD_CSS}</style></head><body style="background:transparent">{inner}</body></html>')
 
 
 def main():
@@ -344,11 +344,11 @@ def main():
     for name, html in jobs.items():
         (TMP / f"{name}.html").write_text(html, encoding="utf-8")
     js = ROOT / "tools" / "render_shots.js"
-    subprocess.run(["node", str(js), str(TMP), str(W), str(H), str(SCALE)], check=True)
+    subprocess.run(["node", str(js), str(TMP), str(W), str(H), str(SCALE), "transparent"], check=True)
     for name in jobs:
         png = TMP / f"{name}.png"
-        im = Image.open(png).convert("RGB")
-        im.save(OUT / f"{name}.webp", "WEBP", quality=88, method=6)
+        im = Image.open(png).convert("RGBA")
+        im.save(OUT / f"{name}.webp", "WEBP", quality=90, method=6, alpha_quality=100)
         png.unlink()
         print(name, im.size, (OUT / f"{name}.webp").stat().st_size // 1024, "KB")
 

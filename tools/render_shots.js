@@ -10,7 +10,7 @@ const path = require('path');
     await page.goto('file://' + path.resolve(dir, f), { waitUntil: 'networkidle' });
     await page.evaluate(() => document.fonts.ready);
     await page.waitForTimeout(400);
-    await page.screenshot({ path: path.resolve(dir, f.replace('.html', '.png')) });
+    await page.screenshot({ path: path.resolve(dir, f.replace('.html', '.png')), omitBackground: process.argv[6] === 'transparent' });
   }
   await browser.close();
 })();

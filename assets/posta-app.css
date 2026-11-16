@@ -532,3 +532,9 @@
 /* contrast fixes found by the automated audit */
 .pa-n{color:#C4000F}
 .pa-chip.blue{color:var(--navy)}
+
+/* the showcase images are just the window (transparent corners): the shadow follows the shape */
+.shot img{border-radius:0;box-shadow:none;filter:drop-shadow(0 14px 28px rgba(20,30,5,.2)) drop-shadow(0 2px 6px rgba(0,0,0,.1))}
+.shot.new img{border-radius:0;box-shadow:none;filter:drop-shadow(0 26px 50px rgba(20,30,5,.26)) drop-shadow(0 3px 10px rgba(0,0,0,.12))}
+.zoom{border-radius:0}
+.lightbox img{border-radius:0;box-shadow:none;filter:drop-shadow(0 40px 80px rgba(0,0,0,.5))}
