@@ -50,7 +50,9 @@ FEATURED = [
 ]
 
 # Ready-made pictures that replace the drawn SVG of an idea (assets/ideas/NN.webp).
-PHOTOS = {55: {"sr": "Gomila papira sa pečatima, a papiri lete naviše (vizuelizacija uz pomoć AI)",
+PHOTOS = {48: {"sr": "Obrazac prijave boravišta stranca koji se raspada u vazduhu iznad Beograda (vizuelizacija uz pomoć AI)",
+               "en": "A foreigner's registration-of-stay form dissolving into the air above Belgrade (AI-made visual)", "wh": (1100, 699)},
+          55: {"sr": "Gomila papira sa pečatima, a papiri lete naviše (vizuelizacija uz pomoć AI)",
                "en": "A pile of stamped paperwork with sheets flying up from it (AI-made visual)", "wh": (1100, 614)},
           34: {"sr": "Obaveštenje eUprave na telefonu: Vaš pasoš ističe za 30 dana (vizuelizacija uz pomoć AI)",
                "en": "An eUprava notification on a phone: your passport expires in 30 days (AI-made visual)"},
