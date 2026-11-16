@@ -88,7 +88,7 @@ ART[22] = (GREEN, f'''
 {"".join(f'<circle cx="{132+i*34}" cy="{130+j*34}" r="5" fill="{GREY}"/>' for j in range(3) for i in range(5) if (i, j) != (2, 1))}
 <circle class="pu" cx="200" cy="164" r="17" fill="{GREEN}" opacity=".2"/>{check(200,164,14,GREEN)}</g>
 <g class="fl2"><circle cx="300" cy="226" r="32" fill="{INK}" filter="url(#s)"/>
-<circle cx="300" cy="226" r="17" fill="none" stroke="#fff" stroke-width="5"/><path d="M300 215v22M293 222h10a4 4 0 0 1 0 8h-8" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round"/></g>
+<path d="M284 222l4-10h24l4 10z" fill="#fff"/><rect x="287" y="222" width="26" height="16" rx="2" fill="none" stroke="#fff" stroke-width="3.5"/><rect x="296" y="228" width="8" height="10" rx="1.5" fill="#fff"/></g>
 ''')
 
 # 30 never ask for papers the state already has

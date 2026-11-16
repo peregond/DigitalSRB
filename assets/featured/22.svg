@@ -27,6 +27,6 @@
 <circle cx="132" cy="130" r="5" fill="#D9D5CF"/><circle cx="166" cy="130" r="5" fill="#D9D5CF"/><circle cx="200" cy="130" r="5" fill="#D9D5CF"/><circle cx="234" cy="130" r="5" fill="#D9D5CF"/><circle cx="268" cy="130" r="5" fill="#D9D5CF"/><circle cx="132" cy="164" r="5" fill="#D9D5CF"/><circle cx="166" cy="164" r="5" fill="#D9D5CF"/><circle cx="234" cy="164" r="5" fill="#D9D5CF"/><circle cx="268" cy="164" r="5" fill="#D9D5CF"/><circle cx="132" cy="198" r="5" fill="#D9D5CF"/><circle cx="166" cy="198" r="5" fill="#D9D5CF"/><circle cx="200" cy="198" r="5" fill="#D9D5CF"/><circle cx="234" cy="198" r="5" fill="#D9D5CF"/><circle cx="268" cy="198" r="5" fill="#D9D5CF"/>
 <circle class="pu" cx="200" cy="164" r="17" fill="#1F6FEB" opacity=".2"/><circle cx="200" cy="164" r="14" fill="#1F6FEB"/><path d="M194.1 164.3l3.9 4.2 7.8-8.4" fill="none" stroke="#fff" stroke-width="3.9" stroke-linecap="round" stroke-linejoin="round"/></g>
 <g class="fl2"><circle cx="300" cy="226" r="32" fill="#111" filter="url(#s)"/>
-<circle cx="300" cy="226" r="17" fill="none" stroke="#fff" stroke-width="5"/><path d="M300 215v22M293 222h10a4 4 0 0 1 0 8h-8" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round"/></g>
+<path d="M284 222l4-10h24l4 10z" fill="#fff"/><rect x="287" y="222" width="26" height="16" rx="2" fill="none" stroke="#fff" stroke-width="3.5"/><rect x="296" y="228" width="8" height="10" rx="1.5" fill="#fff"/></g>
 
 </svg>
