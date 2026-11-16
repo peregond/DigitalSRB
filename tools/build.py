@@ -50,7 +50,9 @@ FEATURED = [
 ]
 
 # Ready-made pictures that replace the drawn SVG of an idea (assets/ideas/NN.webp).
-PHOTOS = {47: {"sr": "Pasoš Republike Srbije u Apple Wallet-u na telefonu (vizuelizacija uz pomoć AI)",
+PHOTOS = {34: {"sr": "Obaveštenje eUprave na telefonu: Vaš pasoš ističe za 30 dana (vizuelizacija uz pomoć AI)",
+               "en": "An eUprava notification on a phone: your passport expires in 30 days (AI-made visual)"},
+          47: {"sr": "Pasoš Republike Srbije u Apple Wallet-u na telefonu (vizuelizacija uz pomoć AI)",
                "en": "A Serbian passport card in Apple Wallet on a phone (AI-made visual)", "cut": (955, 1000)},
           4: {"sr": "Diploma sa QR kodom, skeniranje telefonom i stranica eUprave sa potvrdom da je dokument važeći (vizuelizacija uz pomoć AI)",
               "en": "A diploma with a QR code, scanned with a phone, and an eUprava page confirming the document is valid (AI-made visual)"}}
@@ -137,7 +139,7 @@ def wide_set(nums, ideas):
     """Rich ideas take a full row; so does a plain one left without a neighbour."""
     wide, run = set(), []
     for n in list(nums) + [None]:
-        if n is None or is_rich(ideas[n]):
+        if n is None or (n in PHOTOS or is_rich(ideas[n])):
             if len(run) % 2:
                 wide.add(run[-1])
             run = []
