@@ -277,7 +277,7 @@ def main():
            .replace("{{TIER_CHIPS}}", tier_chips).replace("{{CAT_CHIPS}}", cat_chips).replace("{{CAT_TILES}}", cat_tiles)
            .replace("{{FEATURED}}", render_featured(toc)).replace("{{CAT_SECTIONS}}", cat_sections).replace("{{SOURCES}}", src_items)
            .replace("{{SOURCES_NOTE}}", bi(src_note, "p", "note")))
-    ver = hashlib.md5(b"".join((ROOT / "assets" / f).read_bytes() for f in ("styles.css", "page.css", "posta-app.css", "app.js", "config.js"))).hexdigest()[:8]
+    ver = hashlib.md5(b"".join((ROOT / "assets" / f).read_bytes() for f in ("styles.css", "page.css", "posta-app.css", "app.js", "config.js", "translit.js"))).hexdigest()[:8]
     out = out.replace("{{V}}", ver)
     assert "{{" not in out
     (ROOT / "index.html").write_text(out, encoding="utf-8")

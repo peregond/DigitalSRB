@@ -15,6 +15,7 @@
     root.lang = lang === "sr" ? "sr-Latn" : "en";
     var d = document.body.dataset;
     document.title = (lang === "sr" ? d.titleSr : d.titleEn) || TITLES[lang];
+    if (lang === "sr" && window.Translit && root.classList.contains("cyr")) document.title = window.Translit.toCyr(document.title);
     $$("[data-set-lang]").forEach(function (b) {
       b.setAttribute("aria-pressed", String(b.dataset.setLang === lang));
     });
@@ -51,6 +52,64 @@
   applyLang(root.dataset.lang === "en" ? "en" : "sr");
   $$("[data-set-lang]").forEach(function (b) {
     b.addEventListener("click", function () { setLang(b.dataset.setLang); });
+  });
+
+  /* ---------- script: Latin / Cyrillic (Serbian only) ---------- */
+  var cyr = false, textOrig = new Map(), attrOrig = new Map();
+  var T = window.Translit;
+  function srTextNodes() {
+    var out = [];
+    $$('[lang="sr-Latn"]').forEach(function (el) {
+      if (el === root) return;
+      var w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null), n;
+      while ((n = w.nextNode())) {
+        if (/\S/.test(n.nodeValue) && !textOrig.has(n) && !/^(SCRIPT|STYLE)$/.test(n.parentNode.nodeName)) out.push(n);
+      }
+    });
+    return out;
+  }
+  function applyScript(on) {
+    if (!T) return;
+    cyr = on;
+    if (on) {
+      srTextNodes().forEach(function (n) { textOrig.set(n, n.nodeValue); });
+      textOrig.forEach(function (orig, n) { n.nodeValue = T.toCyr(orig); });
+      $$('[lang="sr-Latn"] [alt], [lang="sr-Latn"][alt], [lang="sr-Latn"][aria-label], [lang="sr-Latn"] [aria-label]').forEach(function (el) {
+        ["alt", "aria-label"].forEach(function (a) {
+          if (!el.hasAttribute(a)) return;
+          if (!attrOrig.has(el)) attrOrig.set(el, {});
+          var o = attrOrig.get(el); if (!(a in o)) o[a] = el.getAttribute(a);
+          el.setAttribute(a, T.toCyr(o[a]));
+        });
+      });
+    } else {
+      textOrig.forEach(function (orig, n) { n.nodeValue = orig; });
+      attrOrig.forEach(function (o, el) { Object.keys(o).forEach(function (a) { el.setAttribute(a, o[a]); }); });
+    }
+    $$("[data-set-script]").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.setScript === (on ? "cyr" : "lat"))); });
+    $$("[data-ph-sr]").forEach(function (el) { el.placeholder = on ? T.toCyr(el.dataset.phSr) : el.dataset.phSr; });
+    var d = document.body.dataset;
+    if (root.dataset.lang === "sr") { var base = d.titleSr || TITLES.sr; document.title = on ? T.toCyr(base) : base; }
+    root.classList.toggle("cyr", on);
+  }
+  (function () {
+    var q = null;
+    try { q = new URLSearchParams(location.search).get("script"); } catch (e) { /* ignore */ }
+    var pref = q || store.get("dsrb.script");
+    if (pref === "cyr") applyScript(true);
+  })();
+  $$("[data-set-script]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var on = b.dataset.setScript === "cyr";
+      if (on === cyr) return;
+      applyScript(on);
+      store.set("dsrb.script", on ? "cyr" : "lat");
+      try {
+        var url = new URL(location.href);
+        if (on) url.searchParams.set("script", "cyr"); else url.searchParams.delete("script");
+        history.replaceState(null, "", url);
+      } catch (e) { /* file:// */ }
+    });
   });
 
   /* ---------- filters: topic and difficulty ---------- */

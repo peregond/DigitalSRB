@@ -13,9 +13,9 @@
 <script>(function(){var d=document.documentElement,l;try{l=new URLSearchParams(location.search).get('lang')||localStorage.getItem('dsrb.lang')}catch(e){}if(l!=='sr'&&l!=='en'){l='sr'}d.dataset.lang=l;d.lang=l==='sr'?'sr-Latn':'en';d.classList.add('js')})();</script>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Manrope:wght@400;500;700;800&subset=latin-ext,cyrillic&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../../assets/styles.css?v=6d44b51e">
-<link rel="stylesheet" href="../../assets/page.css?v=6d44b51e">
-<link rel="stylesheet" href="../../assets/posta-app.css?v=6d44b51e">
+<link rel="stylesheet" href="../../assets/styles.css?v=6d145cb6">
+<link rel="stylesheet" href="../../assets/page.css?v=6d145cb6">
+<link rel="stylesheet" href="../../assets/posta-app.css?v=6d145cb6">
 </head>
 <body class="pg" data-title-sr="Reforma pošte · Digitalna Srbija" data-title-en="Pošta reform · Digital Serbia" style="--th:#F1BD40;--th2:#1D3F72;--hl:#F1BD40;--tint:#FEF9EE;--tint2:#FCF3DD">
 <a class="skip" href="#main"><span lang="sr-Latn">Preskoči na sadržaj</span><span lang="en">Skip to content</span></a>
@@ -30,6 +30,10 @@
     <div class="lang" role="group" aria-label="Jezik / Language">
       <button type="button" data-set-lang="sr" aria-pressed="true">SR</button>
       <button type="button" data-set-lang="en" aria-pressed="false">EN</button>
+    </div>
+    <div class="lang script" role="group" aria-label="Pismo / Script">
+      <button type="button" data-set-script="lat" aria-pressed="true">Lat</button>
+      <button type="button" data-set-script="cyr" aria-pressed="false">Ћир</button>
     </div>
   </div>
 </nav>
@@ -240,7 +244,8 @@
   </div>
 </footer>
 
-<script src="../../assets/config.js?v=6d44b51e"></script>
-<script src="../../assets/app.js?v=6d44b51e"></script>
+<script src="../../assets/translit.js?v=6d145cb6"></script>
+<script src="../../assets/config.js?v=6d145cb6"></script>
+<script src="../../assets/app.js?v=6d145cb6"></script>
 </body>
 </html>

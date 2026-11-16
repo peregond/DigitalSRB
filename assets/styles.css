@@ -244,3 +244,9 @@ html:not(.js) .fcard{opacity:1;transform:none}
 .drag.dragging{cursor:grabbing;user-select:none;-webkit-user-select:none}
 .drag.dragging a{pointer-events:none}
 .drag img{-webkit-user-drag:none;user-select:none}
+
+/* script switch (Latin / Cyrillic), only for Serbian */
+.lang.script{margin-left:-8px}
+.lang.script button{font-size:11.5px;padding:4px 10px}
+html[data-lang="en"] .lang.script{display:none}
+@media (max-width:760px){.lang.script{margin-left:0}}
