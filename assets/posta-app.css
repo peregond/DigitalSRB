@@ -1,12 +1,14 @@
 /* Concept screens for the Pošta Srbije app. Static visual, all values are placeholders. */
-.pa{--blue:#0C4076;--navy:#0A335F;--red:#C6363C;--yellow:#FBBA00;--bg:#F2F5FA;--tx:#14213D;--mu:#6A768C;--ln:#E3E8F0;--ok:#12A150}
+.pa{--blue:#0C4076;--blue2:#145BA3;--navy:#082C54;--red:#C6363C;--yellow:#FBBA00;--bg:#F3F6FB;--tx:#101D38;--mu:#66738A;--ln:#E1E7F0;--ok:#12A150}
 .pa-row{display:flex;gap:clamp(22px,3vw,40px);overflow-x:auto;scroll-snap-type:x proximity;padding:8px 22px 36px;margin:0 -22px;scrollbar-width:thin}
 .pa-fig{flex:none;width:292px;scroll-snap-align:center}
 .pa-fig figcaption{display:grid;gap:4px;margin-top:22px;padding:0 6px}
 .pa-fig figcaption b{font-family:var(--display);font-size:15px;line-height:1.25;color:var(--ink)}
 .pa-fig figcaption small{font-size:13px;color:var(--muted);line-height:1.4}
 .pa-n{font-family:var(--display);font-size:12px;font-weight:800;color:var(--accent);margin-bottom:2px}
-.pa-note{font-size:13px;color:var(--muted);margin-top:4px}
+.pa-note{font-size:13px;color:var(--muted);margin:0;line-height:1.45}
+.pa-ai{display:flex;gap:12px;align-items:flex-start;margin-top:4px;padding-top:18px;border-top:1px solid var(--line);max-width:46em}
+.pa-ai-tag{flex:none;font-family:var(--display);font-size:11px;font-weight:800;letter-spacing:.06em;color:#fff;background:var(--ink);border-radius:8px;padding:4px 8px}
 
 /* device */
 .pa-phone{position:relative;width:292px;height:604px;background:#0b0b0c;border-radius:48px;padding:9px;box-shadow:0 24px 60px rgba(10,51,95,.28),0 2px 6px rgba(0,0,0,.2)}
@@ -28,7 +30,7 @@
 .pa-card{background:#fff;border-radius:18px;padding:13px 14px;box-shadow:0 1px 2px rgba(10,51,95,.06),0 6px 16px rgba(10,51,95,.06);display:grid;gap:6px}
 .pa-k{font-size:11px;font-weight:800;letter-spacing:.04em;color:var(--mu)}
 .pa-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:13px;border-radius:14px;font-weight:800;font-size:13px;border:0;font-family:inherit}
-.pa-btn.primary{background:var(--blue);color:#fff}
+.pa-btn.primary{background:linear-gradient(135deg,var(--blue2),var(--blue));color:#fff;box-shadow:0 8px 18px rgba(12,64,118,.28)}
 .pa-btn.ghost{background:#fff;color:var(--blue);box-shadow:inset 0 0 0 1.5px var(--blue)}
 .pa-chip{display:inline-flex;align-self:flex-start;padding:3px 9px;border-radius:999px;font-size:10px;font-weight:800;margin-top:4px}
 .pa-chip.ok{background:#DDF4E6;color:#0C7A3B}.pa-chip.blue{background:#DCE8F6;color:var(--blue)}.pa-chip.grey{background:#ECEFF4;color:var(--mu)}.pa-chip.warn{background:#FFF0CC;color:#8A5A00}
@@ -38,6 +40,7 @@
 .pa-ico{display:grid;place-items:center;width:34px;height:34px;border-radius:11px;background:#E7EEF8;color:var(--blue);flex:none;font-style:normal}
 
 /* tab bar */
+.pa-tabs::before{content:"";position:absolute;left:0;right:0;top:-1px;height:3px;background:linear-gradient(90deg,var(--red) 0 33.3%,var(--blue2) 33.3% 66.6%,#CFD8E6 66.6%)}
 .pa-tabs{flex:none;display:flex;align-items:flex-end;justify-content:space-around;padding:8px 8px 18px;background:#fff;border-top:1px solid var(--ln);position:relative}
 .pa-tab{display:grid;justify-items:center;gap:2px;color:#9AA5B8;font-size:9.5px;font-weight:700;width:52px}
 .pa-tab.on{color:var(--blue)}.pa-tab svg{width:21px;height:21px}
@@ -45,7 +48,7 @@
 .pa-tab-qr svg{width:22px;height:22px}
 
 /* login */
-.pa-hero-login{background:linear-gradient(160deg,var(--blue),var(--navy));color:#fff;margin:-8px -16px 0;padding:26px 22px 28px;display:grid;gap:10px;border-radius:0 0 30px 30px}
+.pa-hero-login{background:radial-gradient(70% 60% at 100% 0%,rgba(198,54,60,.55),transparent 62%),linear-gradient(160deg,var(--blue2),var(--navy));color:#fff;margin:-8px -16px 0;padding:26px 22px 28px;display:grid;gap:10px;border-radius:0 0 30px 30px}
 .pa-hero-login h3{color:#fff;font-size:22px}
 .pa-hero-login p{font-size:12.5px;color:rgba(255,255,255,.82)}
 .pa-logo{display:grid;place-items:center;width:46px;height:46px;border-radius:14px;background:var(--yellow);color:var(--navy)}
@@ -61,7 +64,7 @@
 .pa-bell u{position:absolute;top:7px;right:8px;width:7px;height:7px;border-radius:50%;background:var(--red);border:1.5px solid #fff}
 .pa-search{display:flex;align-items:center;gap:8px;background:#fff;border-radius:14px;padding:10px 12px;color:var(--mu);font-weight:600;box-shadow:0 1px 2px rgba(10,51,95,.05)}
 .pa-scan{margin-left:auto;display:grid;place-items:center;width:28px;height:28px;border-radius:9px;background:#E7EEF8;color:var(--blue)}
-.pa-card.hero{background:linear-gradient(150deg,var(--blue),var(--navy));color:#fff;padding:14px;gap:8px}
+.pa-card.hero{background:radial-gradient(70% 90% at 100% 0%,rgba(198,54,60,.5),transparent 62%),linear-gradient(150deg,var(--blue2),var(--navy));color:#fff;padding:14px;gap:8px}
 .pa-card.hero .pa-k{color:#fff;font-size:14px;font-family:var(--display)}
 .pa-prog{display:flex;align-items:center;gap:4px;position:relative}
 .pa-prog i{flex:1;height:5px;border-radius:3px;background:rgba(255,255,255,.28)}.pa-prog i.d{background:var(--yellow)}.pa-prog i.n{background:linear-gradient(90deg,var(--yellow),rgba(255,255,255,.28))}
@@ -77,7 +80,7 @@
 .pa-title h4{font-size:18px}
 .pa-seg{display:flex;gap:4px;background:#E3E9F2;border-radius:12px;padding:3px}
 .pa-seg span{flex:1;display:flex;justify-content:center;align-items:center;gap:5px;padding:7px 2px;border-radius:9px;font-weight:700;color:var(--mu);font-size:10.5px;white-space:nowrap}
-.pa-seg span.on{background:#fff;color:var(--blue);box-shadow:0 1px 3px rgba(10,51,95,.12)}
+.pa-seg span.on{background:#fff;color:var(--red);box-shadow:0 1px 3px rgba(10,51,95,.12)}
 .pa-seg b{background:var(--red);color:#fff;border-radius:999px;padding:0 5px;font-size:9px}
 .pa-list{display:grid;gap:8px}
 .pa-item,.pa-branch{display:flex;gap:10px;align-items:center;background:#fff;border-radius:16px;padding:10px 12px;box-shadow:0 1px 2px rgba(10,51,95,.05)}
@@ -98,14 +101,14 @@
 .pa-steps li.done::before{background:var(--blue)}
 .pa-steps i{flex:none;width:22px;height:22px;border-radius:50%;display:grid;place-items:center;background:#fff;box-shadow:inset 0 0 0 2px var(--ln);color:#fff}
 .pa-steps i svg{width:12px;height:12px;stroke-width:3}
-.pa-steps .done i{background:var(--blue);box-shadow:none}
+.pa-steps .done i{background:var(--blue2);box-shadow:none}
 .pa-steps .now i{background:var(--yellow);box-shadow:0 0 0 4px rgba(251,186,0,.3)}
 .pa-steps b{display:block;font-size:12px}
 .pa-steps .todo b{color:var(--mu)}
 
 /* qr screens */
 .pa-qrcard{background:#fff;border-radius:22px;padding:16px;display:grid;justify-items:center;gap:8px;text-align:center;box-shadow:0 1px 2px rgba(10,51,95,.06),0 10px 24px rgba(10,51,95,.08)}
-.pa-qrframe{padding:12px;border-radius:18px;background:#fff;box-shadow:inset 0 0 0 3px var(--blue)}
+.pa-qrframe{padding:12px;border-radius:18px;background:#fff;box-shadow:inset 0 0 0 3px var(--blue),0 0 0 4px rgba(198,54,60,.18)}
 .pa-qrframe svg{display:block;width:150px;height:150px}
 .pa-qrcard p{font-weight:800;font-size:13px}
 .pa-ips{font-size:10px!important;letter-spacing:.14em;color:var(--red);font-family:var(--display)}

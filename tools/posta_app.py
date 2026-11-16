@@ -220,8 +220,9 @@ def phones_html():
     for i, (fn, title, desc) in enumerate(SCREENS, 1):
         figs += (f'<figure class="pa-fig">{fn()}<figcaption><span class="pa-n">{i:02d}</span>{B(title[0], title[1], "b")}'
                  f'{B(desc[0], desc[1], "small")}</figcaption></figure>')
-    note = B("Konceptualni prikaz. Imena, brojevi pošiljki, iznosi i poslovnice su primeri.",
-             "A concept visual. Names, tracking numbers, amounts and branches are examples.", "p", "pa-note")
+    note = B("Vizualizacija je napravljena uz pomoć veštačke inteligencije (AI) i predstavlja koncept. Imena, brojevi pošiljki, iznosi i poslovnice su primeri.",
+             "This visual was created with the help of AI and shows a concept. Names, tracking numbers, amounts and branches are examples.", "p", "pa-note")
+    note = f'<div class="pa-ai"><span class="pa-ai-tag">AI</span>{note}</div>'
     return f'<div class="pa"><div class="pa-row">{figs}</div>{note}</div>'
 
 
