@@ -250,8 +250,9 @@ def c_licence53(b):
 
 STAGES = [
     ("search", "p1", ("Analiza i procesi", "Analysis and processes"), ("Popis svega na papiru i jasan plan digitalizacije, cilj 99,9%.", "An inventory of everything on paper and a clear digitisation plan, aiming at 99.9%.")),
-    ("home", "p2", ("Aplikacije za klijente i zaposlene", "Apps for customers and staff"), ("Nova aplikacija, paket jednim QR kodom i digitalne poslovnice.", "A new app, a parcel with one QR code and digital branches.")),
-    ("clock", "p3", ("Carina onlajn i za jedan dan", "Customs online and in a day"), ("Sve procedure onlajn, 99,9% pošiljki ocarinjeno za jedan radni dan.", "Every procedure online, 99.9% of parcels cleared in one working day.")),
+    ("home", "p2", ("Aplikacija za klijente", "App for customers"), ("Sve usluge i paket jednim QR kodom, u jednoj aplikaciji.", "Every service and a parcel with one QR code, in one app.")),
+    ("user", "p3", ("Aplikacija za zaposlene", "App for staff"), ("Šalter, poslovnica, logistika, carina i poštar u jednom sistemu.", "The counter, branch, logistics, customs and postman in one system.")),
+    ("clock", "p4", ("Carina onlajn i za jedan dan", "Customs online and in a day"), ("Sve procedure onlajn, 99,9% pošiljki ocarinjeno za jedan radni dan.", "Every procedure online, 99.9% of parcels cleared in one working day.")),
 ]
 
 
@@ -295,29 +296,42 @@ def _sub(sr_en, intro=None):
 
 def c_posta_part2(b):
     import posta_app
-    clients = (_sub(("Za klijente: aplikacija", "For customers: the app"),
-                    ("Jedna prijava preko eUprave, praćenje, preuzimanje, carina i plaćanje, na jednom mestu.",
-                     "One sign-in through eUprava, tracking, pickup, customs and payment in one place.")) + posta_app.phones_html())
-    staff = (_sub(("Za zaposlene: aplikacija i šalter", "For staff: the app and the counter"),
-                  ("QR je unapred potvrđen jer je prijava već dvofaktorska, pa službenik samo skenira, a poštar na adresi pravi IPS QR za doplatu. Ništa se ne kuca ručno i lična karta se ne prepisuje.",
-                   "The QR is verified in advance because the sign-in is already two-factor, so the clerk only scans, and the postman creates an IPS QR for a top-up at the door. Nothing is typed by hand and the ID is not copied."))
-             + r_flow(POSTA_QR_FLOW) + posta_app.pair_html("emp"))
-    return clients + staff
+    return (posta_app.phones_html()
+            + _sub(("Paket jednim QR kodom", "A parcel with one QR code"),
+                   ("QR je unapred potvrđen jer je prijava u aplikaciju već dvofaktorska. Isti QR radi za plaćanja i druge državne usluge na pošti.",
+                    "The QR is verified in advance because the app login is already two-factor. The same QR works for payments and other state services at the post office."))
+            + r_flow(POSTA_QR_FLOW))
 
 
 def c_posta_part3(b):
-    import posta_app
+    import posta_app as pa
+    return (_sub(("Šalter", "The counter"),
+                 ("Službenik skenira QR i odmah vidi ceo slučaj, a prijem pošiljke ide iz podataka iz aplikacije.", "The clerk scans the QR and sees the whole case at once, and accepting a parcel runs on the data from the app."))
+            + pa.web_gallery([(pa.w_clerk, ("Šalter: preuzimanje paketa", "Counter: handing over a parcel")), (pa.w_intake, ("Šalter: prijem pošiljke", "Counter: accepting a parcel"))])
+            + _sub(("Poslovnica i logistika", "Branch and logistics"),
+                   ("Upravnik vidi red, čekanje i udeo papira u realnom vremenu, a logistika tok svake pošiljke i samo izuzetke.", "The manager sees the queue, the wait and the share of paper in real time, and logistics sees the flow of every parcel and only the exceptions."))
+            + pa.web_gallery([(pa.w_dash, ("Upravnik: poslovnica danas", "Manager: the branch today")), (pa.w_pipeline, ("Logistika: tok pošiljki", "Logistics: the parcel flow"))])
+            + _sub(("Poštar", "The postman"),
+                   ("Ruta za dan, adresa i doplata na vratima preko NBS IPS QR koda.", "The day's route, the address and a top-up at the door by an NBS IPS QR."))
+            + pa.phone_pair([(pa.s_route, ("Poštar: ruta za danas", "Postman: today's route")), (pa.s_postman, ("Poštar: doplata na adresi", "Postman: top-up at the door"))]))
+
+
+def c_posta_part4(b):
+    import posta_app as pa
     bars = r_bars({"rows": [(("Danas", "Today"), 35, ("35+ dana", "35+ days"), "lo"), (("Cilj", "Target"), 1, ("1 radni dan", "1 working day"), "hi")],
                    "note": ("Danas nema zakonskog roka za carinjenje. Izvor: Kurir, pošiljke na carini i više od 35 dana.",
                             "Today there is no legal deadline for clearance. Source: Kurir, parcels at customs for over 35 days.")})
     return (_sub(("Deklaracija i plaćanje onlajn", "Declaration and payment online"),
                  ("Deklarišeš u aplikaciji, unapred vidiš javni obračun i plaćaš onlajn, a ako ipak treba doplatiti na adresi, koristiš NBS IPS QR.",
                   "You declare in the app, see a public calculation up front and pay online, and if something is still due at the door you use an NBS IPS QR."))
-            + posta_app.pair_html("p3")
+            + pa.pair_html("p3")
             + _sub(("Carinjenje za jedan radni dan", "Clearance within one working day"),
                    ("Sistem je gotovo potpuno automatizovan, a na odluku automata možeš da se žališ, pa je pregleda živ čovek.",
                     "The system is almost fully automated, and you can appeal an automatic decision so a human reviews it."))
-            + bars + posta_app.pair_html("p4"))
+            + bars + pa.pair_html("p4")
+            + _sub(("Carinska služba iznutra", "Inside the customs service"),
+                   ("Većinu odluka donosi sistem, a službenik pregleda samo žalbe.", "The system makes most decisions, and the officer reviews only the appeals."))
+            + pa.web_gallery([(pa.w_customs, ("Carinik: odluke i žalbe", "Officer: decisions and appeals"))]))
 
 
 def c_posta_app(b):
@@ -359,7 +373,7 @@ def c_countries22(b):
     return f'<div class="pg-countries">{cards}</div>'
 
 
-CUSTOM = {"posta_target": c_posta_target, "posta_part2": c_posta_part2, "posta_part3": c_posta_part3, "stages22": c_stages22, "versus22": c_versus22, "countries22": c_countries22, "biz_c1": _pair("c1"), "posta_p2": _pair("p2"), "posta_p3": _pair("p3"), "posta_p4": _pair("p4"), "posta_stages": c_posta_stages, "posta_app": c_posta_app, "licence53": c_licence53, "clerk": c_clerk, "journey22": c_journey22, "network30": c_network30, "stats30": c_stats30,
+CUSTOM = {"posta_target": c_posta_target, "posta_part2": c_posta_part2, "posta_part3": c_posta_part3, "posta_part4": c_posta_part4, "stages22": c_stages22, "versus22": c_versus22, "countries22": c_countries22, "biz_c1": _pair("c1"), "posta_p2": _pair("p2"), "posta_p3": _pair("p3"), "posta_p4": _pair("p4"), "posta_stages": c_posta_stages, "posta_app": c_posta_app, "licence53": c_licence53, "clerk": c_clerk, "journey22": c_journey22, "network30": c_network30, "stats30": c_stats30,
           "phone47": c_phone47, "border48": c_border48, "speed50": c_speed50}
 RENDER = {"text": r_text, "cards": r_cards, "flow": r_flow, "steps": r_steps, "bars": r_bars, "table": r_table,
           "check": r_check, "faq": r_faq}

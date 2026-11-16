@@ -209,10 +209,10 @@ PAGES[21] = {
     "stats": [],
     "related": [4, 17, 28, 29],
     "blocks": [
-        {**custom("posta_stages", ("Pregled", "Overview"), ("Tri koraka jedne reforme", "Three steps of one reform"),
-                  intro=("Pošta Srbije je mesto gde se država svakodnevno susreće sa građaninom, a veliki deo posla još ide na papiru. Predlog ima tri koraka.",
-                         "Pošta Srbije is where the state meets the citizen every day, and much of the work still runs on paper. The proposal has three steps.")), "cls": "compact"},
-        steps(("1/3", "1/3"), ("Analiza svega što je još na papiru", "An audit of everything still on paper"), [
+        {**custom("posta_stages", ("Pregled", "Overview"), ("Četiri koraka jedne reforme", "Four steps of one reform"),
+                  intro=("Pošta Srbije je mesto gde se država svakodnevno susreće sa građaninom, a veliki deo posla još ide na papiru. Predlog ima četiri koraka.",
+                         "Pošta Srbije is where the state meets the citizen every day, and much of the work still runs on paper. The proposal has four steps.")), "cls": "compact"},
+        steps(("1/4", "1/4"), ("Analiza svega što je još na papiru", "An audit of everything still on paper"), [
             (("Popis", "Inventory"), ("Svaki papir, obrazac, pečat i šalterski korak u pošti, na jednom spisku.", "Every paper, form, stamp and counter step in the post, on one list.")),
             (("Mapa procesa", "Process map"), ("Za svaki korak: ko ga radi, koji se podaci unose i kuda idu dalje.", "For each step: who does it, which data is entered and where it goes next.")),
             (("Novi tok", "New flow"), ("Svaki papirni korak dobija jasan digitalni, bez duplih unosa i kopija.", "Each paper step gets a clear digital one, with no double entry or copies.")),
@@ -220,10 +220,13 @@ PAGES[21] = {
         ], id="p1", extra="posta_target",
               intro=("Pre nego što gradimo nešto novo, radimo punu analizu svega što pošta danas radi na papiru i ručno, i pravimo jasan proces kako da se sve to digitalizuje. Cilj je da 99,9% procesa bude elektronsko.",
                      "Before building anything new, we run a full analysis of everything the post still does on paper and by hand, and design a clear process for digitising all of it. The goal is for 99.9% of processes to be digital.")),
-        steps(("2/3", "2/3"), ("Aplikacije za klijente i za zaposlene", "Apps for customers and for staff"), [], id="p2", extra="posta_part2",
-              intro=("Sve je novo: aplikacija za klijente, aplikacija za zaposlene, QR kod za svaki paket i digitalne poslovnice sa skenerima, na zajedničkoj infrastrukturi i u istom dizajnu kao druge državne usluge. Mnogo toga na pošti se i dalje radi na papiru i ručno, a red u poslovnici traje.",
-                     "Everything is new: an app for customers, an app for staff, a QR code for every parcel and digital branches with scanners, on shared infrastructure and in the same design as other state services. Much at the pošta is still done on paper and by hand, and the queue at the branch drags on.")),
-        steps(("3/3", "3/3"), ("Sve carinske procedure onlajn i ubrzano carinjenje", "Every customs procedure online, and faster clearance"), [], id="p3", extra="posta_part3",
+        steps(("2/4", "2/4"), ("Nova aplikacija za klijente", "A new app for customers"), [], id="p2", extra="posta_part2",
+              intro=("Jedna aplikacija za sve poštanske usluge: prijava preko eUprave, praćenje, preuzimanje paketa QR kodom, carina i plaćanje. U istom dizajnu kao druge državne usluge, bez papirnih obaveštenja i formulara.",
+                     "One app for every postal service: sign-in through eUprava, tracking, pickup with a QR code, customs and payment. In the same design as other state services, with no paper notices or forms.")),
+        steps(("3/4", "3/4"), ("Nova aplikacija za zaposlene", "A new app for staff"), [], id="p3", extra="posta_part3",
+              intro=("Isti sistem iznutra: šalter, upravnik poslovnice, logistika, carina i poštar rade u jednom okruženju. Službenik skenira QR i vidi ceo slučaj, a podaci se ne kucaju ponovo. Poslovnice dobijaju skenere i digitalne procese, pa se usluga obavi za nekoliko minuta.",
+                     "The same system from the inside: the counter, the branch manager, logistics, customs and the postman all work in one environment. The clerk scans a QR and sees the whole case, with no retyping of data. Branches get scanners and digital processes, so a service takes a few minutes.")),
+        steps(("4/4", "4/4"), ("Sve carinske procedure onlajn i ubrzano carinjenje", "Every customs procedure online, and faster clearance"), [], id="p4", extra="posta_part4",
               intro=("Danas se deklaracija popunjava na šalteru (od 23. februara 2026. Pošta je i naplaćuje), poštar na adresi traži gotovinu, a paketi stoje na carini i više od 35 dana, bez zakonskog roka. Cilj je da sve carinske procedure budu onlajn i da 99,9% pošiljki bude ocarinjeno u roku od jednog radnog dana.",
                      "Today the declaration is filled in at the counter (since 23 February 2026 Pošta Srbije charges for it), the postman at the door wants cash, and parcels sit at customs for over 35 days with no legal deadline. The goal is for every customs procedure to be online and for 99.9% of parcels to be cleared within one working day.")),
         faq(QA, ("Šta ako…", "What if…"), [
@@ -234,7 +237,7 @@ PAGES[21] = {
 }
 
 for _blk in PAGES[21]["blocks"]:
-    _nav = {"p1": ("Analiza", "Analysis"), "p2": ("Aplikacije", "Apps"), "p3": ("Carina", "Customs")}.get(_blk.get("id"))
+    _nav = {"p1": ("Analiza", "Analysis"), "p2": ("Klijenti", "Customers"), "p3": ("Zaposleni", "Staff"), "p4": ("Carina", "Customs")}.get(_blk.get("id"))
     if _blk["k"] == "check":
         _nav = ("Promene", "Changes")
     elif _blk["k"] == "faq":

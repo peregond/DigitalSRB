@@ -356,3 +356,100 @@ def s_postman():
 
 
 PAIRS["emp"] = (s_postman, w_clerk, ("Aplikacija poštara: doplata", "Postman app: top-up"), ("Šalter: službenik skenira", "Counter: the clerk scans"))
+
+
+# ------------------------------------------------------------------ staff interface (internal screens)
+def snav(title, items, active=0, who=("Šalter 3", "Counter 3")):
+    nav = "".join(f'<span class="{"on" if i == active else ""}">{B(*t)}</span>' for i, t in enumerate(items))
+    return (f'<div class="pa-wnav"><span class="pa-wlogo">{ic("send")}</span><b>{B(*title)}</b><nav>{nav}</nav>'
+            f'<span class="pa-wuser">{ic("user")}{B(*who)}</span></div>')
+
+
+STAFF_URL = "posta.rs/zaposleni"
+
+
+def w_intake():
+    return browser(f'''
+{snav(("Prijem pošiljke", "Accepting a parcel"), [("Prijem", "Intake"), ("Preuzimanje", "Pickup"), ("Red", "Queue")], 0)}
+<div class="pa-stepper"><span class="d">{ic("check")}{B("QR skeniran", "QR scanned")}</span><span class="n">2 {B("Provera", "Check")}</span><span>3 {B("Nalepnica", "Label")}</span></div>
+<div class="pa-wgrid">
+<div class="pa-card"><p class="pa-k">{B("Pošiljalac", "Sender")} {chip("blue", "Iz aplikacije", "From the app")}</p>
+<div class="pa-field">{B("Ime", "Name", "small")}<div>{B("Ime Prezime (primer)", "Name Surname (example)")}</div></div>
+<div class="pa-field">{B("Primalac", "Recipient", "small")}<div>{B("Primer ulice 12, Beograd", "Example Street 12, Belgrade")}</div></div></div>
+<div class="pa-card"><p class="pa-k">{B("Pošiljka", "Parcel")}</p>
+<div class="pa-line">{B("Težina", "Weight")}<b>1,2 kg</b></div><div class="pa-line">{B("Usluga", "Service")}<b>{B("Standard", "Standard")}</b></div>
+<div class="pa-line tot">{B("Cena", "Price")}<b>380 RSD</b></div>{B("Obračunato automatski.", "Calculated automatically.", "small")}</div></div>
+<div class="pa-wfoot"><button class="pa-btn primary">{ic("send")}{B("Odštampaj nalepnicu i primi", "Print the label and accept")}</button><p class="pa-fine">{B("Podaci su stigli iz aplikacije, ništa se ne kuca.", "The data came from the app, nothing is typed.")}</p></div>''', url=STAFF_URL)
+
+
+def w_dash():
+    bars = "".join(f'<i style="--h:{h}"></i>' for h in (18, 34, 52, 80, 64, 46, 58, 70, 40, 24))
+    def kpi(sr, en, val, sub_sr="", sub_en=""):
+        sub = B(sub_sr, sub_en, "small") if sub_sr else ""
+        return f'<div class="pa-kpi">{B(sr, en, "small")}<b>{val}</b>{sub}</div>'
+    return browser(f'''
+{snav(("Poslovnica Beograd 1", "Branch Belgrade 1"), [("Danas", "Today"), ("Paketi", "Parcels"), ("Osoblje", "Staff")], 0, ("Upravnik", "Manager"))}
+<div class="pa-kpis">{kpi("Red sada", "In the queue", "4", "pre 20 min: 11", "20 min ago: 11")}{kpi("Prosečno čekanje", "Average wait", "2 min", "juče: 9 min", "yesterday: 9 min")}{kpi("Spremno za preuzimanje", "Ready for pickup", "128")}</div>
+<div class="pa-wgrid">
+<div class="pa-card"><p class="pa-k">{B("Gužva po satima", "Queue by hour")} <em class="pa-ex">{B("primer", "example")}</em></p><div class="pa-hours">{bars}</div>
+<div class="pa-hlab"><span>8</span><span>10</span><span>12</span><span>14</span><span>16</span><span>18</span></div></div>
+<div class="pa-card"><p class="pa-k">{B("Papir i digitalno", "Paper and digital")} <em class="pa-ex">{B("primer", "example")}</em></p>
+<div class="pa-meter"><i style="width:99.9%"></i></div><div class="pa-line">{B("Digitalno", "Digital")}<b>99,9%</b></div><div class="pa-line">{B("Papir", "Paper")}<b>0,1%</b></div>
+{B("Cilj iz prvog koraka, uživo.", "The goal from step one, live.", "small")}</div></div>''', url=STAFF_URL)
+
+
+def w_pipeline():
+    def col(title, n, kind, k):
+        pk = "".join(f'<span class="pa-pk {kind}"><code>RS •••• RS</code></span>' for _ in range(k))
+        return f'<div class="pa-col"><p class="pa-k">{B(*title)} <em>{n}</em></p>{pk}</div>'
+    return browser(f'''
+{snav(("Tok pošiljki", "Parcel flow"), [("Tok", "Flow"), ("Carina", "Customs"), ("Izuzeci", "Exceptions")], 0, ("Logistika", "Logistics"))}
+<div class="pa-kan">{col(("Primljeno", "Received"), 24, "", 3)}{col(("Carina", "Customs"), 6, "warn", 2)}{col(("U poslovnici", "At the branch"), 128, "ok", 3)}{col(("Isporučeno", "Delivered"), 312, "done", 2)}</div>
+<div class="pa-wgrid"><div class="pa-card"><p class="pa-k">{B("Izuzeci koji traže pažnju", "Exceptions needing attention")}</p>
+<div class="pa-line">{B("Pošiljka bez adrese", "Parcel without an address")}<b>1</b></div><div class="pa-line">{B("Čeka dokument", "Waiting for a document")}<b>2</b></div></div>
+<div class="pa-card"><p class="pa-k">{B("Sve ostalo", "Everything else")}</p>{chip("ok", "Automatski, bez ručnog rada", "Automatic, no manual work")}{B("Sistem sam vodi pošiljke kroz korake.", "The system moves parcels through the steps on its own.", "small")}</div></div>''', url=STAFF_URL)
+
+
+def w_customs():
+    def row(code, kind, sr, en):
+        return f'<div class="pa-trow"><code>{code}</code>{chip(kind, sr, en)}</div>'
+    return browser(f'''
+{snav(("Carinska služba", "Customs service"), [("Odluke", "Decisions"), ("Žalbe", "Appeals"), ("Izveštaji", "Reports")], 1, ("Carinik", "Officer"))}
+<div class="pa-wgrid">
+<div class="pa-card"><p class="pa-k">{B("Odluke danas", "Decisions today")}</p>
+{row("RS ••••• RS", "ok", "Ocarinjeno automatski", "Cleared automatically")}{row("RS ••••• RS", "ok", "Ocarinjeno automatski", "Cleared automatically")}
+{row("RS ••••• RS", "warn", "Žalba: čeka pregled", "Appeal: awaiting review")}{row("RS ••••• RS", "ok", "Ocarinjeno automatski", "Cleared automatically")}
+<small>{B("Većinu odlučuje sistem, u roku od jednog radnog dana.", "The system decides most of them, within one working day.")}</small></div>
+<div class="pa-card"><p class="pa-k">{B("Pregled žalbe", "Appeal review")}</p>
+<div class="pa-line">{B("Automatska odluka", "Automatic decision")}<b>{B("Doplata", "Duty due")}</b></div>
+<div class="pa-lines"><i></i><i></i><i class="s"></i></div><small>{B("Razlog žalbe i priloženi račun.", "Reason for the appeal and the attached invoice.")}</small>
+<div class="pa-wfoot row"><button class="pa-btn primary">{B("Potvrdi", "Confirm")}</button><button class="pa-btn ghost">{B("Izmeni odluku", "Change the decision")}</button></div></div></div>''', url=STAFF_URL)
+
+
+def s_route():
+    def stop(sr, en, kind, st_sr, st_en, time):
+        return (f'<div class="pa-branch"><i class="pa-ico">{ic("pin")}</i><div>{B(sr, en, "b")}<small>{time}</small></div>{chip(kind, st_sr, st_en)}</div>')
+    return phone(f'''
+<div class="pa-title">{B("Moja ruta", "My route", "h4")}</div>
+<div class="pa-card"><div class="pa-line">{B("Danas", "Today")}<b>3 / 14</b></div><div class="pa-meter"><i style="width:21%"></i></div></div>
+<div class="pa-map"><i class="r1"></i><i class="r2"></i><i class="r3"></i><u style="left:26%;top:40%"></u><u style="left:60%;top:26%"></u><u class="me" style="left:46%;top:62%"></u></div>
+<div class="pa-list tight">
+{stop("Primer ulice 12", "Example Street 12", "ok", "Sada", "Now", "09:40")}
+{stop("Primer trg 3", "Example Square 3", "grey", "Sledeće", "Next", "10:05")}
+</div>''', tab=None)
+
+
+def web_fig(web, caption):
+    return (f'<figure class="pa-webfig">{web()}<figcaption><span class="pa-n">WEB<span class="pa-aitag">AI</span></span>{B(caption[0], caption[1], "b")}</figcaption></figure>')
+
+
+def phone_fig(screen, caption):
+    return (f'<figure class="pa-fig">{screen()}<figcaption><span class="pa-n">APP<span class="pa-aitag">AI</span></span>{B(caption[0], caption[1], "b")}</figcaption></figure>')
+
+
+def web_gallery(items):
+    return '<div class="pa pa-wgallery">' + "".join(web_fig(w, cap) for w, cap in items) + "</div>"
+
+
+def phone_pair(items):
+    return '<div class="pa pa-phonepair">' + "".join(phone_fig(s, cap) for s, cap in items) + "</div>"
