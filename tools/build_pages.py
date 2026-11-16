@@ -33,6 +33,8 @@ SKIP_KINDS = {"check"}
 NO_EYEBROW = set(ORDER)
 # pages whose hero text differs from the short tagline on the home-page card
 HERO_TEXT = {
+    22: ("Otvaranje i zatvaranje firme za jedan radni dan, a konačan porez vidiš i plaćaš odmah, ne meseci kasnije.",
+         "Opening and closing a business in one working day, with the final tax shown and paid at once, not months later."),
     21: ("Digitalizujemo sve što se i dalje radi na papiru i ukidamo ručni posao koji usporava svaki korak pošte: od slanja i obrade do isporuke i preuzimanja.",
          "We digitalise what is still done on paper and remove the manual work that slows every stage of the post: from sending and processing to delivery and pickup."),
 }
@@ -275,7 +277,41 @@ def c_posta_app(b):
     return posta_app.phones_html()
 
 
-CUSTOM = {"posta_p2": _pair("p2"), "posta_p3": _pair("p3"), "posta_p4": _pair("p4"), "posta_stages": c_posta_stages, "posta_app": c_posta_app, "licence53": c_licence53, "clerk": c_clerk, "journey22": c_journey22, "network30": c_network30, "stats30": c_stats30,
+STAGES22 = [
+    ("send", ("Zahtev onlajn", "Request online"), ("Jedan zahtev u APR-u, bez šaltera.", "One request at APR, no counter.")),
+    ("calc", ("Porez odmah", "Tax at once"), ("Poreska iz svojih podataka računa konačan porez.", "Poreska works out the final tax from its own data.")),
+    ("card", ("Vidiš i plaćaš", "You see and pay"), ("Iznos je na ekranu pri odjavi, bez rešenja posle meseci.", "The amount is on screen at deregistration, with no decision months later.")),
+    ("check", ("Zatvoreno za dan", "Closed in a day"), ("Brisanje i plaćanje u istom radnom danu.", "Deletion and payment in the same working day.")),
+]
+
+
+def c_stages22(b):
+    import posta_app
+    cards = "".join(
+        f'<a class="pg-stage" href="#c1"><span class="pg-stage-top"><b>{i:02d}</b><i>{posta_app.ic(icon)}</i></span>'
+        f'{B(title, "h3")}{B(text, "p")}<span class="pg-stage-go" aria-hidden="true">›</span></a>'
+        for i, (icon, title, text) in enumerate(STAGES22, 1))
+    return f'<div class="pg-stages">{cards}</div>'
+
+
+def c_versus22(b):
+    return (f'<div class="pg-versus"><div class="pg-vs today"><p class="pg-vs-k">{B(("Danas", "Today"))}</p>'
+            f'<b class="pg-vs-n">2–3<small>{B(("meseca", "months"))}</small></b>{B(("Posle odjave tek stiže konačan obračun poreza.", "The final tax assessment only arrives after deregistration."), "p")}</div>'
+            f'<span class="pg-vs-arrow" aria-hidden="true">›</span>'
+            f'<div class="pg-vs after"><p class="pg-vs-k">{B(("Predlog", "Proposal"))}</p>'
+            f'<b class="pg-vs-n">1<small>{B(("dan", "day"))}</small></b>{B(("Konačan porez vidiš i plaćaš pri zatvaranju.", "You see and pay the final tax when you close."), "p")}</div></div>')
+
+
+def c_countries22(b):
+    items = [("🇷🇸", ("Srbija danas", "Serbia today"), ("Onlajn zahtev za brisanje, obračun posle 2–3 meseca.", "An online deregistration request, assessment after 2–3 months."), ""),
+             ("🇬🇪", ("Gruzija", "Georgia"), ("Registracija i brisanje za 1 radni dan.", "Registration and deletion in 1 working day."), ""),
+             ("🇪🇪", ("Estonija", "Estonia"), ("Brisanje firme onlajn.", "Online deletion of a company."), ""),
+             ("🇷🇸", ("Predlog za Srbiju", "The proposal for Serbia"), ("Jedan dan, konačan porez plaćen odmah.", "One day, the final tax settled at once."), " mine")]
+    cards = "".join(f'<article class="pg-country{cls}"><span class="pg-flag" aria-hidden="true">{flag}</span>{B(t, "h3")}{B(x, "p")}</article>' for flag, t, x, cls in items)
+    return f'<div class="pg-countries">{cards}</div>'
+
+
+CUSTOM = {"stages22": c_stages22, "versus22": c_versus22, "countries22": c_countries22, "biz_c1": _pair("c1"), "posta_p2": _pair("p2"), "posta_p3": _pair("p3"), "posta_p4": _pair("p4"), "posta_stages": c_posta_stages, "posta_app": c_posta_app, "licence53": c_licence53, "clerk": c_clerk, "journey22": c_journey22, "network30": c_network30, "stats30": c_stats30,
           "phone47": c_phone47, "border48": c_border48, "speed50": c_speed50}
 RENDER = {"text": r_text, "cards": r_cards, "flow": r_flow, "steps": r_steps, "bars": r_bars, "table": r_table,
           "check": r_check, "faq": r_faq}
@@ -351,7 +387,7 @@ def build_all(ctx):
                 .replace("{{EYEBROW}}", B((cat_of(n)["sr"][0], cat_of(n)["en"][0])) + " · " + B(UI["idea"]) + f" {n:02d}")
                 .replace("{{H1}}", B(titles[n], "h1")).replace("{{TAGLINE}}", B(HERO_TEXT.get(n, taglines[n]), "p", "pg-tag"))
                 .replace("{{TIERLINE}}", B(tsub, "p", "pg-tier"))
-                .replace("{{EXTRA_HEAD}}", '<link rel="stylesheet" href="../../assets/posta-app.css?v=%s">' % ver if n == 21 else "").replace("{{LOCAL}}", local).replace("{{HSTATS}}", hstats).replace("{{SECTIONS}}", sections)
+                .replace("{{EXTRA_HEAD}}", '<link rel="stylesheet" href="../../assets/posta-app.css?v=%s">' % ver if n in (21, 22) else "").replace("{{LOCAL}}", local).replace("{{HSTATS}}", hstats).replace("{{SECTIONS}}", sections)
                 .replace("{{RELATED}}", rel).replace("{{SOURCES}}", sources_html(parts))
                 .replace("{{VOTE}}", vote_html(n))
                 .replace("{{PREV}}", nb(prev_n, UI["prev"])).replace("{{NEXT}}", nb(next_n, UI["next"]))

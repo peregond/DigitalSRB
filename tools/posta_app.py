@@ -242,8 +242,8 @@ def phones_html():
 
 
 # ------------------------------------------------------------------ web versions and app+web pairs
-def browser(body):
-    return (f'<div class="pa-browser"><div class="pa-bbar"><i></i><i></i><i></i><span class="pa-url">{ic("lock")}posta.rs</span></div>'
+def browser(body, url="posta.rs"):
+    return (f'<div class="pa-browser"><div class="pa-bbar"><i></i><i></i><i></i><span class="pa-url">{ic("lock")}{url}</span></div>'
             f'<div class="pa-wbody">{body}</div></div>')
 
 
@@ -307,5 +307,37 @@ def pair_html(part):
     ph, web, cap_a, cap_w = PAIRS[part]
     tag = '<span class="pa-aitag">AI</span>'
     cap = lambda cp, label: f'<figcaption><span class="pa-n">{label}{tag}</span>{B(cp[0], cp[1], "b")}</figcaption>'
-    return (f'<div class="pa pa-pairwrap"><div class="pa-pair"><figure class="pa-fig">{ph()}{cap(cap_a, "APP")}</figure>'
+    cls = " pa-apr" if part == "c1" else ""
+    return (f'<div class="pa pa-pairwrap{cls}"><div class="pa-pair"><figure class="pa-fig">{ph()}{cap(cap_a, "APP")}</figure>'
             f'<figure class="pa-webfig">{web()}{cap(cap_w, "WEB")}</figure></div></div>')
+
+
+# ------------------------------------------------------------------ business closing (APR / eUprava concept)
+def s_close():
+    def chk(sr, en):
+        return f'<li><b>{ic("check")}</b>{B(sr, en)}</li>'
+    return phone(f'''
+<div class="pa-nav"><span>{ic("back")}</span>{B("Zatvaranje firme", "Closing a business", "b")}<span></span></div>
+<div class="pa-card"><div class="pa-co"><i class="pa-ico">{ic("home")}</i><div>{B("Moja firma", "My business", "b")}{B("preduzetnik (primer)", "sole trader (example)", "small")}</div></div>{chip("ok", "Nema otvorenih obaveza", "No open obligations")}</div>
+<div class="pa-card center"><p class="pa-k">{B("Konačan porez", "Final tax")} <em class="pa-ex">{B("primer", "example")}</em></p><div class="pa-bigamt">16.000 <small>RSD</small></div>{B("Obračunato odmah, iz podataka Poreske uprave.", "Calculated at once, from Poreska uprava data.", "small")}</div>
+<ul class="pa-checks flat">{chk("Zahtev podnet", "Request filed")}{chk("Porez obračunat", "Tax calculated")}{chk("Spremno za plaćanje", "Ready to pay")}</ul>
+<button class="pa-btn primary">{B("Plati i zatvori firmu", "Pay and close the business")}</button>''', tab=None)
+
+
+def w_close():
+    nav = "".join(f'<span class="{"on" if i == 0 else ""}">{B(*t)}</span>' for i, t in enumerate([("Moja firma", "My business"), ("Registracija", "Registration"), ("Izveštaji", "Reports"), ("Podrška", "Help")]))
+    return browser(f'''
+<div class="pa-wnav"><span class="pa-wlogo">{ic("home")}</span><b>APR</b><nav>{nav}</nav><span class="pa-wuser">{ic("user")}eUprava</span></div>
+<div class="pa-stepper"><span class="d">{ic("check")}{B("Zahtev", "Request")}</span><span class="n">2 {B("Konačan porez", "Final tax")}</span><span>3 {B("Plaćanje", "Payment")}</span><span>4 {B("Gotovo", "Done")}</span></div>
+<div class="pa-wgrid">
+<div class="pa-card"><p class="pa-k">{B("Firma", "Business")}</p>
+<div class="pa-field">{B("Naziv", "Name", "small")}<div>{B("Moja firma", "My business")}</div></div>
+<div class="pa-field">{B("Datum zatvaranja", "Closing date", "small")}<div>{B("Danas", "Today")}</div></div>
+{chip("ok", "Nema otvorenih obaveza", "No open obligations")}</div>
+<div class="pa-card"><p class="pa-k">{B("Konačan obračun poreza", "Final tax calculation")} <em class="pa-ex">{B("primer", "example")}</em></p>
+<div class="pa-line">{B("Porez", "Tax")}<b>9.600 RSD</b></div><div class="pa-line">{B("Doprinosi", "Contributions")}<b>6.400 RSD</b></div>
+<div class="pa-line tot">{B("Ukupno", "Total")}<b>16.000 RSD</b></div>{B("Obračunato odmah.", "Calculated at once.", "small")}</div></div>
+<div class="pa-wfoot row"><button class="pa-btn primary">{ic("check")}{B("Plati i zatvori firmu", "Pay and close the business")}</button><button class="pa-btn ghost">{ic("qr")}{B("Plati preko IPS QR", "Pay by IPS QR")}</button></div>''', url="apr.gov.rs")
+
+
+PAIRS["c1"] = (s_close, w_close, ("Aplikacija: plati i zatvori", "App: pay and close"), ("Veb: portal za zatvaranje", "Web: the closing portal"))

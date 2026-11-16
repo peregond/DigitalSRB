@@ -275,3 +275,13 @@
 .pa-ctrl{display:flex;gap:10px;justify-content:flex-end;margin-top:-6px}
 
 .pa-pairwrap{margin-top:clamp(36px,5vw,56px)}
+
+/* blue variant of the concept screens (business closing) */
+.pa-apr{--blue:#1F55C9;--blue2:#3B77E6;--navy:#123F96;--bg:#EEF4FF;--soft:#DCE8FF;--ln:#DDE6F6;--mu:#66738A;--yellow:#9CC0FF;--tx:#14213D}
+.pa-apr .pa-screen{background:radial-gradient(70% 36% at 92% 3%,#C9DCFF 0,transparent 70%),radial-gradient(62% 32% at 0% 60%,rgba(44,86,136,.12),transparent 70%),radial-gradient(60% 30% at 100% 100%,rgba(198,54,60,.07),transparent 70%),var(--bg)}
+.pa-apr .pa-wbody{background:radial-gradient(60% 40% at 95% 0,#C9DCFF 0,transparent 70%),radial-gradient(50% 36% at 0 80%,rgba(44,86,136,.1),transparent 70%),var(--bg)}
+.pa-apr .pa-bbar{background:#E6EEFB}.pa-apr .pa-browser{border-color:#D7E2F5}
+.pa-co{display:flex;gap:10px;align-items:center}.pa-co>div{display:grid;gap:2px}.pa-co b{font-size:14px}
+.pa-card.center{justify-items:center;text-align:center;padding:16px}
+.pa-bigamt{font-family:var(--ios);font-size:34px;font-weight:800;letter-spacing:-.03em;color:var(--navy);line-height:1.1}.pa-bigamt small{font-size:14px;color:var(--mu)}
+.pa-checks.flat{padding:4px 4px 0}

@@ -128,46 +128,35 @@ PAGES[1] = {
 
 # ---------------------------------------------------------------- 22 business in one day
 PAGES[22] = {
-    "stats": [("1", ("radni dan: registracija i brisanje u Gruziji", "working day: registration and deletion in Georgia")),
-              ("2–3", ("meseca do konačnog obračuna poreza danas", "months until the final tax assessment today")),
-              ("12/2023", ("onlajn prijava brisanja u APR-u", "online deregistration request at APR"))],
+    "stats": [],
     "related": [17, 23, 26, 44],
     "blocks": [
-        text(PROBLEM, ("Zatvaranje traje, a račun stiže kasnije", "Closing takes time, and the bill comes later"), [
-            ("Već postoji elektronska registracija preduzetnika, a od decembra 2023. i onlajn prijava brisanja preko portala APR-a.",
-             "Electronic registration of a preduzetnik (sole trader) already exists, and since December 2023 so does an online deregistration request on the APR portal."),
-            ("Ali brisanje i dalje traje, a konačan obračun poreza često stigne 2–3 meseca posle odjave. Ljudi zatvore firmu, a ne znaju koliko duguju.",
-             "But closing still takes time, and the final tax assessment often arrives 2–3 months after deregistration. People close a business without knowing what they owe."),
-        ]),
-        custom("journey22", TODAY, ("Koliko dugo ne znaš koliko duguješ", "How long you wait to know what you owe"),
-               intro=("Vreme između zatvaranja firme i trenutka kada saznaš konačan porez.", "The time between closing the business and learning the final tax.")),
-        steps(HOW, ("Zatvaranje firme za jedan dan", "Closing a business in one day"), [
-            (("Podnosiš prijavu onlajn", "File the request online"), ("Jedan zahtev u APR-u, bez dolaska na šalter.", "One request at APR, no visit to a counter.")),
-            (("Poreska obračunava odmah", "Tax is calculated at once"), ("Poreska uprava iz podataka koje već ima izračuna konačan porez dok čekaš.", "Poreska uprava works out the final tax from data it already holds, while you wait.")),
-            (("Vidiš iznos i plaćaš", "You see the amount and pay"), ("Konačan porez je na ekranu pri odjavi i plaća se odmah, bez rešenja posle nekoliko meseci.", "The final tax is on screen at deregistration and is paid at once, with no decision months later.")),
-            (("Firma je zatvorena", "The business is closed"), ("Brisanje i plaćanje završavaju se istog radnog dana.", "Deletion and payment finish on the same working day.")),
-        ]),
-        flow(("Veće firme", "Larger firms"), ("Kada nedostaje mesečni izveštaj", "When a monthly report is missing"), [
+        {**custom("stages22", ("Pregled", "Overview"), ("Zatvaranje firme u četiri koraka", "Closing a business in four steps"),
+                  intro=("Elektronska registracija preduzetnika već postoji, a od decembra 2023. i onlajn prijava brisanja preko portala APR-a. Problem je što konačan obračun poreza često stigne tek 2–3 meseca posle odjave.",
+                         "Electronic registration of a preduzetnik (sole trader) already exists, and since December 2023 so does an online deregistration request on the APR portal. The problem is that the final tax assessment often arrives only 2–3 months after deregistration.")),
+         "cls": "compact", "nav": ("Pregled", "Overview")},
+        {**custom("versus22", ("Razlika", "The difference"), ("Kada saznaš koliko duguješ", "When you learn what you owe")), "nav": ("Razlika", "Difference")},
+        {**flow(("Zatvaranje", "Closing"), ("Šta se menja pri zatvaranju", "What changes when you close"), [
+            ("Podneseš onlajn zahtev za brisanje", "You file an online deregistration request"),
+            ("Firma je obrisana, a ne znaš koliko duguješ", "The business is deleted, but you do not know what you owe"),
+            ("Posle 2–3 meseca stiže rešenje o konačnom porezu", "After 2–3 months a decision with the final tax arrives"),
+            ("Tek tada plaćaš", "Only then do you pay")],
+            [("Podneseš zahtev onlajn", "You file the request online"),
+             ("Poreska odmah računa konačan porez", "Poreska calculates the final tax at once"),
+             ("Vidiš iznos i plaćaš istog dana", "You see the amount and pay the same day"),
+             ("Firma je zatvorena", "The business is closed")],
+            id="c1", extra="biz_c1"), "nav": ("Zatvaranje", "Closing")},
+        {**flow(("Veće firme", "Larger firms"), ("Kada nedostaje mesečni izveštaj", "When a monthly report is missing"), [
             ("Zatvaranje čeka izveštaj", "Closing waits for the report"), ("Izveštaj se podnosi", "The report is filed"), ("Posle meseci stiže rešenje", "A decision arrives months later")],
             [("Plaćaš obračunato sada", "Pay what is calculated now"), ("Firma se zatvara", "The business closes"), ("Razliku doplaćuješ posle izveštaja", "Top up the difference after the report")],
-            note=("Država ne gubi pravo na razliku, a firma ne čeka mesecima.", "The state keeps its right to the difference, and the firm does not wait for months.")),
-        table(("Primeri iz sveta", "Examples abroad"), ("Kako to rade drugi", "How others do it"),
-              [("", ""), ("Registracija", "Registration"), ("Brisanje", "Deletion")],
-              [[("Srbija danas", "Serbia today"), ("Elektronska (preduzetnici)", "Electronic (sole traders)"), ("Onlajn zahtev, obračun posle 2–3 meseca", "Online request, assessment after 2–3 months")],
-               [("Gruzija", "Georgia"), ("1 radni dan", "1 working day"), ("1 radni dan", "1 working day")],
-               [("Estonija", "Estonia"), ("Onlajn", "Online"), ("Onlajn", "Online")],
-               [("Predlog", "Proposal"), ("1 dan", "1 day"), ("1 dan, porez plaćen odmah", "1 day, tax settled at once")]], hl=3),
-        check(CHANGE, ("Reforma APR-a i Poreske uprave", "A reform of APR and Poreska uprava"), [
-            ("tech", ("Automatski obračun konačnog poreza iz podataka koje Poreska već ima", "Automatic final-tax calculation from data Poreska already holds")),
-            ("tech", ("Razmena podataka APR–Poreska u realnom vremenu i plaćanje preko IPS QR koda", "Real-time data exchange APR–Poreska and payment by IPS QR code")),
-            ("org", ("Obavezujući rok: zatvaranje u jednom radnom danu", "A binding deadline: closing within one working day")),
-            ("org", ("Pravilo za veće firme: plaćanje obračunatog iznosa sada, razlika posle izveštaja", "A rule for larger firms: pay the calculated amount now, the difference after the report")),
-        ], intro=("Bez novog zakona, ali sa preuređenjem rada dve službe.", "No new law, but the two offices have to rework how they operate.")),
-        faq(QA, ("Šta ako…", "What if…"), [
+            note=("Država ne gubi pravo na razliku, a firma ne čeka mesecima.", "The state keeps its right to the difference, and the firm does not wait for months."), id="lf"),
+         "nav": ("Veće firme", "Larger firms")},
+        {**custom("countries22", ("Primeri iz sveta", "Examples abroad"), ("Kako to rade drugi", "How others do it"), id="cn"), "nav": ("Svet", "Abroad")},
+        {**faq(QA, ("Šta ako…", "What if…"), [
             (("Firma ima nepodmirene obaveze?", "The firm has unpaid obligations?"), ("Konačan obračun ih pokazuje odmah, pa nema iznenađenja posle zatvaranja. Plaćanje ide u istom koraku.", "The final assessment shows them at once, so there is no surprise after closing. Payment happens in the same step.")),
             (("Može li država da tako obračuna sve?", "Can the state calculate it all that fast?"), ("Sve što je prijavljeno već je u njenim evidencijama. Ono što fali, na primer izveštaj, rešava se doplatom razlike.", "Everything reported is already in its records. What is missing, such as a report, is handled by topping up the difference.")),
             (("Zašto ne ostati kod današnjeg?", "Why not keep today's way?"), ("Jer neizvesnost nekoliko meseci posle zatvaranja košta ljude i vreme i nervozu, a država ionako ima podatke.", "Because months of uncertainty after closing cost people time and stress, and the state has the data anyway.")),
-        ]),
+        ]), "nav": ("Pitanja", "Q&A")},
     ],
 }
 
