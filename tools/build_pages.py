@@ -552,6 +552,7 @@ def build_all(ctx):
                 .replace("{{RELATED}}", rel).replace("{{SOURCES}}", sources_html(parts))
                 .replace("{{VOTE}}", vote_html(n))
                 .replace("{{PREV}}", nb(prev_n, UI["prev"])).replace("{{NEXT}}", nb(next_n, UI["next"]))
+                .replace("{{URL}}", f"{ctx['site']}/idea/{slug}/").replace("{{OG}}", f"{ctx['site']}/assets/og/{slug}.jpg")
                 .replace("{{V}}", ver))
         if not page["stats"]:
             html = html.replace('<div class="wrap"><ul class="pg-hstats"></ul></div>', "", 1).replace('<header class="pg-hero" id="top">', '<header class="pg-hero no-stats" id="top">', 1)

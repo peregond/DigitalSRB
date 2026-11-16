@@ -15,6 +15,7 @@ from categories import CATEGORIES, ICONS, cat_of
 from pages_data import THEMES
 
 ROOT = Path(__file__).resolve().parent.parent
+SITE = "https://" + (ROOT / "CNAME").read_text().strip() if (ROOT / "CNAME").exists() else "https://peregond.github.io/DigitalSRB"
 LANGS = ("sr", "en")
 LANG_ATTR = {"sr": "sr-Latn", "en": "en"}
 
@@ -222,6 +223,23 @@ def render_featured(toc):
     return "".join(out)
 
 
+def write_extras(ver):
+    """sitemap.xml, robots.txt and 404.html (absolute paths so it works at any depth)."""
+    urls = [SITE + "/"] + [f"{SITE}/idea/{slug}/" for slug, _, _ in THEMES.values()]
+    items = "".join(f"<url><loc>{u}</loc></url>" for u in urls)
+    (ROOT / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' + items + "</urlset>\n", encoding="utf-8")
+    (ROOT / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {SITE}/sitemap.xml\n", encoding="utf-8")
+    page = ("<!DOCTYPE html><html lang=\"sr-Latn\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"
+            "<title>404 · Digitalna Srbija</title><meta name=\"robots\" content=\"noindex\">"
+            "<link rel=\"icon\" href=\"/assets/favicon.svg\" type=\"image/svg+xml\">"
+            f"<link rel=\"stylesheet\" href=\"/assets/styles.css?v={ver}\">"
+            "<style>.nf{min-height:100vh;display:grid;place-items:center;text-align:center;padding:24px}.nf h1{font-size:clamp(64px,14vw,140px);color:var(--accent)}"
+            ".nf p{font-size:20px;font-weight:600;margin:12px 0 26px;color:var(--ink2)}</style></head><body><div class=\"nf\"><div>"
+            "<h1>404</h1><p>Ova stranica ne postoji.<br>This page does not exist.</p>"
+            "<a class=\"btn\" href=\"/\">Digitalna Srbija</a></div></div></body></html>")
+    (ROOT / "404.html").write_text(page, encoding="utf-8")
+
+
 def main():
     intro, ideas, toc, src_items, src_note = parse()
     assert sorted(ideas) == list(range(1, 61)), sorted(ideas)
@@ -278,11 +296,12 @@ def main():
            .replace("{{FEATURED}}", render_featured(toc)).replace("{{CAT_SECTIONS}}", cat_sections).replace("{{SOURCES}}", src_items)
            .replace("{{SOURCES_NOTE}}", bi(src_note, "p", "note")))
     ver = hashlib.md5(b"".join((ROOT / "assets" / f).read_bytes() for f in ("styles.css", "page.css", "posta-app.css", "app.js", "config.js", "translit.js"))).hexdigest()[:8]
-    out = out.replace("{{V}}", ver)
+    out = out.replace("{{V}}", ver).replace("{{URL}}", SITE + "/").replace("{{OG}}", SITE + "/assets/og/home.jpg")
     assert "{{" not in out
     (ROOT / "index.html").write_text(out, encoding="utf-8")
-    build_pages.build_all({"toc": toc, "ideas": ideas, "tier_of": tier_of, "featured": FEATURED, "ver": ver,
+    build_pages.build_all({"toc": toc, "ideas": ideas, "tier_of": tier_of, "featured": FEATURED, "ver": ver, "site": SITE,
                            "template": (ROOT / "tools" / "page_template.html").read_text(encoding="utf-8")})
+    write_extras(ver)
     print(f"index.html: {len(out) // 1024} KB, {len(ideas)} ideas")
 
 
