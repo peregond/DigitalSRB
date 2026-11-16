@@ -1,7 +1,7 @@
 /* Concept screens for the Pošta Srbije app. Static visual, all values are placeholders. */
 .pa{--blue:#1D3F72;--blue2:#2C5688;--navy:#142E57;--red:#C6363C;--yellow:#F1BD40;--bg:#FFF6DC;--soft:#FBEBC0;--tx:#1B2742;--mu:#76705C;--ln:#F0E3BF;--ok:#12A150}
 .pa-row{display:flex;gap:clamp(22px,3vw,40px);overflow-x:auto;scroll-snap-type:x proximity;padding:8px 22px 36px;margin:0 -22px;scrollbar-width:thin}
-.pa-fig{flex:none;width:292px;scroll-snap-align:center}
+.pa-fig{flex:none;width:340px;scroll-snap-align:center}
 .pa-fig figcaption{display:grid;gap:4px;margin-top:22px;padding:0 6px}
 .pa-fig figcaption b{font-family:var(--display);font-size:15px;line-height:1.25;color:var(--ink)}
 .pa-fig figcaption small{font-size:13px;color:var(--muted);line-height:1.4}
@@ -11,7 +11,7 @@
 .pa-ai-tag{flex:none;font-family:var(--display);font-size:11px;font-weight:800;letter-spacing:.06em;color:#fff;background:var(--ink);border-radius:8px;padding:4px 8px}
 
 /* device */
-.pa-phone{position:relative;width:292px;height:604px;background:#0b0b0c;border-radius:48px;padding:9px;box-shadow:0 24px 60px rgba(20,46,87,.3),0 2px 6px rgba(0,0,0,.2)}
+.pa-phone{position:relative;width:340px;height:605px;aspect-ratio:9/16;background:#0b0b0c;border-radius:48px;padding:9px;box-shadow:0 24px 60px rgba(20,46,87,.3),0 2px 6px rgba(0,0,0,.2)}
 .pa-island{position:absolute;top:19px;left:50%;width:86px;height:25px;border-radius:14px;background:#000;transform:translateX(-50%);z-index:4}
 .pa-screen{position:relative;height:100%;background:var(--bg);border-radius:40px;overflow:hidden;display:flex;flex-direction:column;color:var(--tx);font-family:var(--font);font-size:12px;line-height:1.35;text-align:left}
 .pa-status{display:flex;justify-content:space-between;align-items:center;padding:15px 26px 6px;font-size:13px;flex:none;position:relative;z-index:3}
@@ -190,8 +190,8 @@
 
 /* app + web pairs under Parts 2-4 */
 .pa-ai-mini{display:flex;gap:10px;align-items:center;font-size:12px;color:var(--muted);margin:34px 0 20px}
-.pa-pair{display:grid;grid-template-columns:292px minmax(0,1fr);gap:clamp(22px,4vw,56px);align-items:center}
-.pa-pair .pa-fig{width:292px}
+.pa-pair{display:grid;grid-template-columns:340px minmax(0,1fr);gap:clamp(22px,4vw,56px);align-items:center}
+.pa-pair .pa-fig{width:340px}
 .pa-webfig{min-width:0}
 .pa-webfig figcaption{display:grid;gap:4px;margin-top:22px;padding:0 6px}
 .pa-webfig figcaption b{font-family:var(--display);font-size:15px;line-height:1.25;color:var(--ink)}
@@ -214,7 +214,6 @@
 .pa-wnav nav+.pa-wuser{margin-left:6px}
 .pa-wuser svg{width:14px;height:14px}
 .pa-wgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-@media (max-width:620px){.pa-wgrid{grid-template-columns:1fr}.pa-wnav nav{display:none}}
 .pa-wbody .pa-card{padding:16px}
 .pa-wbody h5{font-size:16px;font-weight:700;letter-spacing:-.01em;font-family:var(--ios)}
 .pa-shelf{display:flex;align-items:center;gap:10px;background:var(--soft);border-radius:16px;padding:10px 12px;color:var(--navy);font-weight:700}
@@ -313,7 +312,6 @@
 .pa-wgallery .pa-wfoot.row{grid-template-columns:1fr 1fr}
 .pa-wgallery .pa-btn{padding:11px;font-size:12.5px}
 
-@media (max-width:620px){.pa-kpis{grid-template-columns:1fr}.pa-kan{grid-template-columns:1fr 1fr}.pa-wgallery .pa-wfoot.row{grid-template-columns:1fr}}
 
 /* green variant (eUprava counters) */
 .pa-green{--blue:#0E7A3E;--blue2:#12A150;--navy:#0A5A2C;--bg:#F1FAF4;--soft:#D9F1E2;--ln:#DCEBE1;--yellow:#9ADBB4;--tx:#14301F;--mu:#5E7566}
@@ -363,3 +361,18 @@
 .pa-flowbox{display:flex;align-items:center;gap:10px;margin:4px 0 8px}
 .pa-flowbox>span{flex:1;text-align:center;padding:10px;border-radius:14px;background:rgba(255,255,255,.85);box-shadow:inset 0 0 0 1px var(--ln);font-weight:700;font-size:12px}
 .pa-flowbox>span.on{background:var(--blue);color:#fff;box-shadow:none}.pa-flowbox i{font-style:normal;font-size:22px;color:var(--mu)}
+
+/* ===== Fixed proportions (see docs/GUIDELINES.md) =====
+   Phone screens are always 9:16, browser windows always 16:9. Both are drawn at a fixed design size and shrunk
+   with `zoom` (set from assets/app.js) when the column is narrower, so nothing is squeezed or stretched. */
+.pa-phone{flex:none}
+.pa-browser{width:840px;aspect-ratio:16/9;display:flex;flex-direction:column;flex:none}
+.pa-wbody{flex:1;min-height:0;align-content:start}
+.pa-webfig{display:block}
+.pa-phonepair .pa-fig{width:340px}
+/* the browser window is a fixed 840px design: tighter spacing so every screen fits 16:9 */
+.pa-wbody{padding:12px 16px 14px;gap:10px}
+.pa-wgallery .pa-wbody{padding:12px 16px 14px}
+.pa-browser .pa-card{padding:12px 14px}
+.pa-browser .pa-btn{padding:10px}
+.pa-browser .pa-wfoot .pa-fine{margin:0}

@@ -6,6 +6,8 @@
 
 Repository **Settings → Pages → Build and deployment → Deploy from a branch**, pick the branch and `/ (root)`. No build step runs on GitHub: `index.html` is already built and committed.
 
+Design and content rules (screen proportions, AI labels, bilingual pages): see [docs/GUIDELINES.md](docs/GUIDELINES.md).
+
 ## Editing
 
 | What | Where |
