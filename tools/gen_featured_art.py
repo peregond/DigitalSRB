@@ -80,16 +80,26 @@ ART[1] = (GREEN, f'''
 <circle cx="250" cy="166" r="8" fill="none" stroke="{GREEN}" stroke-width="3.5" stroke-dasharray="4 4"/><rect x="268" y="162" width="68" height="8" rx="4" fill="{GREY}"/></g>
 ''')
 
-# 22 open and close a business in one day
+# 22 open and close a business in one day: a registration paper with a stamp and a one-day clock
 ART[22] = (GREEN, f'''
-<g class="fl"><rect x="96" y="58" width="208" height="186" rx="22" fill="#fff" filter="url(#s)"/>
-<path d="M96 80a22 22 0 0 1 22-22h164a22 22 0 0 1 22 22v24H96z" fill="{GREEN}"/>
-<rect x="128" y="44" width="9" height="26" rx="4.5" fill="{INK}"/><rect x="263" y="44" width="9" height="26" rx="4.5" fill="{INK}"/>
-{"".join(f'<circle cx="{132+i*34}" cy="{130+j*34}" r="5" fill="{GREY}"/>' for j in range(3) for i in range(5) if (i, j) != (2, 1))}
-<circle class="pu" cx="200" cy="164" r="17" fill="{GREEN}" opacity=".2"/>{check(200,164,14,GREEN)}</g>
-<g class="fl2"><circle cx="300" cy="226" r="32" fill="{INK}" filter="url(#s)"/>
-<path d="M284 222l4-10h24l4 10z" fill="#fff"/><rect x="287" y="222" width="26" height="16" rx="2" fill="none" stroke="#fff" stroke-width="3.5"/><rect x="296" y="228" width="8" height="10" rx="1.5" fill="#fff"/></g>
+<g class="fl"><g transform="rotate(-5 190 150)">
+<rect x="96" y="44" width="176" height="212" rx="16" fill="#fff" filter="url(#s)"/>
+<rect x="118" y="68" width="40" height="40" rx="10" fill="{GREEN}"/>
+<path d="M126 92v-8l12-10 12 10v8z" fill="#fff"/><rect x="134" y="86" width="8" height="6" fill="{GREEN}"/>
+<rect x="170" y="74" width="82" height="9" rx="4.5" fill="{INK}"/><rect x="170" y="92" width="56" height="8" rx="4" fill="{GREY}"/>
+<rect x="118" y="130" width="134" height="8" rx="4" fill="{GREY}"/><rect x="118" y="150" width="134" height="8" rx="4" fill="{GREY}"/><rect x="118" y="170" width="92" height="8" rx="4" fill="{GREY}"/>
+<path d="M150 214c12-14 20 8 32-3s12-6 22-1" fill="none" stroke="{INK}" stroke-width="3.5" stroke-linecap="round"/>
+</g></g>
+<g class="fl2"><g transform="rotate(-12 262 196)">
+<circle cx="262" cy="196" r="48" fill="#fff" opacity=".9" filter="url(#s)"/>
+<circle cx="262" cy="196" r="44" fill="none" stroke="{GREEN}" stroke-width="5"/>
+<circle cx="262" cy="196" r="35" fill="none" stroke="{GREEN}" stroke-width="2" stroke-dasharray="3 5" stroke-linecap="round"/>
+<circle class="pu" cx="262" cy="196" r="24" fill="{GREEN}" opacity=".2"/>{check(262,196,18,GREEN)}
+</g></g>
+<g class="fl"><circle cx="112" cy="232" r="30" fill="{INK}" filter="url(#s)"/>
+<circle cx="112" cy="232" r="21" fill="none" stroke="#fff" stroke-width="4"/><path d="M112 220v13l9 6" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></g>
 ''')
+
 
 # 30 never ask for papers the state already has
 ART[30] = (AMBER, f'''
