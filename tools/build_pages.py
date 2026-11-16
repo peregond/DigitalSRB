@@ -508,6 +508,14 @@ def build_all(ctx):
     taglines.update({n: (sr, en) for n, sr, en in ctx["featured"]})
     clean = lambda l, n: re.sub(r"\s*\(.*?\)\s*$", "", re.sub(r"</?strong>", "", toc[l][n]))
     titles = {n: (clean("sr", n), clean("en", n)) for n in ORDER}
+    # short names for the sticky bar under the site name (the full title stays in the hero)
+    short = {22: ("Firma za jedan dan", "A business in one day"),
+             30: ("Bez papira koje država ima", "No papers the state has"),
+             47: ("Lična karta u Wallet-u", "ID in Wallet"),
+             9: ("Jedan poreski portal", "One tax portal"),
+             1: ("Skeniraš jednom", "Scan once"),
+             48: ("Bez prijave boravka", "No stay registration"),
+             53: ("Strana vozačka dozvola", "Foreign driving licence")}
     tpl = ctx["template"]
     for pos, n in enumerate(ORDER):
         slug, th, dk = THEMES[n]
@@ -532,7 +540,7 @@ def build_all(ctx):
             if lab[1] not in {x[1][1] for x in navitems}:
                 navitems.append((blk.get("id") or f"s{i}", lab))
         links = "".join(f'<a href="#{i}">{B(l)}</a>' for i, l in navitems)
-        local = (f'<div class="pg-local"><div class="wrap pg-local-in"><a class="pg-local-t" href="#top">{B(titles[n])}</a>'
+        local = (f'<div class="pg-local"><div class="wrap pg-local-in"><a class="pg-local-t" href="#top">{B(short.get(n, titles[n]))}</a>'
                  f'<nav class="pg-local-links" aria-label="Sections">{links}</nav></div><i class="pg-progress"></i></div>')
         hstats = "".join(f'<li><b>{B(v)}</b>{B(l, "span")}</li>' for v, l in page["stats"])
         rel = "".join(
