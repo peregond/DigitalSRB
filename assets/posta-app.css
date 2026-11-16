@@ -381,3 +381,9 @@
 .pa-row{padding:44px 44px 112px;margin:-36px -44px -84px}
 .pa-ctrl{position:relative;z-index:2}
 .pa-row{padding-left:72px;padding-right:72px;margin-left:-72px;margin-right:-72px}
+
+/* the DISPLAY itself is exactly 9:16 (322 x 572); the bezel is added around it */
+.pa-phone{height:auto;aspect-ratio:auto;display:block}
+.pa-screen{height:auto;width:100%;aspect-ratio:9/16}
+.pa-body{gap:8px;padding:6px 16px 10px}
+.pa-list{gap:6px}
