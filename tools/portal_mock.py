@@ -13,15 +13,15 @@ def portal_html():
             f'{B("Vizualizacija je napravljena uz pomoć veštačke inteligencije (AI) i predstavlja koncept. Današnji sajtovi su stvarni snimci ekrana. Iznosi i datumi su primeri.", "This visual was created with the help of AI and shows a concept. Today’s sites are real screenshots. Amounts and dates are examples.", "p", "pa-note")}</div>')
 
     def old(file, sr, en, alt_sr, alt_en):
-        return (f'<figure class="shot"><a href="{base}{file}" target="_blank" rel="noopener"><img src="{base}{file}" alt="{alt_en}" loading="lazy" width="2160" height="1215"></a>'
+        return (f'<figure class="shot"><img src="{base}{file}" alt="{alt_en}" loading="lazy" width="2160" height="1215">'
                 f'<figcaption><span class="pa-n">{B("DANAS", "TODAY")}{ai}</span>{B(sr, en, "b")}</figcaption></figure>')
 
     olds = (old("old-eporezi.webp", "ePorezi: tri načina prijave i programi za preuzimanje", "ePorezi: three ways to sign in and programs to download", "", "Simplified view of today's ePorezi start page")
             + old("old-apr.webp", "APR: poseban portal sa svojim uslugama", "APR: a separate portal with its own services", "", "Simplified view of today's APR site"))
-    new = (f'<figure class="shot new"><a href="{base}portal-sr.webp" target="_blank" rel="noopener" lang="sr-Latn">'
-           f'<img src="{base}portal-sr.webp" alt="Jedinstveni poreski portal: pregled firme, obaveze i rokovi" width="2160" height="1215"></a>'
-           f'<a href="{base}portal-en.webp" target="_blank" rel="noopener" lang="en">'
-           f'<img src="{base}portal-en.webp" alt="The single tax portal: business overview, obligations and deadlines" loading="lazy" width="2160" height="1215"></a>'
+    new = (f'<figure class="shot new"><button type="button" class="zoom" lang="sr-Latn" aria-label="Uvećaj sliku">'
+           f'<img src="{base}portal-sr.webp" alt="Jedinstveni poreski portal: pregled firme, obaveze i rokovi" width="2160" height="1215"></button>'
+           f'<button type="button" class="zoom" lang="en" aria-label="Enlarge the image">'
+           f'<img src="{base}portal-en.webp" alt="The single tax portal: business overview, obligations and deadlines" loading="lazy" width="2160" height="1215"></button>'
            f'<figcaption><span class="pa-n">{B("PREDLOG", "PROPOSAL")}{ai}</span>'
            f'{B("Jedinstveni poreski portal: registracija, porezi i obaveze na jednom ekranu", "The single tax portal: registration, taxes and obligations on one screen", "b")}</figcaption></figure>')
     return f'<div class="pa pa-portal pa-apple">{note}<div class="pa-shots"><div class="shots-old">{olds}</div>{new}</div></div>'

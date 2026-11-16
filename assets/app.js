@@ -312,6 +312,33 @@
   window.addEventListener("resize", fitMocks);
   window.addEventListener("load", fitMocks);
 
+  /* ---------- enlarge an image on the page (no new tab) ---------- */
+  $$(".zoom").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var src = btn.querySelector("img");
+      var box = document.createElement("div");
+      box.className = "lightbox";
+      box.setAttribute("role", "dialog");
+      box.setAttribute("aria-modal", "true");
+      box.innerHTML = '<img alt=""><button type="button" class="x" aria-label="Close / Zatvori">×</button>';
+      box.querySelector("img").src = src.currentSrc || src.src;
+      box.querySelector("img").alt = src.alt;
+      document.body.appendChild(box);
+      document.body.style.overflow = "hidden";
+      requestAnimationFrame(function () { box.classList.add("in"); });
+      function close() {
+        document.removeEventListener("keydown", onKey);
+        box.classList.remove("in");
+        document.body.style.overflow = "";
+        setTimeout(function () { document.body.removeChild(box); btn.focus(); }, 280);
+      }
+      function onKey(e) { if (e.key === "Escape") close(); }
+      document.addEventListener("keydown", onKey);
+      box.addEventListener("click", close);
+      box.querySelector(".x").focus();
+    });
+  });
+
   /* ---------- phone galleries: arrows ---------- */
   $$(".pa-ctrl").forEach(function (box) {
     var row = box.parentNode.querySelector(".pa-row");

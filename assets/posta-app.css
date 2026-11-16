@@ -490,10 +490,22 @@
 .shot{margin:0}
 .shot img{display:block;width:100%;height:auto;border-radius:16px;box-shadow:0 16px 40px rgba(20,30,5,.16)}
 .shot.new img{border-radius:20px;box-shadow:0 30px 70px color-mix(in srgb,var(--navy) 28%,transparent),0 4px 14px rgba(0,0,0,.08)}
-.shot.new a{display:block}
+.shot.new .zoom{display:block;width:100%}
 .shot figcaption{display:grid;gap:4px;margin-top:14px;padding:0 4px}
 .shot figcaption b{font-family:var(--display);font-size:14px;line-height:1.25;color:var(--ink)}
 .shot.new figcaption b{font-size:16px}
 @media (max-width:860px){.pa-shots{grid-template-columns:1fr}}
 
 .pa-apple{--navy:#1d1d1f}
+
+/* zoom button around the proposal image + the on-page enlarged view */
+.zoom{display:block;padding:0;border:0;background:none;cursor:zoom-in;position:relative;border-radius:20px}
+.zoom img{display:block;width:100%;height:auto}
+.zoom::after{content:"";position:absolute;right:16px;bottom:16px;width:36px;height:36px;border-radius:50%;background:rgba(29,29,31,.78) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'><path d='M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM21 21l-4.3-4.3M11 8v6M8 11h6'/></svg>") center/18px no-repeat;opacity:0;transition:opacity .25s}
+.zoom:hover::after,.zoom:focus-visible::after{opacity:1}
+.lightbox{position:fixed;inset:0;z-index:200;display:grid;place-items:center;padding:3vh 3vw;background:rgba(17,17,19,.84);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);opacity:0;transition:opacity .28s ease;cursor:zoom-out}
+.lightbox.in{opacity:1}
+.lightbox img{max-width:100%;max-height:100%;width:auto;height:auto;border-radius:18px;box-shadow:0 40px 100px rgba(0,0,0,.5);transform:scale(.94);transition:transform .32s cubic-bezier(.2,.7,.2,1)}
+.lightbox.in img{transform:none}
+.lightbox .x{position:absolute;top:18px;right:20px;width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.16);color:#fff;font-size:26px;line-height:1;display:grid;place-items:center;border:0;cursor:pointer}
+@media (prefers-reduced-motion:reduce){.lightbox,.lightbox img{transition:none}}
