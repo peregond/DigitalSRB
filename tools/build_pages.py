@@ -304,7 +304,7 @@ def build_all(ctx):
         html = (tpl.replace("{{TITLE_SR}}", escape(titles[n][0] + " · Digitalna Srbija"))
                 .replace("{{TITLE_EN}}", escape(titles[n][1] + " · Digital Serbia"))
                 .replace("{{DESC_SR}}", escape(taglines[n][0])).replace("{{DESC_EN}}", escape(taglines[n][1]))
-                .replace("{{HL}}", "#FBBA00" if n == 21 else "#FFFFFF").replace("{{TH}}", th).replace("{{TH2}}", dk).replace("{{TINT}}", mix(th, 9)).replace("{{TINT2}}", mix(th, 18))
+                .replace("{{HL}}", "#F1BD40" if n == 21 else "#FFFFFF").replace("{{TH}}", th).replace("{{TH2}}", dk).replace("{{TINT}}", mix(th, 9)).replace("{{TINT2}}", mix(th, 18))
                 .replace("{{NUM}}", f"{n:02d}").replace("{{N}}", str(n))
                 .replace("{{EYEBROW}}", B((cat_of(n)["sr"][0], cat_of(n)["en"][0])) + " · " + B(UI["idea"]) + f" {n:02d}")
                 .replace("{{H1}}", B(titles[n], "h1")).replace("{{TAGLINE}}", B(taglines[n], "p", "pg-tag"))

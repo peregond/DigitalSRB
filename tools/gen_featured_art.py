@@ -188,7 +188,7 @@ def mix(hexc, pct):
 
 
 # idea -> (main colour of the drawing, colour of the background tint)
-ART_COLORS = {21: ("#0C4076", "#FBBA00")}
+ART_COLORS = {21: ("#1D3F72", "#F1BD40")}
 
 OUT.mkdir(parents=True, exist_ok=True)
 for n, (c, body) in ART.items():
