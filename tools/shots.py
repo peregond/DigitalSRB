@@ -33,6 +33,13 @@ ICON = {
     "file": "M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zM14 2v6h6",
     "edit": "M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z",
     "arrow": "M5 12h14M13 6l6 6-6 6",
+    "mail": "M3 5h18v14H3zM3 7l9 7 9-7",
+    "help": "M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zM9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3M12 17h.01",
+    "cog": "M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2",
+    "build": "M4 21V5a1 1 0 0 1 1-1h9a1 1 0 0 1 1 1v16M15 9h4a1 1 0 0 1 1 1v11M8 8h3M8 12h3M8 16h3M3 21h18",
+    "list": "M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01",
+    "down": "M6 9l6 6 6-6",
+    "doc": "M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zM14 2v6h6M9 13h6M9 17h6",
     "trend": "M3 17l6-6 4 4 8-8M15 7h6v6",
 }
 
@@ -59,7 +66,7 @@ body{font-family:'Manrope','Inter',system-ui,sans-serif;-webkit-font-smoothing:a
 
 def page(css, body, bg):
     return (f'<!doctype html><html><head><meta charset="utf-8"><link rel="preconnect" href="https://fonts.googleapis.com">'
-            f'<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">'
+            f'<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">'
             f'<style>{FRAME_CSS}{css}</style></head><body style="background:{bg}">{body}</body></html>')
 
 
@@ -67,126 +74,165 @@ def page(css, body, bg):
 PORTAL_CSS = """
 .win{background:#fff}
 .chrome{background:#F5F5F7}.url{background:#E8E8ED;color:#6e6e73}
-.pg{flex:1;min-height:0;padding:0 34px 18px;display:grid;grid-template-rows:auto auto 1fr auto;gap:14px;background:#fff;color:#1d1d1f}
-.nav{display:flex;align-items:center;gap:18px;height:56px;border-bottom:1px solid #E8E8ED;margin:0 -34px;padding:0 34px}
-.logo{width:32px;height:32px;border-radius:10px;background:#1d1d1f;color:#fff;display:grid;place-items:center}
-.logo svg{width:18px;height:18px}
-.nav b{font-size:17px;font-weight:700;letter-spacing:-.01em}
-.tabs{display:flex;gap:4px;margin-left:14px}
-.tabs span{padding:8px 14px;font-weight:500;font-size:14.5px;color:#6e6e73;border-radius:999px}
-.tabs span.on{color:#1d1d1f;font-weight:700;background:#F5F5F7}
-.srch{margin-left:auto;display:flex;align-items:center;gap:9px;background:#F5F5F7;border-radius:999px;padding:9px 16px;font-weight:500;font-size:14px;color:#6e6e73;min-width:230px}
-.srch svg{width:16px;height:16px}
-.lang{display:flex;background:#F5F5F7;border-radius:999px;padding:3px}
-.lang i{font-style:normal;font-weight:700;font-size:12px;padding:6px 12px;border-radius:999px;color:#6e6e73}
-.lang i.on{background:#fff;color:#1d1d1f;box-shadow:0 1px 4px rgba(0,0,0,.14)}
-.bell{position:relative;width:36px;height:36px;border-radius:50%;background:#F5F5F7;display:grid;place-items:center;color:#1d1d1f}
-.bell svg{width:18px;height:18px}.bell u{position:absolute;top:8px;right:9px;width:9px;height:9px;border-radius:50%;background:#0071E3;border:2px solid #F5F5F7}
-.av{width:36px;height:36px;border-radius:50%;background:#1d1d1f;color:#fff;display:grid;place-items:center}.av svg{width:18px;height:18px}
-.hero{display:flex;justify-content:space-between;align-items:flex-end;padding:4px 4px 0}
-.hi{font-size:15px;font-weight:600;color:#6e6e73}
-h1{font-size:52px;font-weight:800;letter-spacing:-.04em;line-height:1.04;display:flex;align-items:center;gap:14px}
-.ex{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:#F5F5F7;color:#6e6e73;border-radius:7px;padding:4px 9px}
-.pills{display:flex;gap:9px}
-.pill{display:flex;align-items:center;gap:7px;font-weight:600;font-size:13.5px;padding:8px 15px;border-radius:999px;background:#F5F5F7;color:#1d1d1f}
-.pill.b{color:#0066CC}
-.pill svg{width:14px;height:14px;stroke-width:3;color:#30B454}.pill.b svg{color:#0066CC}
-.grid{display:grid;grid-template-columns:1.2fr 1fr 1fr;grid-template-rows:1fr 1fr;gap:14px;min-height:0}
-.card{background:#F5F5F7;border-radius:28px;padding:18px 22px;display:flex;flex-direction:column;gap:9px;min-height:0;overflow:hidden}
-.k{display:flex;align-items:center;gap:9px;font-size:13px;font-weight:700;letter-spacing:0;color:#6e6e73}
-.tag{margin-left:auto;font-size:11.5px;font-weight:700;padding:4px 11px;border-radius:999px;background:#fff;color:#1d1d1f;text-transform:none}
-.big{grid-row:1/3;background:linear-gradient(160deg,#2a2a2d 0%,#111113 100%);color:#fff;padding:22px 26px;gap:10px}
-.big .k{color:rgba(255,255,255,.65)}
-.amt{font-size:72px;font-weight:800;letter-spacing:-.05em;line-height:1}.amt small{font-size:24px;font-weight:700;letter-spacing:0;color:rgba(255,255,255,.7);margin-left:6px}
-.bar{display:flex;gap:5px;height:12px}.bar i{display:block;border-radius:6px;background:#fff}.bar i+i{background:#6e6e73}
-.leg{display:flex;gap:22px;font-size:14px;font-weight:600;color:rgba(255,255,255,.85)}.leg span{display:flex;align-items:center;gap:7px}.leg u{width:10px;height:10px;border-radius:50%;background:#fff}.leg u.b{background:#6e6e73}
-.due{display:grid;gap:8px;margin-top:2px}
-.due div{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.08);border-radius:18px;padding:10px 16px;font-weight:600;font-size:15px}
-.due svg{width:18px;height:18px;color:rgba(255,255,255,.7)}.due span{flex:1}.due b{color:#fff;font-weight:700}
-.btns{display:grid;gap:9px;margin-top:auto}
-.btn{display:flex;align-items:center;justify-content:center;gap:9px;border-radius:999px;padding:13px;font-weight:700;font-size:15.5px}
-.btn svg{width:18px;height:18px}
-.btn.w{background:#fff;color:#1d1d1f}
-.btn.g{background:rgba(255,255,255,.1);color:#fff}
-.btn.s{padding:0;font-size:14.5px;align-self:flex-start;background:none;color:#0066CC;font-weight:600}
-.btn.s svg{width:16px;height:16px}
-.list{list-style:none;display:grid;gap:11px}
-.list li{display:flex;align-items:center;gap:12px;font-weight:700;font-size:14.5px}
-.list li>div{flex:1;display:grid;gap:1px}.list small{font-size:12.5px;color:#6e6e73;font-weight:500}
-.dot{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:#30B454;color:#fff}.dot svg{width:15px;height:15px;stroke-width:3}
-.dot.c{background:#fff;color:#1d1d1f}.dot.c svg{stroke-width:2}.dot.s{background:#1d1d1f;color:#fff}.dot.s svg{stroke-width:2}
-.chart{display:flex;align-items:flex-end;gap:16px;height:100%;min-height:0;padding-top:4px}
-.chart>div{flex:1;display:flex;flex-direction:column;align-items:center;gap:7px;justify-content:flex-end;height:100%}
-.pair{display:flex;gap:5px;align-items:flex-end;height:100%;width:100%;justify-content:center}
-.pair i{display:block;width:36%;border-radius:8px 8px 3px 3px;background:#C7C7CC}.pair i+i{background:#1d1d1f}
-.chart span{font-size:12px;font-weight:600;color:#6e6e73}
-.chartwrap{flex:1;min-height:0;display:flex;flex-direction:column;gap:8px}
-.lg{display:flex;gap:16px;font-size:12.5px;font-weight:600;color:#6e6e73}.lg span{display:flex;align-items:center;gap:6px}.lg u{width:10px;height:10px;border-radius:3px;background:#C7C7CC}.lg u.b{background:#1d1d1f}
-.notes{display:flex;gap:14px}
-.note{flex:1;display:flex;align-items:center;gap:12px;background:#F5F5F7;border-radius:22px;padding:11px 16px;font-weight:700;font-size:14px}
-.note small{display:block;font-size:12px;color:#6e6e73;font-weight:500}
-.note>div{flex:1}
+.app{flex:1;min-height:0;display:grid;grid-template-columns:232px 1fr;font-family:Inter,'Manrope',system-ui,sans-serif;font-size:13.5px;color:#1d1d1f;letter-spacing:-.005em;font-variant-numeric:tabular-nums}
+.side{background:#F5F5F7;border-right:1px solid #E5E5EA;padding:16px 12px;display:flex;flex-direction:column;gap:2px;min-height:0}
+.brand{display:flex;align-items:center;gap:10px;padding:2px 8px 14px}
+.logo{width:30px;height:30px;border-radius:9px;background:#1d1d1f;color:#fff;display:grid;place-items:center}.logo svg{width:17px;height:17px}
+.brand b{font-size:15px;font-weight:700;letter-spacing:-.01em}
+.firm{display:flex;align-items:center;gap:10px;background:#fff;border:1px solid #E5E5EA;border-radius:10px;padding:9px 10px;margin-bottom:12px}
+.firm i{font-style:normal;width:28px;height:28px;border-radius:8px;background:#E8E8ED;display:grid;place-items:center;font-weight:700;font-size:11.5px;color:#3a3a3c}
+.firm div{flex:1;line-height:1.25}.firm b{display:block;font-size:13px;font-weight:600}.firm small{font-size:11.5px;color:#6e6e73}
+.firm svg{width:15px;height:15px;color:#8e8e93}
+.grp{font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:#8e8e93;padding:10px 10px 5px}
+.it{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:8px;font-weight:500;color:#3a3a3c}
+.it svg{width:17px;height:17px;color:#6e6e73;flex:none}
+.it.on{background:#E8E8ED;font-weight:600;color:#1d1d1f}.it.on svg{color:#0066CC}
+.it .own{margin-left:auto;font-size:10.5px;font-weight:600;color:#8e8e93}
+.it .cnt{margin-left:auto;background:#0071E3;color:#fff;font-size:11px;font-weight:600;border-radius:999px;padding:1px 7px}
+.sp{flex:1}
+.main{display:flex;flex-direction:column;min-width:0;min-height:0;background:#fff}
+.top{display:flex;align-items:center;gap:14px;height:52px;border-bottom:1px solid #E5E5EA;padding:0 26px;flex:none}
+.crumb{display:flex;align-items:center;gap:8px;color:#6e6e73;font-weight:500}.crumb b{color:#1d1d1f;font-weight:600}
+.find{margin-left:auto;display:flex;align-items:center;gap:8px;background:#F5F5F7;border:1px solid #E5E5EA;border-radius:9px;padding:7px 12px;color:#8e8e93;min-width:290px}
+.find svg{width:15px;height:15px}.find kbd{margin-left:auto;font:600 11px Inter,sans-serif;color:#8e8e93;background:#fff;border:1px solid #E5E5EA;border-radius:5px;padding:1px 6px}
+.lang{display:flex;background:#F5F5F7;border:1px solid #E5E5EA;border-radius:8px;padding:2px}.lang i{font-style:normal;font-weight:600;font-size:11.5px;padding:4px 9px;border-radius:6px;color:#6e6e73}.lang i.on{background:#fff;color:#1d1d1f;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.ic{position:relative;width:32px;height:32px;border-radius:8px;display:grid;place-items:center;color:#3a3a3c}.ic svg{width:17px;height:17px}
+.ic u{position:absolute;top:5px;right:6px;width:8px;height:8px;border-radius:50%;background:#0071E3;border:2px solid #fff}
+.me{display:flex;align-items:center;gap:8px;font-weight:600}.me i{font-style:normal;width:30px;height:30px;border-radius:50%;background:#1d1d1f;color:#fff;display:grid;place-items:center;font-size:11.5px}
+.body{flex:1;min-height:0;padding:20px 26px 14px;display:flex;flex-direction:column;gap:14px}
+.head{display:flex;align-items:flex-end;justify-content:space-between}
+h1{font-size:26px;font-weight:700;letter-spacing:-.025em;line-height:1.15}
+.sub{color:#6e6e73;margin-top:3px;font-size:13px}
+.acts{display:flex;gap:8px}
+.b{display:inline-flex;align-items:center;gap:7px;border-radius:9px;padding:8px 14px;font-weight:600;font-size:13px;border:1px solid #D2D2D7;background:#fff;color:#1d1d1f}
+.b svg{width:15px;height:15px}
+.b.p{background:#0071E3;border-color:#0071E3;color:#fff}
+.strip{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid #E5E5EA;border-radius:12px;background:#fff}
+.strip div{padding:11px 16px;border-left:1px solid #E5E5EA;display:grid;gap:2px}.strip div:first-child{border-left:0}
+.strip small{font-size:11.5px;color:#6e6e73;font-weight:500}.strip b{font-size:17px;font-weight:650;letter-spacing:-.015em}
+.strip b.w{color:#B25E00}.strip b.g{color:#1F8A3B}
+.cols{flex:1;min-height:0;display:grid;grid-template-columns:1fr 292px;gap:16px}
+.panel{border:1px solid #E5E5EA;border-radius:12px;background:#fff;display:flex;flex-direction:column;min-height:0;overflow:hidden}
+.ph{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid #E5E5EA}.ph b{font-size:14px;font-weight:650}
+.tabs{display:flex;gap:2px;margin-left:8px}.tabs span{padding:5px 10px;border-radius:7px;font-weight:500;color:#6e6e73;font-size:12.5px}.tabs span.on{background:#F5F5F7;color:#1d1d1f;font-weight:600}
+.tabs em{font-style:normal;color:#8e8e93;margin-left:4px;font-size:11.5px}
+.ph .fl{margin-left:auto;display:flex;align-items:center;gap:6px;color:#6e6e73;font-weight:500;font-size:12.5px}.ph .fl svg{width:14px;height:14px}
+table{width:100%;border-collapse:collapse}
+th{font-size:11px;font-weight:600;letter-spacing:.03em;text-transform:uppercase;color:#8e8e93;text-align:left;padding:8px 12px;background:#FAFAFA;border-bottom:1px solid #E5E5EA}
+td{padding:0 12px;height:47px;border-bottom:1px solid #F0F0F2;vertical-align:middle}
+tr:last-child td{border-bottom:0}
+td.n{text-align:right}th.n{text-align:right}
+.cb{width:16px;height:16px;border-radius:5px;border:1.5px solid #C7C7CC;display:grid;place-items:center;background:#fff}
+.cb.on{background:#0071E3;border-color:#0071E3;color:#fff}.cb svg{width:11px;height:11px;stroke-width:3.5}
+.nm b{display:block;font-weight:600}.nm small{color:#6e6e73;font-size:12px}
+.ag{font-size:11.5px;font-weight:600;color:#3a3a3c;background:#F2F2F7;border-radius:6px;padding:2px 8px}
+.st{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;border-radius:999px;padding:3px 10px}
+.st::before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}
+.st.w{background:#FFF4E0;color:#B25E00}.st.b{background:#E8F1FD;color:#0059B8}.st.g{background:#E8F6EC;color:#1F8A3B}.st.n{background:#F2F2F7;color:#6e6e73}
+.due b{font-weight:600}.due small{display:block;color:#6e6e73;font-size:12px}
+.act{color:#0066CC;font-weight:600}
+.bar{display:flex;align-items:center;gap:14px;margin-top:auto;border-top:1px solid #E5E5EA;background:#F5F9FF;padding:10px 16px}
+.bar b{font-weight:600}.bar span{color:#3a3a3c}.bar .b{margin-left:auto}
+.right{display:flex;flex-direction:column;gap:14px;min-height:0}
+.right .panel{flex:none}
+.tl{list-style:none;padding:6px 16px 12px;display:grid;gap:0}
+.tl li{display:grid;grid-template-columns:18px 1fr;gap:10px;padding:8px 0;position:relative}
+.tl li::before{content:"";position:absolute;left:8px;top:22px;bottom:-8px;width:1.5px;background:#E5E5EA}.tl li:last-child::before{display:none}
+.tl i{width:17px;height:17px;border-radius:50%;background:#E8F6EC;color:#1F8A3B;display:grid;place-items:center;margin-top:1px}.tl i svg{width:10px;height:10px;stroke-width:3.5}
+.tl b{font-weight:600;font-size:13px}.tl small{display:block;color:#6e6e73;font-size:12px;margin-top:1px}
+.help{display:flex;align-items:center;gap:12px;padding:12px 16px}
+.help i{width:34px;height:34px;border-radius:9px;background:#F2F2F7;display:grid;place-items:center;color:#3a3a3c}.help svg{width:17px;height:17px}
+.help div{flex:1;line-height:1.3}.help b{font-weight:600}.help small{display:block;color:#6e6e73;font-size:12px}
+.msg{padding:6px 16px 12px;display:grid;gap:10px}
+.msg div{display:grid;grid-template-columns:30px 1fr auto;gap:10px;align-items:center}
+.msg i{font-style:normal;width:30px;height:30px;border-radius:50%;background:#F2F2F7;display:grid;place-items:center;font-weight:700;font-size:11px;color:#3a3a3c}
+.msg b{font-weight:600;font-size:13px;display:block}.msg small{color:#6e6e73;font-size:12px}.msg em{font-style:normal;color:#8e8e93;font-size:11.5px}
 """
 
 STR = {
     "sr": {
-        "lang": "sr-Latn", "portal": "Poreski portal", "tabs": ["Pregled", "Firma", "Registracija", "Porezi", "Izveštaji"],
-        "search": "Pretraži usluge", "hi": "Dobar dan", "firm": "Moja firma", "ex": "primer",
-        "p1": "Registrovana", "p2": "Prijave u redu", "p3": "Jedan nalog, eUprava",
-        "pay": "Za plaćanje", "tax": "Porez", "contrib": "Doprinosi", "f1": "Prijava poreza", "f1d": "za 12 dana", "f2": "Doprinosi", "f2d": "za 26 dana",
-        "payall": "Plati sve odjednom", "ips": "Plati preko IPS QR koda",
-        "reg": "Registracija", "r1": "Podaci o firmi", "r1d": "Svi podaci su ažurni", "r2": "Poslednja izmena", "r2d": "pre 3 meseca", "chg": "Izmeni podatke",
-        "fil": "Prijave i rokovi", "fl1": "Prijava poreza", "fl1d": "rok za 12 dana", "fl2": "Doprinosi", "fl2d": "rok za 26 dana", "file": "Podnesi prijavu",
-        "inc": "Prihodi i porez", "months": ["jun", "jul", "avg", "sep", "okt", "nov"], "l1": "Prihodi", "l2": "Porez",
-        "n1": "Poreska prijava primljena", "n1d": "Poreska uprava, juče", "n2": "Registracija potvrđena", "n2d": "APR, pre 3 meseca", "n3": "Uplata evidentirana", "n3d": "Poreska uprava, pre 5 dana",
-        "foot": "Svaku uslugu i dalje pruža njena ustanova, a ti sve vidiš na jednom mestu.", "url": "portal.gov.rs",
+        "lang": "sr-Latn", "url": "portal.gov.rs", "brand": "Poreski portal", "firm": "Primer d.o.o.", "pib": "PIB 100000001",
+        "g1": "Pregled", "n_over": "Pregled", "n_firm": "Moja firma", "n_reg": "Registracija", "n_tax": "Porezi i prijave", "n_pay": "Plaćanja", "n_doc": "Uverenja i dokumenta", "n_msg": "Poruke",
+        "g2": "Pomoć", "n_help": "Pomoć i kontakt", "n_set": "Podešavanja", "apr": "APR", "pu": "Poreska",
+        "crumb": "Početna", "find": "Pretraži usluge, obrasce i uverenja", "me": "PD",
+        "h1": "Pregled", "sub": "Primer d.o.o. · ažurirano danas u 09:41", "b1": "Nova prijava", "b2": "Plati",
+        "s1": "Za plaćanje", "s1v": "16.000 RSD", "s2": "Najbliži rok", "s2v": "za 12 dana", "s3": "Registracija", "s3v": "U redu", "s4": "Nove poruke", "s4v": "2",
+        "pt": "Obaveze", "tabs": [("Sve", "6"), ("Za plaćanje", "2"), ("Prijave", "2"), ("Registracija", "1")], "sort": "Rok",
+        "c1": "Obaveza", "c2": "Ustanova", "c3": "Rok", "c4": "Iznos", "c5": "Status", "c6": "",
+        "rows": [
+            ("Porez na dohodak, mesečno", "Akontacija za oktobar", "Poreska", "28.11.2026.", "za 12 dana", "9.600", "Za plaćanje", "w", "Plati", True),
+            ("Doprinosi za zaposlene", "PIO, zdravstvo, nezaposlenost", "Poreska", "12.12.2026.", "za 26 dana", "6.400", "Za plaćanje", "w", "Plati", True),
+            ("Poreska prijava PP-PDV", "Novembar 2026.", "Poreska", "15.12.2026.", "za 29 dana", "—", "Čeka prijavu", "b", "Podnesi", False),
+            ("Godišnji finansijski izveštaj", "Za 2025. godinu", "APR", "31.03.2027.", "za 4 meseca", "—", "Čeka prijavu", "b", "Podnesi", False),
+            ("Potvrda podataka o firmi", "Poslednja izmena pre 3 meseca", "APR", "—", "", "—", "U redu", "g", "Pogledaj", False),
+            ("Porez na dohodak, mesečno", "Akontacija za septembar", "Poreska", "28.10.2026.", "plaćeno pre 5 dana", "9.200", "Plaćeno", "n", "Potvrda", False),
+        ],
+        "sel": "izabrane obaveze", "selv": "16.000 RSD", "pay": "Plati izabrano",
+        "ap": "Aktivnost", "a1": "Prijava poreza primljena", "a1d": "Poreska uprava · juče, 14:20", "a2": "Uplata evidentirana", "a2d": "Poreska uprava · pre 5 dana", "a3": "Registracija potvrđena", "a3d": "APR · pre 3 meseca",
+        "mp": "Poruke", "m1": "Poreska uprava", "m1d": "Podsetnik: rok za akontaciju", "m1t": "09:12", "m2": "APR", "m2d": "Godišnji izveštaj: novi obrazac", "m2t": "juče",
+        "hlp": "Treba ti pomoć?", "hlpd": "Razgovaraj sa podrškom ili zakaži poziv",
     },
     "en": {
-        "lang": "en", "portal": "Tax portal", "tabs": ["Overview", "Business", "Registration", "Taxes", "Reports"],
-        "search": "Search services", "hi": "Good afternoon", "firm": "My business", "ex": "example",
-        "p1": "Registered", "p2": "Filings in order", "p3": "One account, eUprava",
-        "pay": "To pay", "tax": "Tax", "contrib": "Contributions", "f1": "Tax filing", "f1d": "in 12 days", "f2": "Contributions", "f2d": "in 26 days",
-        "payall": "Pay everything at once", "ips": "Pay by IPS QR",
-        "reg": "Registration", "r1": "Business data", "r1d": "Everything is up to date", "r2": "Last change", "r2d": "3 months ago", "chg": "Change data",
-        "fil": "Filings and deadlines", "fl1": "Tax filing", "fl1d": "due in 12 days", "fl2": "Contributions", "fl2d": "due in 26 days", "file": "File a return",
-        "inc": "Income and tax", "months": ["Jun", "Jul", "Aug", "Sep", "Oct", "Nov"], "l1": "Income", "l2": "Tax",
-        "n1": "Tax return received", "n1d": "Tax Administration, yesterday", "n2": "Registration confirmed", "n2d": "APR, 3 months ago", "n3": "Payment recorded", "n3d": "Tax Administration, 5 days ago",
-        "foot": "Each service is still provided by its own agency, and you see it all in one place.", "url": "portal.gov.rs",
+        "lang": "en", "url": "portal.gov.rs", "brand": "Tax portal", "firm": "Example Ltd.", "pib": "Tax ID 100000001",
+        "g1": "Overview", "n_over": "Overview", "n_firm": "My business", "n_reg": "Registration", "n_tax": "Taxes and filings", "n_pay": "Payments", "n_doc": "Certificates and documents", "n_msg": "Messages",
+        "g2": "Help", "n_help": "Help and contact", "n_set": "Settings", "apr": "APR", "pu": "Tax Admin.",
+        "crumb": "Home", "find": "Search services, forms and certificates", "me": "EL",
+        "h1": "Overview", "sub": "Example Ltd. · updated today at 09:41", "b1": "New filing", "b2": "Pay",
+        "s1": "To pay", "s1v": "16,000 RSD", "s2": "Next deadline", "s2v": "in 12 days", "s3": "Registration", "s3v": "In order", "s4": "New messages", "s4v": "2",
+        "pt": "Obligations", "tabs": [("All", "6"), ("To pay", "2"), ("Filings", "2"), ("Registration", "1")], "sort": "Deadline",
+        "c1": "Obligation", "c2": "Agency", "c3": "Deadline", "c4": "Amount", "c5": "Status", "c6": "",
+        "rows": [
+            ("Income tax, monthly", "Advance for October", "Tax Admin.", "28 Nov 2026", "in 12 days", "9,600", "To pay", "w", "Pay", True),
+            ("Employee contributions", "Pension, health, unemployment", "Tax Admin.", "12 Dec 2026", "in 26 days", "6,400", "To pay", "w", "Pay", True),
+            ("VAT return PP-PDV", "November 2026", "Tax Admin.", "15 Dec 2026", "in 29 days", "—", "To file", "b", "File", False),
+            ("Annual financial statement", "For 2025", "APR", "31 Mar 2027", "in 4 months", "—", "To file", "b", "File", False),
+            ("Business data confirmation", "Last change 3 months ago", "APR", "—", "", "—", "In order", "g", "View", False),
+            ("Income tax, monthly", "Advance for September", "Tax Admin.", "28 Oct 2026", "paid 5 days ago", "9,200", "Paid", "n", "Receipt", False),
+        ],
+        "sel": "obligations selected", "selv": "16,000 RSD", "pay": "Pay selected",
+        "ap": "Activity", "a1": "Tax return received", "a1d": "Tax Administration · yesterday, 14:20", "a2": "Payment recorded", "a2d": "Tax Administration · 5 days ago", "a3": "Registration confirmed", "a3d": "APR · 3 months ago",
+        "mp": "Messages", "m1": "Tax Administration", "m1d": "Reminder: advance payment due", "m1t": "09:12", "m2": "APR", "m2d": "Annual statement: new form", "m2t": "yesterday",
+        "hlp": "Need help?", "hlpd": "Chat with support or book a call",
     },
 }
 
 
 def portal_html(lang):
     t = STR[lang]
-    tabs = "".join(f'<span class="{"on" if i == 0 else ""}">{x}</span>' for i, x in enumerate(t["tabs"]))
-    heights = [(46, 20), (58, 26), (52, 22), (70, 30), (62, 27), (84, 36)]
-    bars = "".join(f'<div><div class="pair"><i style="height:{a}%"></i><i style="height:{b * 1.7:.0f}%"></i></div><span>{m}</span></div>' for (a, b), m in zip(heights, t["months"]))
+    def it(icon, label, on=False, extra=""):
+        return f'<div class="it{" on" if on else ""}">{ic(icon)}{label}{extra}</div>'
+    side = (f'<aside class="side"><div class="brand"><span class="logo">{ic("home")}</span><b>{t["brand"]}</b></div>'
+            f'<div class="firm"><i>{t["me"]}</i><div><b>{t["firm"]}</b><small>{t["pib"]}</small></div>{ic("down")}</div>'
+            + it("home", t["n_over"], True) + it("build", t["n_firm"])
+            + it("file", t["n_reg"], False, f'<span class="own">{t["apr"]}</span>') + it("list", t["n_tax"], False, f'<span class="own">{t["pu"]}</span>')
+            + it("card", t["n_pay"]) + it("doc", t["n_doc"]) + it("mail", t["n_msg"], False, '<span class="cnt">2</span>')
+            + f'<div class="sp"></div><div class="grp">{t["g2"]}</div>' + it("help", t["n_help"]) + it("cog", t["n_set"]) + '</aside>')
+    tabs = "".join(f'<span class="{"on" if i == 0 else ""}">{n}<em>{c}</em></span>' for i, (n, c) in enumerate(t["tabs"]))
+    rows = ""
+    for name, sub, ag, dl, dls, amt, st, k, act, sel in t["rows"]:
+        cb = f'<span class="cb{" on" if sel else ""}">{ic("check") if sel else ""}</span>'
+        due = f'<div class="due"><b>{dl}</b><small>{dls}</small></div>' if dl != "—" else "—"
+        rows += (f'<tr><td style="width:34px">{cb}</td><td class="nm"><b>{name}</b><small>{sub}</small></td><td><span class="ag">{ag}</span></td>'
+                 f'<td>{due}</td><td class="n"><b>{amt}</b></td><td><span class="st {k}">{st}</span></td><td class="act n">{act}</td></tr>')
     body = f"""
 <div class="win"><div class="chrome"><i></i><i></i><i></i><div class="url">{ic('lock')}{t['url']}</div></div>
-<div class="pg" lang="{t['lang']}">
-<div class="nav"><span class="logo">{ic('home')}</span><b>{t['portal']}</b><div class="tabs">{tabs}</div>
-<span class="srch">{ic('search')}{t['search']}</span><span class="lang"><i class="on">SR</i><i>EN</i></span><span class="bell">{ic('bell')}<u></u></span><span class="av">{ic('user')}</span></div>
-<div class="hero"><div><p class="hi">{t['hi']}</p><h1>{t['firm']} <span class="ex">{t['ex']}</span></h1></div>
-<div class="pills"><span class="pill">{ic('check')}{t['p1']}</span><span class="pill">{ic('check')}{t['p2']}</span><span class="pill b">{ic('shield')}{t['p3']}</span></div></div>
-<div class="grid">
-<section class="card big"><p class="k">{t['pay']}</p><div class="amt">16.000<small>RSD</small></div>
-<div class="bar"><i style="width:60%"></i><i style="width:40%"></i></div>
-<div class="leg"><span><u></u>{t['tax']} 9.600</span><span><u class="b"></u>{t['contrib']} 6.400</span></div>
-<div class="due"><div>{ic('cal')}<span>{t['f1']}</span><b>{t['f1d']}</b></div><div>{ic('cal')}<span>{t['f2']}</span><b>{t['f2d']}</b></div></div>
-<div class="btns"><span class="btn w">{ic('card')}{t['payall']}</span><span class="btn g">{ic('qr')}{t['ips']}</span></div></section>
-<section class="card"><p class="k">{t['reg']}<span class="tag">APR</span></p>
-<ul class="list"><li><span class="dot">{ic('check')}</span><div>{t['r1']}<small>{t['r1d']}</small></div></li><li><span class="dot">{ic('check')}</span><div>{t['r2']}<small>{t['r2d']}</small></div></li></ul>
-<span class="btn s">{ic('edit')}{t['chg']}</span></section>
-<section class="card"><p class="k">{t['fil']}<span class="tag">{'Poreska' if lang == 'sr' else 'Tax Admin.'}</span></p>
-<ul class="list"><li><span class="dot s">{ic('cal')}</span><div>{t['fl1']}<small>{t['fl1d']}</small></div></li><li><span class="dot c">{ic('cal')}</span><div>{t['fl2']}<small>{t['fl2d']}</small></div></li></ul>
-<span class="btn s">{ic('file')}{t['file']}</span></section>
-<section class="card" style="grid-column:2/4"><p class="k">{t['inc']}<span class="tag">{t['ex']}</span></p>
-<div class="chartwrap"><div class="chart">{bars}</div><div class="lg"><span><u></u>{t['l1']}</span><span><u class="b"></u>{t['l2']}</span></div></div></section>
-</div>
-<div class="notes"><div class="note"><span class="dot">{ic('check')}</span><div>{t['n1']}<small>{t['n1d']}</small></div></div>
-<div class="note"><span class="dot">{ic('check')}</span><div>{t['n2']}<small>{t['n2d']}</small></div></div>
-<div class="note"><span class="dot">{ic('check')}</span><div>{t['n3']}<small>{t['n3d']}</small></div></div></div>
-</div></div>"""
+<div class="app" lang="{t['lang']}">{side}
+<div class="main">
+<div class="top"><div class="crumb">{t['crumb']}<span>/</span><b>{t['n_over']}</b></div><div class="find">{ic('search')}{t['find']}<kbd>⌘K</kbd></div>
+<span class="lang"><i class="on">SR</i><i>EN</i></span><span class="ic">{ic('bell')}<u></u></span><span class="me"><i>{t['me']}</i></span></div>
+<div class="body">
+<div class="head"><div><h1>{t['h1']}</h1><p class="sub">{t['sub']}</p></div><div class="acts"><span class="b">{ic('file')}{t['b1']}</span><span class="b p">{ic('card')}{t['b2']}</span></div></div>
+<div class="strip"><div><small>{t['s1']}</small><b>{t['s1v']}</b></div><div><small>{t['s2']}</small><b class="w">{t['s2v']}</b></div><div><small>{t['s3']}</small><b class="g">{t['s3v']}</b></div><div><small>{t['s4']}</small><b>{t['s4v']}</b></div></div>
+<div class="cols">
+<section class="panel"><div class="ph"><b>{t['pt']}</b><div class="tabs">{tabs}</div><span class="fl">{ic('list')}{t['sort']}</span></div>
+<table><tr><th style="width:34px"></th><th>{t['c1']}</th><th>{t['c2']}</th><th>{t['c3']}</th><th class="n">{t['c4']}</th><th>{t['c5']}</th><th></th></tr>{rows}</table>
+<div class="bar"><span class="cb on">{ic('check')}</span><span><b>2</b> {t['sel']}</span><b>{t['selv']}</b><span class="b p">{ic('card')}{t['pay']}</span></div></section>
+<div class="right">
+<section class="panel"><div class="ph"><b>{t['ap']}</b></div><ul class="tl">
+<li><i>{ic('check')}</i><div><b>{t['a1']}</b><small>{t['a1d']}</small></div></li><li><i>{ic('check')}</i><div><b>{t['a2']}</b><small>{t['a2d']}</small></div></li><li><i>{ic('check')}</i><div><b>{t['a3']}</b><small>{t['a3d']}</small></div></li></ul></section>
+<section class="panel"><div class="ph"><b>{t['mp']}</b></div><div class="msg"><div><i>PU</i><span><b>{t['m1']}</b><small>{t['m1d']}</small></span><em>{t['m1t']}</em></div><div><i>AP</i><span><b>{t['m2']}</b><small>{t['m2d']}</small></span><em>{t['m2t']}</em></div></div></section>
+<section class="panel"><div class="help"><i>{ic('help')}</i><div><b>{t['hlp']}</b><small>{t['hlpd']}</small></div></div></section>
+</div></div></div></div></div></div>"""
     return page(PORTAL_CSS, body, "linear-gradient(135deg,#E5E5EA 0%,#F2F2F5 60%,#FAFAFC 100%)")
 
 
