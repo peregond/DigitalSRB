@@ -161,15 +161,21 @@ ART[50] = (RED, f'''
 <g class="fl2">{coins(184,81,1)}{coins(240,149,2)}{coins(296,217,3)}</g>
 ''')
 
-# 53 a digital court
+# 53 exchange a foreign driving licence
 ART[53] = (RED, f'''
-<g class="fl2"><rect x="36" y="210" width="96" height="66" rx="9" fill="#fff" stroke="{INK}" stroke-width="4.5" filter="url(#s)"/>
-<rect x="36" y="210" width="96" height="16" rx="9" fill="{INK}"/><rect x="48" y="238" width="56" height="7" rx="3.5" fill="{GREY}"/><rect x="48" y="254" width="72" height="7" rx="3.5" fill="{GREY}"/></g>
-<rect x="196" y="76" width="8" height="136" fill="{INK}"/><rect x="156" y="208" width="88" height="16" rx="8" fill="{INK}"/><circle cx="200" cy="76" r="9" fill="{RED}"/>
-<g class="sw"><rect x="98" y="72" width="204" height="8" rx="4" fill="{INK}"/>
-<path d="M104 76L78 150M104 76L130 150M296 76L270 150M296 76L322 150" stroke="{INK}" stroke-width="3" stroke-linecap="round"/>
-<path d="M70 150h68a34 30 0 0 1-68 0z" fill="{RED}"/><path d="M262 150h68a34 30 0 0 1-68 0z" fill="{RED}"/></g>
-<g fill="#fff" stroke="{INK}" stroke-width="3.5" filter="url(#s)" class="fl"><rect x="278" y="232" width="80" height="14" rx="4"/><rect x="284" y="248" width="68" height="14" rx="4"/><rect x="272" y="264" width="92" height="14" rx="4"/></g>
+<g class="fl"><circle cx="200" cy="46" r="28" fill="none" stroke="{INK}" stroke-width="7"/><circle cx="200" cy="46" r="7" fill="{RED}"/>
+<path d="M200 46v28M200 46l-24-10M200 46l24-10" stroke="{INK}" stroke-width="6" stroke-linecap="round" fill="none"/></g>
+<g class="fl2"><rect x="30" y="104" width="136" height="92" rx="12" fill="#fff" stroke="{INK}" stroke-width="4.5" filter="url(#s)"/>
+<rect x="30" y="104" width="136" height="22" rx="12" fill="{GREY}"/><rect x="30" y="116" width="136" height="10" fill="{GREY}"/>
+<rect x="44" y="138" width="38" height="44" rx="6" fill="{GREY}"/>
+<rect x="94" y="140" width="58" height="8" rx="4" fill="{GREY}"/><rect x="94" y="156" width="44" height="8" rx="4" fill="{GREY}"/><rect x="94" y="172" width="50" height="8" rx="4" fill="{GREY}"/></g>
+<path class="da" d="M176 152H206" stroke="{RED}" stroke-width="5" stroke-linecap="round" fill="none"/>
+<path d="M200 140l14 12-14 12" fill="none" stroke="{RED}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<g class="fl"><rect x="224" y="96" width="146" height="104" rx="12" fill="#fff" stroke="{INK}" stroke-width="4.5" filter="url(#s)"/>
+<rect x="224" y="96" width="146" height="26" rx="12" fill="{RED}"/><rect x="224" y="110" width="146" height="12" fill="{RED}"/>
+<rect x="238" y="134" width="38" height="46" rx="6" fill="{TINT[RED]}"/><circle cx="257" cy="152" r="8" fill="{RED}" opacity=".5"/>
+<rect x="288" y="136" width="62" height="8" rx="4" fill="{GREY}"/><rect x="288" y="152" width="46" height="8" rx="4" fill="{GREY}"/><rect x="288" y="168" width="54" height="8" rx="4" fill="{GREY}"/>
+{check(362,196,20,GREEN)}</g>
 ''')
 
 from pages_data import THEMES

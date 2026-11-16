@@ -14,7 +14,7 @@ THEMES = {
     47: ("wallet-id", "#6A45F0", "#3A1FA8"),
     48: ("no-registration", "#E30613", "#8F040D"),
     50: ("fast-track", "#D1246A", "#85103F"),
-    53: ("digital-court", "#24407A", "#0F2147"),
+    53: ("driving-licence", "#24407A", "#0F2147"),
 }
 ORDER = [1, 22, 30, 21, 47, 48, 50, 53]
 
@@ -392,49 +392,47 @@ PAGES[50] = {
     ],
 }
 
-# ---------------------------------------------------------------- 53 digital court
+# ---------------------------------------------------------------- 53 exchange a foreign driving licence
 PAGES[53] = {
-    "stats": [(("1.042.252", "1,042,252"), ("nerešenih predmeta, kraj 2024.", "pending cases, end of 2024")),
-              (("221.305", "221,305"), ("starijih od 3 godine", "older than 3 years")),
-              (("9.498", "9,498"), ("starijih od 10 godina", "older than 10 years"))],
-    "related": [31, 36, 55, 58],
+    "stats": [("6", ("meseci: dokle stalno nastanjeni voze sa stranom dozvolom", "months: how long permanent residents may drive on a foreign licence")),
+              ("1", ("javna stranica sa pravilima po zemlji izdavanja", "public page with the rules per country of issue"))],
+    "related": [11, 14, 17, 49],
     "blocks": [
-        text(PROBLEM, ("Više od milion predmeta čeka", "Over a million cases are waiting"), [
-            ("Na kraju 2024. nerešeno je bilo 1.042.252 predmeta, od toga 221.305 starijih od 3 godine i 9.498 starijih od 10 godina.",
-             "At the end of 2024 there were 1,042,252 pending cases, 221,305 older than 3 years and 9,498 older than 10 years."),
-            ("Svaki od tih predmeta je čovek ili firma koji čekaju odluku. Što duže traje, to je više prostora za pritisak i za „vezu”.",
-             "Every one of those cases is a person or a company waiting for a decision. The longer it takes, the more room there is for pressure and for “connections”."),
+        text(PROBLEM, ("Pravilo postoji, uputstvo ne", "The rule exists, the instructions do not"), [
+            ("Stranac sa odobrenim stalnim boravkom, kao i državljanin Srbije koji se vraća da stalno živi u zemlji, sme da vozi sa stranom vozačkom dozvolom do šest meseci od ulaska u zemlju. Posle toga mora da je zameni ili da izvadi novu srpsku.",
+             "A foreigner with approved permanent residence, like a Serbian citizen returning to live in the country, may drive on a foreign licence for up to six months from entering Serbia. After that they must exchange it or apply for a new Serbian one."),
+            ("Zvanične stranice za strance to kažu, ali ne opisuju kako se zamena radi: gde, sa kojim dokumentima i da li treba polagati. Zato se odgovori traže po blogovima i forumima.",
+             "The official pages for foreigners say so, but do not describe how an exchange is done: where, with which documents, and whether a test is needed. So answers are sought on blogs and forums."),
         ]),
-        bars(NUMBERS, ("Nerešeni predmeti, kraj 2024.", "Pending cases, end of 2024"), [
-            (("Svi nerešeni", "All pending"), 1042252, ("1.042.252", "1,042,252"), "lo"),
-            (("Stariji od 3 godine", "Older than 3 years"), 221305, ("221.305 (≈21%)", "221,305 (≈21%)"), ""),
-            (("Stariji od 10 godina", "Older than 10 years"), 9498, ("9.498 (≈0,9%)", "9,498 (≈0.9%)"), "hi"),
-        ], note=("Izvor: Vrhovni sud, godišnji izveštaj o radu sudova za 2024. Procenti su izračunati iz tih brojki.", "Source: Supreme Court, annual report on the work of the courts for 2024. The percentages are computed from those figures.")),
-        cards(PROPOSAL, ("Pet stubova digitalnog suda", "Five pillars of a digital court"), [
-            ("Podnesci onlajn", "Filings online", "Tužba i podnesci se podnose elektronski.", "Claims and filings are submitted electronically."),
-            ("Dostava onlajn", "Service online", "Dostava pismena elektronskim putem.", "Documents are served electronically."),
-            ("Ročišta onlajn", "Hearings online", "Ročišta se održavaju onlajn gde je to moguće.", "Hearings held online where possible."),
-            ("Javan status predmeta", "A public case status", "Svaka stranka vidi gde je predmet.", "Anyone concerned can see where the case stands."),
-            ("Automatski raspored sudija", "Automatic assignment of judges", "Predmet dobija sudiju po pravilu, ne po izboru.", "A case gets its judge by rule, not by choice."),
+        flow(("Put do dozvole", "The path"), ("Od nagađanja do jasnog toka", "From guessing to a clear flow"), [
+            ("Pročitaš da dozvolu moraš da zameniš", "You read that the licence must be exchanged"), ("Tražiš dokumenta po forumima", "Search forums for the documents"),
+            ("Ne znaš da li se polaže", "You do not know whether a test is needed"), ("Dođeš na šalter, nešto fali", "Go to a counter, something is missing"), ("Vraćaš se", "Come back")],
+            [("Biraš zemlju izdavanja", "Pick the country of issue"), ("Vidiš pravilo i spisak dokumenata", "See the rule and the list of documents"),
+             ("Podnosiš zahtev i plaćaš onlajn", "Apply and pay online"), ("Zakazuješ samo ono što mora uživo", "Book only what must be done in person"), ("Pratiš status do dozvole", "Track the status until the licence")],
+            note=("Ilustrativan tok. Tačne korake određuju propisi i nadležna služba.", "Illustrative path. The exact steps are set by the regulations and the competent office.")),
+        custom("licence53", ("Predlog", "The proposal"), ("Javna stranica po zemlji izdavanja", "A public page per country of issue"),
+               intro=("Odgovor na pitanje „šta mi treba?” treba da stoji na jednom mestu, pre nego što ikoga pitaš.", "The answer to “what do I need?” should be in one place, before you ask anyone.")),
+        steps(HOW, ("Četiri dela rešenja", "Four parts of the fix"), [
+            (("Pravila po zemlji", "Rules per country"), ("Za svaku zemlju izdavanja piše da li se dozvola priznaje, da li treba polaganje, koja su dokumenta i koliko košta.", "For each country of issue it says whether the licence is recognised, whether a test is needed, which documents are required and what it costs.")),
+            (("Jedan onlajn tok", "One online flow"), ("Zahtev, dokumenta i taksa u istom koraku, bez prepisivanja podataka.", "The application, documents and fee in one step, without retyping data.")),
+            (("Uživo samo što mora", "In person only what must be"), ("Termin se zakazuje samo za korak koji se ne može obaviti onlajn.", "An appointment is booked only for the step that cannot be done online.")),
+            (("Status i rok", "Status and deadline"), ("Vidiš gde je zahtev i do kada stiže odluka.", "You see where the application is and when a decision is due.")),
         ]),
-        flow(("Put predmeta", "The path of a case"), ("Isti predmet, dva puta", "The same case, two ways"), [
-            ("Podnosiš podnesak na šalteru", "File at the counter"), ("Dostava papirom", "Paper service"), ("Dolaziš na svako ročište", "Attend every hearing in person"),
-            ("Za status zoveš ili ideš u sud", "Call or visit the court for the status")],
-            [("Podnosiš onlajn", "File online"), ("Sudija se dodeljuje automatski", "A judge is assigned automatically"), ("Elektronska dostava", "Electronic service"),
-             ("Ročište onlajn", "An online hearing"), ("Javan status u svakom trenutku", "A public status at all times")]),
-        text(("Zašto automatski raspored", "Why automatic assignment"), ("Sudija po pravilu, ne po vezi", "A judge by rule, not by connection"), [
-            ("Kada se sudija bira ručno, postoji prostor da se bira „pravi” sudija. Automatski raspored uklanja taj izbor, a javan status smanjuje prostor za dugo čekanje bez objašnjenja.",
-             "When a judge is picked by hand, there is room to pick the “right” judge. Automatic assignment removes that choice, and a public status leaves less room for long waits without explanation."),
+        cards(WHO, ("Koristi svima koji menjaju dozvolu", "Useful to everyone exchanging a licence"), [
+            ("Stranci sa boravkom", "Foreigners with residence", "Znaju šta da ponesu i šta da očekuju pre nego što odu na šalter.", "They know what to bring and what to expect before going to a counter."),
+            ("Građani koji se vraćaju", "Returning citizens", "Isto šestomesečno pravilo važi i za njih.", "The same six-month rule applies to them."),
+            ("Službe", "Offices", "Manje nepotpunih zahteva i ponovnih dolazaka.", "Fewer incomplete applications and repeat visits."),
         ]),
-        check(CHANGE, ("Težina: visoka", "Difficulty: high"), [
-            ("law", ("Procesni zakoni koji priznaju elektronske podneske, dostavu i ročišta", "Procedural laws that recognise electronic filings, service and hearings")),
-            ("tech", ("Jedinstven sistem za vođenje predmeta, e-dostava i video ročišta", "A single case-management system, e-service and video hearings")),
-            ("org", ("Pravila šta se vidi u javnom statusu, uz zaštitu podataka", "Rules for what a public status shows, with data protection")),
-            ("org", ("Obuka sudija i osoblja", "Training for judges and staff")),
-        ]),
+        check(CHANGE, ("Šta treba da se uradi", "What needs to happen"), [
+            ("law", ("Jasan, propisan režim priznavanja stranih dozvola, i sporazumi sa zemljama koje ga nemaju", "A clear, legally defined regime for recognising foreign licences, and agreements with countries that lack one")),
+            ("tech", ("Onlajn zahtev sa dokumentima i plaćanjem takse u istom toku", "An online application with documents and fee payment in the same flow")),
+            ("org", ("Javna i ažurna stranica sa pravilima po zemlji izdavanja", "A public, up-to-date page with the rules per country of issue")),
+            ("org", ("Rok za odluku i javan status zahteva", "A deadline for the decision and a public status of the application")),
+        ], intro=("Objašnjenje pravila je brzo, a šire priznavanje stranih dozvola traži sporazume ili izmenu propisa.", "Explaining the rules is quick; recognising more foreign licences takes agreements or a change in regulations.")),
         faq(QA, ("Šta ako…", "What if…"), [
-            (("Svako ročište ide onlajn?", "Every hearing goes online?"), ("Predlog obuhvata ročišta onlajn. Za koje je predmete potrebno prisustvo odlučuje procesni zakon.", "The proposal covers online hearings. Which cases need presence is for the procedural law to decide.")),
-            (("Ko vidi status predmeta?", "Who sees a case's status?"), ("Javni status pokazuje gde predmet stoji. Šta tačno se vidi određuje zakon, uz zaštitu ličnih podataka.", "A public status shows where the case stands. Exactly what is visible is for the law to define, with personal data protected.")),
+            (("Menja li ovo ko mora da zameni dozvolu?", "Does this change who has to exchange a licence?"), ("Ne. Pravilo od šest meseci ostaje kakvo jeste, predlog samo čini jasnim kako se postupa.", "No. The six-month rule stays as it is; the proposal only makes it clear how to proceed.")),
+            (("Šta je sa bezbednošću u saobraćaju?", "What about road safety?"), ("Provere koje danas važe ostaju. Razlika je u tome što ih unapred vidiš i što se dokumenta ne nose više puta.", "The checks that apply today stay. The difference is that you see them in advance and do not carry documents more than once.")),
+            (("Zašto javna stranica po zemljama?", "Why a public page per country?"), ("Jer pravila treba da budu vidljiva na jednom mestu, a ne da se saznaju tek na šalteru.", "Because the rules should be visible in one place, not discovered at the counter.")),
         ]),
     ],
 }

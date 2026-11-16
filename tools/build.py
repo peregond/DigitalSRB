@@ -45,7 +45,7 @@ FEATURED = [
     (47, "Lična karta i boravak u novčaniku na telefonu.", "Your ID and residence card in your phone wallet."),
     (48, "Nema više prijave boravka stranaca u roku od 24 sata.", "No more 24-hour registration of stay for foreigners."),
     (50, "Tri zvanična roka. Taksa ide u budžet, ne u džep.", "Three official speeds. The fee goes to the budget, not a pocket."),
-    (53, "Digitalni sud za više od milion nerešenih predmeta.", "A digital court for over a million pending cases."),
+    (53, "Zamena strane vozačke dozvole bez nagađanja.", "Exchange a foreign driving licence without the guesswork."),
 ]
 
 UI = {

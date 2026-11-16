@@ -215,7 +215,20 @@ def c_speed50(b):
     return (f'<div class="speeds"><p class="sp-cap">{B(("Taksa", "Fee"))}</p>{cols}</div>')
 
 
-CUSTOM = {"clerk": c_clerk, "journey22": c_journey22, "network30": c_network30, "stats30": c_stats30,
+def c_licence53(b):
+    def card(country, rows, alt=False):
+        lis = "".join(f'<li class="{k}"><b>{"✓" if k == "ok" else "→" if k == "go" else "–"}</b>{B(t)}</li>' for k, t in rows)
+        cls = " alt" if alt else ""
+        return (f'<div class="lic-card{cls}"><p class="lic-pick">{B(("Zemlja izdavanja", "Country of issue"))}<b>{B(country)} ▾</b></p><ul>{lis}</ul></div>')
+    a = card((" A", " A"), [("ok", ("Dozvola se priznaje", "The licence is recognised")), ("ok", ("Polaganje nije potrebno", "No test needed")),
+                            ("ok", ("Dokumenta: spisak sa učitavanjem", "Documents: a list with upload")), ("ok", ("Taksa: iznos i onlajn plaćanje", "Fee: the amount and online payment"))])
+    c = card((" B", " B"), [("no", ("Dozvola se ne priznaje", "The licence is not recognised")), ("go", ("Alternativni put: jasni koraci", "Alternative route: clear steps")),
+                            ("ok", ("Dokumenta: spisak sa učitavanjem", "Documents: a list with upload")), ("ok", ("Taksa: iznos i onlajn plaćanje", "Fee: the amount and online payment"))], alt=True)
+    note = B(("Primer rasporeda. Zemlje i pravila su ovde samo oznake, a ne stvarni podaci.", "A layout example. The countries and rules here are placeholders, not real data."), "p", "pg-note")
+    return f'<div class="lic">{a}{c}</div>{note}'
+
+
+CUSTOM = {"licence53": c_licence53, "clerk": c_clerk, "journey22": c_journey22, "network30": c_network30, "stats30": c_stats30,
           "phone47": c_phone47, "border48": c_border48, "speed50": c_speed50}
 RENDER = {"text": r_text, "cards": r_cards, "flow": r_flow, "steps": r_steps, "bars": r_bars, "table": r_table,
           "check": r_check, "faq": r_faq}
