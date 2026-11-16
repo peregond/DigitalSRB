@@ -307,5 +307,5 @@ html[data-lang="en"] .lang.script{display:none}
 @media (max-width:760px){.langmenu{margin-left:auto}}
 .visual:has(.photo){padding:0;background:none;overflow:hidden}
 .visual .photo{display:block;width:100%;height:auto;border-radius:20px}
-.visual:has(.photo.cut){padding:44px 24px 0;background:linear-gradient(145deg,#6A45F0,#A23FD0 55%,#E5487F);overflow:hidden;align-items:flex-end}
-.visual .photo.cut{width:min(100%,420px);border-radius:0;filter:drop-shadow(0 20px 40px rgba(20,0,60,.35))}
+.visual:has(.photo.cut){padding:44px 24px 0;background:#F8EFED;overflow:hidden;align-items:flex-end}
+.visual .photo.cut{width:min(100%,420px);border-radius:0;filter:drop-shadow(0 20px 40px rgba(60,20,20,.22))}
