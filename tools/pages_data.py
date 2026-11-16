@@ -226,6 +226,9 @@ PAGES[21] = {
             ("Pošta Srbije je mesto gde se država susreće sa građaninom svakodnevno, a veliki deo posla još ide na papiru. Predlog ima četiri dela, od aplikacije do carine.",
              "Pošta Srbije is where the state meets the citizen every day, and much of the work still runs on paper. The proposal has four parts, from the app to customs."),
         ]),
+        custom("posta_app", ("Kako bi izgledalo", "What it could look like"), ("Nova aplikacija Pošte Srbije", "A new Pošta Srbije app"),
+               intro=("Konceptni ekrani za sve četiri celine: prijava preko eUprave, paketi, QR preuzimanje, carina i plaćanje. Sve u bojama Srbije i na oba jezika.",
+                      "Concept screens for all four parts: sign-in through eUprava, parcels, QR pickup, customs and payment. In the colours of Serbia and in both languages."), id="app"),
         cards(("1/4", "1/4"), ("Sve poštanske usluge u jednoj aplikaciji", "All postal services in one app"), [
             ("Praćenje", "Tracking", "Svaka pošiljka i svaki korak na jednom mestu.", "Every parcel and every step in one place."),
             ("Obaveštenja", "Notices", "Umesto papirnih izveštaja, obaveštenja u aplikaciji.", "App notices instead of paper slips."),

@@ -230,7 +230,14 @@ def c_licence53(b):
     return f'<div class="lic">{a}{c}</div>{note}'
 
 
-CUSTOM = {"licence53": c_licence53, "clerk": c_clerk, "journey22": c_journey22, "network30": c_network30, "stats30": c_stats30,
+def c_posta_app(b):
+    import posta_app
+    link = ('<p class="pg-note"><a class="idea-more" href="../../mockups/posta-app/">'
+            + B(("Otvori na celom ekranu", "Open full screen")) + " ›</a></p>")
+    return posta_app.phones_html() + link
+
+
+CUSTOM = {"posta_app": c_posta_app, "licence53": c_licence53, "clerk": c_clerk, "journey22": c_journey22, "network30": c_network30, "stats30": c_stats30,
           "phone47": c_phone47, "border48": c_border48, "speed50": c_speed50}
 RENDER = {"text": r_text, "cards": r_cards, "flow": r_flow, "steps": r_steps, "bars": r_bars, "table": r_table,
           "check": r_check, "faq": r_faq}
@@ -302,7 +309,7 @@ def build_all(ctx):
                 .replace("{{EYEBROW}}", B((cat_of(n)["sr"][0], cat_of(n)["en"][0])) + " · " + B(UI["idea"]) + f" {n:02d}")
                 .replace("{{H1}}", B(titles[n], "h1")).replace("{{TAGLINE}}", B(taglines[n], "p", "pg-tag"))
                 .replace("{{TIERLINE}}", B(tsub, "p", "pg-tier"))
-                .replace("{{LOCAL}}", local).replace("{{HSTATS}}", hstats).replace("{{SECTIONS}}", sections)
+                .replace("{{EXTRA_HEAD}}", '<link rel="stylesheet" href="../../assets/posta-app.css?v=%s">' % ver if n == 21 else "").replace("{{LOCAL}}", local).replace("{{HSTATS}}", hstats).replace("{{SECTIONS}}", sections)
                 .replace("{{RELATED}}", rel).replace("{{SOURCES}}", sources_html(parts))
                 .replace("{{VOTE}}", vote_html(n))
                 .replace("{{PREV}}", nb(prev_n, UI["prev"])).replace("{{NEXT}}", nb(next_n, UI["next"]))
