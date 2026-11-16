@@ -167,10 +167,12 @@ def c_journey22(b):
                    ((0, ("dan 0", "day 0")), (33.3, ("1 mesec", "1 month")), (66.6, ("2 meseca", "2 months")), (100, ("3 meseca", "3 months"))))
     return f'''<div class="jr"><div class="jr-axis">{axis}</div>
 <div class="jr-row"><p class="jr-name">{B(UI["today"])}</p><div class="jr-track">
-<i class="jr-dot" style="left:0"></i><span class="jr-wait">{B(("čekanje, bez iznosa", "waiting, no figure"))}</span>
-<span class="jr-win" style="left:66.6%;width:33.4%">{B(("konačan obračun: 2–3 meseca", "final assessment: 2–3 months"))}</span></div></div>
+<i class="jr-dot" style="left:0"></i><span class="jr-wait">{B(("čekanje na konačan obračun", "waiting for the final assessment"))}</span>
+<span class="jr-win" style="left:66.6%;width:33.4%">{B(("2–3 meseca", "2–3 months"))}</span></div>
+{B(("Čekanje na konačan obračun: 2–3 meseca.", "Waiting for the final assessment: 2–3 months."), "p", "jr-cap")}</div>
 <div class="jr-row after"><p class="jr-name">{B(UI["after"])}</p><div class="jr-track">
-<span class="jr-pill">{B(("isti dan: prijava, porez, plaćanje", "same day: request, tax, payment"))}</span></div></div></div>'''
+<span class="jr-pill">{B(("isti dan: prijava, porez, plaćanje", "same day: request, tax, payment"))}</span></div>
+{B(("Isti dan: prijava, porez i plaćanje.", "Same day: request, tax and payment."), "p", "jr-cap")}</div></div>'''
 
 
 NODES = [("Matične knjige", "Civil registers"), ("MUP", "MUP"), ("Poreska uprava", "Poreska uprava"), ("PIO", "PIO"),

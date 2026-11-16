@@ -128,8 +128,7 @@
 /* infographic: timeline of the business closing */
 .jr{max-width:900px}
 .jr-axis{position:relative;height:24px;margin:0 0 6px 120px;font-size:12px;font-weight:700;color:var(--muted)}
-.jr-axis span{position:absolute;transform:translateX(-50%);white-space:nowrap}
-.jr-axis span:first-child{transform:none}.jr-axis span:last-child{transform:translateX(-100%)}
+
 .jr-row{display:grid;grid-template-columns:110px 1fr;gap:10px;align-items:center;margin-top:14px}
 .jr-name{font-weight:800;font-size:15px}
 .jr-track{position:relative;height:60px;border-radius:30px;background:rgba(17,17,17,.06);overflow:hidden}
@@ -327,3 +326,17 @@ html{scroll-padding-top:112px}
 .pg-head h2{font-size:clamp(28px,4.2vw,52px)}
 .pg-intro,.pg-prose p{font-size:clamp(18px,1.9vw,22px)}
 .pg-local-links a{padding:7px 12px}
+
+/* timeline: direct-child selectors only (the language spans are nested), and a readable phone layout */
+.jr-axis>span{position:absolute;transform:translateX(-50%);white-space:nowrap}
+.jr-axis>span:first-child{transform:none}
+.jr-axis>span:last-child{transform:translateX(-100%)}
+.jr-cap{display:none;font-size:13px;color:var(--muted);margin-top:8px}
+@media (max-width:680px){
+  .jr-axis{margin-left:0;font-size:11px}
+  .jr-row{grid-template-columns:1fr;gap:6px;margin-top:18px}
+  .jr-track{height:48px}
+  .jr-win{font-size:11px;padding:0 8px}
+  .jr-pill{font-size:12px;padding:0 14px;white-space:nowrap}
+  .jr-cap{display:block}
+}
