@@ -27,6 +27,8 @@ UI = {
     "skip": ("Preskoči na sadržaj", "Skip to content"),
     "example": ("Primer", "Example"),
 }
+# pages whose hero has no "topic · idea number" line
+NO_EYEBROW = {21}
 KIND = {"law": ("Zakon", "Law"), "tech": ("Tehnika", "Technology"), "org": ("Organizacija", "Organisation")}
 
 
@@ -305,6 +307,8 @@ def build_all(ctx):
                 .replace("{{VOTE}}", vote_html(n))
                 .replace("{{PREV}}", nb(prev_n, UI["prev"])).replace("{{NEXT}}", nb(next_n, UI["next"]))
                 .replace("{{V}}", ver))
+        if n in NO_EYEBROW:
+            html = re.sub(r'\s*<p class="pg-hero-eye">.*?</p>', "", html, count=1, flags=re.S)
         assert "{{" not in html, re.findall(r"\{\{[A-Z0-9_]+\}\}", html)
         out = ROOT / "idea" / slug
         out.mkdir(parents=True, exist_ok=True)
