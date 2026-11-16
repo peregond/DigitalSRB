@@ -82,10 +82,13 @@ def r_cards(b):
 
 
 def r_flow(b):
+    def count(n):
+        return B((f"{n} koraka", f"{n} steps"), "em")
+
     def row(label, steps, cls):
         lis = "".join(f'<li><i>{k + 1}</i>{B(s)}</li>' for k, s in enumerate(steps))
-        return f'<div class="flow-row {cls}"><p class="flow-label">{B(label)}</p><ol>{lis}</ol></div>'
-    out = '<div class="pg-flow">' + row(UI["today"], b["today"], "today") + row(UI["after"], b["after"], "after") + "</div>"
+        return (f'<div class="flow-row {cls}"><p class="flow-label">{B(label)}{count(len(steps))}</p><ol>{lis}</ol></div>')
+    out = ('<div class="pg-flow">' + row(("Pre", "Before"), b["today"], "today") + row(("Posle", "After"), b["after"], "after") + "</div>")
     if b.get("note"):
         out += B(b["note"], "p", "pg-note")
     return out
