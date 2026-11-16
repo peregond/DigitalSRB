@@ -1,13 +1,13 @@
 """Thematic categories of the 60 ideas. The numbers stay as ids, the topic is what readers browse by."""
 
 CATEGORIES = [
-    {"id": "identity", "ideas": [2, 3, 5, 6, 7, 8, 18, 47],
+    {"id": "identity", "ideas": [2, 3, 5, 6, 7, 8, 18, 36, 47],
      "sr": ("Identitet i eUprava", "Jedan nalog za ceo život, jednostavna prijava i aplikacija koja radi svuda."),
      "en": ("Identity and eUprava", "One account for life, simple login and an app that works everywhere.")},
     {"id": "counters", "ideas": [1, 9, 13, 24, 31],
      "sr": ("Šalteri i redovi", "Manje čekanja, pošteno zakazivanje i jasan status predmeta."),
      "en": ("Counters and queues", "Less waiting, fair booking and a clear status for every case.")},
-    {"id": "documents", "ideas": [4, 30, 36, 46, 54, 55],
+    {"id": "documents", "ideas": [4, 30, 46, 54, 55],
      "sr": ("Dokumenta i papiri", "Država ne traži papire koje već ima, a svaki dokument se proverava za sekundu."),
      "en": ("Documents and paperwork", "The state does not ask for papers it already has, and any document is checked in a second.")},
     {"id": "foreigners", "ideas": [11, 12, 14, 35, 37, 48, 49, 51],
