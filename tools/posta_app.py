@@ -307,7 +307,7 @@ def pair_html(part):
     ph, web, cap_a, cap_w = PAIRS[part]
     tag = '<span class="pa-aitag">AI</span>'
     cap = lambda cp, label: f'<figcaption><span class="pa-n">{label}{tag}</span>{B(cp[0], cp[1], "b")}</figcaption>'
-    cls = {"c1": " pa-apr", "q1": " pa-green"}.get(part, "")
+    cls = {"c1": " pa-apr", "q1": " pa-green", "n30": " pa-amber"}.get(part, "")
     return (f'<div class="pa pa-pairwrap{cls}"><div class="pa-pair"><figure class="pa-fig">{ph()}{cap(cap_a, "APP")}</figure>'
             f'<figure class="pa-webfig">{web()}{cap(cap_w, "WEB")}</figure></div></div>')
 
@@ -482,3 +482,43 @@ def w_case():
 
 
 PAIRS["q1"] = (s_case, w_case, ("Aplikacija: tvoj predmet i QR", "App: your case and QR"), ("Šalter: službenik vidi ceo slučaj", "Counter: the clerk sees the whole case"))
+
+
+# ------------------------------------------------------------------ never ask for papers the state already has (amber variant)
+def s_apply():
+    def src(sr, en, inst_sr, inst_en):
+        return f'<li><b>{ic("check")}</b><div>{B(sr, en, "b")}{B(inst_sr, inst_en, "small")}</div></li>'
+    return phone(f'''
+<div class="pa-nav"><span>{ic("back")}</span>{B("Zahtev", "Application", "b")}<span class="pa-step">2/3</span></div>
+<div class="pa-card"><p class="pa-k">{B("Zahtev za subvenciju", "Subsidy application")} <em class="pa-ex">{B("primer", "example")}</em></p>
+{chip("ok", "Podaci preuzeti sami", "Data fetched automatically")}</div>
+<div class="pa-card"><p class="pa-k">{B("Iz službenih evidencija", "From official records")}</p>
+<ul class="pa-checks src">{src("Izvod iz matične knjige", "Birth register extract", "Matične knjige", "Civil registers")}{src("Podaci o prihodima", "Income data", "Poreska uprava", "Poreska uprava")}{src("Nepokretnosti", "Property", "RGZ", "RGZ")}</ul></div>
+<div class="pa-estimate">{B("Papira za nošenje", "Papers to carry")}<b>0</b></div>
+<button class="pa-btn primary">{B("Podnesi zahtev", "Submit the application")}</button>''', tab=None)
+
+
+def w_justify():
+    def src(sr, en):
+        return f'<li><b>{ic("check")}</b>{B(sr, en)}</li>'
+    return browser(f'''
+<div class="pa-wnav"><span class="pa-wlogo">{ic("search")}</span><b>{B("Pregled zahteva · Službenik", "Reviewing an application · Clerk")}</b><span class="pa-wuser">{ic("user")}eZUP</span></div>
+<div class="pa-wgrid">
+<div class="pa-card"><p class="pa-k">{B("Podaci iz registara (eZUP)", "Data from registers (eZUP)")}</p>
+<ul class="pa-checks">{src("Matične knjige", "Civil registers")}{src("Poreska uprava", "Poreska uprava")}{src("RGZ", "RGZ")}{src("MUP", "MUP")}</ul>{chip("ok", "Sve već postoji u sistemu", "All of it is already in the system")}</div>
+<div class="pa-card"><p class="pa-k">{B("Traženje dodatnog papira", "Asking for an extra paper")}</p>
+<div class="pa-field">{B("Dokument", "Document", "small")}<div>{B("Uverenje (primer)", "Certificate (example)")}</div></div>
+<div class="pa-field">{B("Obrazloženje, obavezno", "Written reason, required", "small")}<div class="pa-textarea"><i></i><i></i><i class="s"></i></div></div>
+{chip("warn", "Beleži se u javnu statistiku", "Logged in the public statistics")}</div></div>
+<div class="pa-wfoot"><button class="pa-btn primary">{B("Pošalji zahtev građaninu", "Send the request to the citizen")}</button><p class="pa-fine">{B("Papir se traži samo uz pisano obrazloženje, a građanin može da se žali onlajn.", "A paper is requested only with a written reason, and the citizen can complain online.")}</p></div>''', url="gov.rs/sluzbenik")
+
+
+def w_board():
+    rows = [(("Služba A", "Office A"), 82), (("Služba B", "Office B"), 55), (("Služba C", "Office C"), 28), (("Služba D", "Office D"), 12)]
+    bars = "".join(f'<div class="pa-brow">{B(*l, "span")}<div class="pa-meter"><i style="width:{w}%"></i></div><b>{w}</b></div>' for l, w in rows)
+    return browser(f'''
+<div class="pa-wnav"><span class="pa-wlogo">{ic("search")}</span><b>{B("Javna statistika", "Public statistics")}</b><span class="pa-wuser">{ic("globe")}{B("Otvoreno za sve", "Open to everyone")}</span></div>
+<div class="pa-card"><p class="pa-k">{B("Uverenja izdata samo da bi se nosila drugoj službi", "Certificates issued only to be carried to another office")} <em class="pa-ex">{B("primer", "example")}</em></p>{bars}{B("Po službi, objavljeno javno. Cilj je da broj padne ka nuli.", "Per office, published openly. The goal is for the number to fall towards zero.", "small")}</div>''', url="gov.rs/statistika")
+
+
+PAIRS["n30"] = (s_apply, w_justify, ("Aplikacija: podaci stižu sami", "App: the data arrives by itself"), ("Šalter: papir samo uz razlog", "Counter: a paper only with a reason"))

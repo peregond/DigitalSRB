@@ -139,45 +139,30 @@ PAGES[22] = {
 
 # ---------------------------------------------------------------- 30 never ask for papers
 PAGES[30] = {
-    "stats": [("18", ("baza povezanih u eZUP", "databases linked in eZUP")),
-              ("8", ("institucija u sistemu", "institutions in the system")),
-              ("50 €", ("do toliko košta list nepokretnosti", "up to this for a property sheet"))],
+    "stats": [],
     "related": [4, 31, 32, 44],
     "blocks": [
-        text(PROBLEM, ("Državni papir nosiš iz državne službe u državnu službu", "Carrying a state paper from one state office to another"), [
-            ("Od 2016. Zakon o opštem upravnom postupku (čl. 9 i 103) obavezuje službe da same pribave podatke iz službenih evidencija. eZUP povezuje 18 baza osam institucija: matične knjige, MUP, Poresku upravu, PIO, NSZ, CROSO, RGZ i pravosuđe.",
-             "Since 2016 the Law on General Administrative Procedure (ZUP, Arts. 9 and 103) obliges offices to obtain data themselves from official records. eZUP links 18 databases of eight institutions: civil registers, MUP, Poreska uprava, PIO, NSZ, CROSO, RGZ and the judiciary."),
-            ("Ali se pravilo ne poštuje svuda, a mnogi registri nisu u eZUP-u. Zato građani i dalje nose uverenja, a list nepokretnosti plaćaju i do 50 €.",
-             "But the rule is not followed everywhere and many registers are not in eZUP. So people still carry certificates, and pay up to €50 for a list nepokretnosti (property sheet)."),
-        ]),
-        custom("network30", ("Šta već postoji", "What already exists"), ("Jedan čvor, osam izvora", "One hub, eight sources"),
-               intro=("Podaci su u državi. Predlog je da služba koja ih treba sama zakuca na vrata druge, a ne ti.", "The data is in the state. The proposal is that the office that needs it knocks on the other's door, not you.")),
-        flow(("Put dokumenta", "The path of a paper"), ("Nosiš ili ne nosiš", "You carry it, or you do not"), [
+        {**custom("stages30", ("Pregled", "Overview"), ("Četiri pravila", "Four rules"),
+                  intro=("Od 2016. Zakon o opštem upravnom postupku (čl. 9 i 103) obavezuje službe da same pribave podatke iz službenih evidencija, a eZUP povezuje 18 baza osam institucija. Pravilo se ne poštuje svuda i mnogi registri nisu u eZUP-u, pa građani i dalje nose uverenja.",
+                         "Since 2016 the Law on General Administrative Procedure (ZUP, Arts. 9 and 103) obliges offices to obtain data themselves from official records, and eZUP links 18 databases of eight institutions. The rule is not followed everywhere and many registers are not in eZUP, so people still carry certificates.")),
+         "cls": "compact", "nav": ("Pregled", "Overview")},
+        {**custom("versus30", ("Razlika", "The difference"), ("Cena jednog papira", "The price of one paper")), "nav": ("Razlika", "Difference")},
+        {**custom("network30", ("Šta već postoji", "What already exists"), ("Jedan čvor, osam izvora", "One hub, eight sources"),
+                  intro=("Podaci su u državi. Predlog je da služba koja ih treba sama zakuca na vrata druge, a ne ti.", "The data is in the state. The proposal is that the office that needs it knocks on the other's door, not you."), id="net"),
+         "nav": ("Registri", "Registers")},
+        {**flow(("Put dokumenta", "The path of a paper"), ("Nosiš ili ne nosiš", "You carry it, or you do not"), [
             ("Služba A izdaje uverenje", "Office A issues a certificate"), ("Plaćaš taksu", "You pay a fee"),
             ("Nosiš ga u službu B", "You carry it to office B"), ("Služba B ga prima i prepisuje", "Office B accepts and retypes it")],
             [("Podnosiš jedan zahtev", "You file one request"), ("Služba B preuzima podatke iz registra", "Office B pulls the data from the register"),
-             ("Odluka bez tvog nošenja papira", "A decision without you carrying paper")]),
-        bars(NUMBERS, ("Cena jednog papira", "The price of one paper"), [
-            (("List nepokretnosti danas", "Property sheet today"), 50, ("do 50 €", "up to €50"), "lo"),
-            (("U predlogu", "In the proposal"), 0, "0 €", "hi"),
-        ], note=("Izvor: Novosti, list nepokretnosti do 50 € umesto 0 din.", "Source: Novosti, a property sheet up to €50 instead of 0 din."), unit="€"),
-        steps(PROPOSAL, ("Četiri pravila", "Four rules"), [
-            (("Svi registri u eZUP-u", "Every register in eZUP"), ("Uključujući lokalne registre i javna preduzeća.", "Including local registers and public companies.")),
-            (("Papir samo uz obrazloženje", "A paper only with a reason"), ("Službenik koji traži papir koji država već ima mora to pisano da obrazloži.", "A clerk who asks for a paper the state already holds must justify it in writing.")),
-            (("Žalba onlajn", "Complain online"), ("Građanin može da se žali bez odlaska na šalter.", "The citizen can complain without going to a counter.")),
-            (("Javna statistika po službi", "Public statistics per office"), ("Koliko se uverenja izdaje samo da bi se nosilo drugoj službi.", "How many certificates are issued only to be carried to another office.")),
-        ]),
-        custom("stats30", ("Kako merimo uspeh", "How we measure success"), ("Javna tabla po službama", "A public table per office"),
-               intro=("Raspored prikaza, ne stvarni podaci. Cilj je da se vidi koja služba i dalje traži ono što već ima.", "A layout example, not real data. The goal is to see which office still asks for what it already has.")),
-        check(CHANGE, ("Povezivanje i pravilnici", "Integration and bylaws"), [
-            ("tech", ("Priključiti preostale registre u eZUP, i lokalne i javnih preduzeća", "Connect the remaining registers to eZUP, local ones and public companies")),
-            ("org", ("Obrazac pisanog obrazloženja i onlajn žalba", "A written-justification form and an online complaint")),
-            ("org", ("Merenje i objavljivanje statistike po službi", "Measuring and publishing statistics per office")),
-        ], intro=("Pravilo već postoji u zakonu. Nedostaje pokrivenost i primena.", "The rule already exists in law. What is missing is coverage and enforcement.")),
-        faq(QA, ("Šta ako…", "What if…"), [
+             ("Odluka bez tvog nošenja papira", "A decision without you carrying paper")], id="c1", extra="n30_pair"),
+         "nav": ("Tok", "Flow")},
+        {**custom("board30", ("Kako merimo uspeh", "How we measure success"), ("Javna statistika po službama", "Public statistics per office"),
+                  intro=("Svaka služba objavljuje koliko uverenja izda samo da bi se nosila drugoj službi.", "Every office publishes how many certificates it issues only to be carried to another office.")),
+         "nav": ("Statistika", "Statistics")},
+        {**faq(QA, ("Šta ako…", "What if…"), [
             (("Zar to već nije zakon?", "Isn't that already the law?"), ("Jeste, čl. 9 i 103 ZUP-a. Problem je što pravilo ne važi u praksi svuda i što mnogi registri nisu povezani, pa je potrebna primena, ne novo pravilo.", "It is, Arts. 9 and 103 of ZUP. The problem is that the rule does not hold in practice everywhere and many registers are not connected, so what is needed is enforcement, not a new rule.")),
             (("Podatka nema ni u jednom registru?", "The data is in no register?"), ("Tada ga daje građanin. Službenik ipak mora da obrazloži zašto traži papir, da se ne traži ono što država već ima.", "Then the citizen supplies it. The clerk still has to justify the request, so nothing is asked that the state already holds.")),
-        ]),
+        ]), "nav": ("Pitanja", "Q&A")},
     ],
 }
 

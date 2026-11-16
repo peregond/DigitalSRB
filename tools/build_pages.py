@@ -403,7 +403,43 @@ def _qr_pair(b):
     return posta_app.pair_html("q1")
 
 
-CUSTOM = {"stages1": c_stages1, "versus1": c_versus1, "qr_pair": _qr_pair, "posta_target": c_posta_target, "posta_part2": c_posta_part2, "posta_part3": c_posta_part3, "posta_part4": c_posta_part4, "stages22": c_stages22, "versus22": c_versus22, "countries22": c_countries22, "biz_c1": _pair("c1"), "posta_p2": _pair("p2"), "posta_p3": _pair("p3"), "posta_p4": _pair("p4"), "posta_stages": c_posta_stages, "posta_app": c_posta_app, "licence53": c_licence53, "clerk": c_clerk, "journey22": c_journey22, "network30": c_network30, "stats30": c_stats30,
+STAGES30 = [
+    ("search", ("Svi registri u eZUP-u", "Every register in eZUP"), ("Uključujući lokalne registre i javna preduzeća.", "Including local registers and public companies.")),
+    ("check", ("Papir samo uz razlog", "A paper only with a reason"), ("Službenik koji traži papir mora to pisano da obrazloži.", "A clerk who asks for a paper must justify it in writing.")),
+    ("chat", ("Žalba onlajn", "Complain online"), ("Građanin se žali bez odlaska na šalter.", "The citizen complains without going to a counter.")),
+    ("globe", ("Javna statistika", "Public statistics"), ("Po službi: koliko se uverenja izdaje samo da bi se nosila dalje.", "Per office: how many certificates are issued only to be carried on.")),
+]
+
+
+def c_stages30(b):
+    import posta_app
+    cards = "".join(
+        f'<a class="pg-stage" href="#c1"><span class="pg-stage-top"><b>{i:02d}</b><i>{posta_app.ic(icon)}</i></span>'
+        f'{B(title, "h3")}{B(text, "p")}<span class="pg-stage-go" aria-hidden="true">›</span></a>'
+        for i, (icon, title, text) in enumerate(STAGES30, 1))
+    return f'<div class="pg-stages">{cards}</div>'
+
+
+def c_versus30(b):
+    return (f'<div class="pg-versus"><div class="pg-vs today"><p class="pg-vs-k">{B(("Danas", "Today"))}</p>'
+            f'<b class="pg-vs-n">{B(("do 50 €", "up to €50"))}</b>{B(("Toliko se plaća list nepokretnosti koji nosiš iz jedne službe u drugu.", "What a list nepokretnosti (property sheet) costs when you carry it from one office to another."), "p")}</div>'
+            f'<span class="pg-vs-arrow" aria-hidden="true">›</span>'
+            f'<div class="pg-vs after"><p class="pg-vs-k">{B(("Predlog", "Proposal"))}</p>'
+            f'<b class="pg-vs-n">0 €</b>{B(("Služba sama preuzima podatke iz registra, a ti ne nosiš ništa.", "The office pulls the data from the register itself, and you carry nothing."), "p")}</div></div>'
+            + B(("Izvor: Novosti, list nepokretnosti do 50 € umesto 0 din.", "Source: Novosti, a property sheet up to €50 instead of 0 din."), "p", "pg-note"))
+
+
+def c_board30(b):
+    import posta_app
+    return posta_app.web_gallery([(posta_app.w_board, ("Javna tabla po službama", "A public board per office"))])
+
+
+def _n30_pair(b):
+    import posta_app
+    return posta_app.pair_html("n30")
+
+
+CUSTOM = {"stages30": c_stages30, "versus30": c_versus30, "board30": c_board30, "n30_pair": _n30_pair, "stages1": c_stages1, "versus1": c_versus1, "qr_pair": _qr_pair, "posta_target": c_posta_target, "posta_part2": c_posta_part2, "posta_part3": c_posta_part3, "posta_part4": c_posta_part4, "stages22": c_stages22, "versus22": c_versus22, "countries22": c_countries22, "biz_c1": _pair("c1"), "posta_p2": _pair("p2"), "posta_p3": _pair("p3"), "posta_p4": _pair("p4"), "posta_stages": c_posta_stages, "posta_app": c_posta_app, "licence53": c_licence53, "clerk": c_clerk, "journey22": c_journey22, "network30": c_network30, "stats30": c_stats30,
           "phone47": c_phone47, "border48": c_border48, "speed50": c_speed50}
 RENDER = {"text": r_text, "cards": r_cards, "flow": r_flow, "steps": r_steps, "bars": r_bars, "table": r_table,
           "check": r_check, "faq": r_faq}
@@ -479,7 +515,7 @@ def build_all(ctx):
                 .replace("{{EYEBROW}}", B((cat_of(n)["sr"][0], cat_of(n)["en"][0])) + " · " + B(UI["idea"]) + f" {n:02d}")
                 .replace("{{H1}}", B(titles[n], "h1")).replace("{{TAGLINE}}", B(HERO_TEXT.get(n, taglines[n]), "p", "pg-tag"))
                 .replace("{{TIERLINE}}", B(tsub, "p", "pg-tier"))
-                .replace("{{EXTRA_HEAD}}", '<link rel="stylesheet" href="../../assets/posta-app.css?v=%s">' % ver if n in (1, 21, 22) else "").replace("{{LOCAL}}", local).replace("{{HSTATS}}", hstats).replace("{{SECTIONS}}", sections)
+                .replace("{{EXTRA_HEAD}}", '<link rel="stylesheet" href="../../assets/posta-app.css?v=%s">' % ver if n in (1, 21, 22, 30) else "").replace("{{LOCAL}}", local).replace("{{HSTATS}}", hstats).replace("{{SECTIONS}}", sections)
                 .replace("{{RELATED}}", rel).replace("{{SOURCES}}", sources_html(parts))
                 .replace("{{VOTE}}", vote_html(n))
                 .replace("{{PREV}}", nb(prev_n, UI["prev"])).replace("{{NEXT}}", nb(next_n, UI["next"]))
