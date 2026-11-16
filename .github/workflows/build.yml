@@ -1,0 +1,24 @@
+name: Check build
+
+# The site is plain files served by GitHub Pages. The generated files (index.html, idea/*, sitemap.xml, ...) are
+# committed, so this check fails if they are out of date with the sources.
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install beautifulsoup4 pillow
+      - run: python3 tools/build.py
+      - name: Generated files are up to date
+        run: |
+          git add -N .
+          git diff --exit-code --stat || { echo "::error::Run 'python3 tools/build.py' and commit the result"; exit 1; }
+      - name: Translit self-test
+        run: node assets/translit.js && node -e "const T=require('./assets/translit.js'); const r=T.toCyr('Pošta Srbije'); if(r!=='Пошта Србије') throw new Error(r)"
