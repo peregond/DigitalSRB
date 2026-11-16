@@ -51,9 +51,6 @@
   }
 
   applyLang(root.dataset.lang === "en" ? "en" : "sr");
-  $$("[data-set-lang]").forEach(function (b) {
-    b.addEventListener("click", function () { setLang(b.dataset.setLang); });
-  });
 
   /* ---------- script: Latin / Cyrillic (Serbian only) ---------- */
   var cyr = false, textOrig = new Map(), attrOrig = new Map();
@@ -99,19 +96,53 @@
     var pref = q || store.get("dsrb.script");
     if (pref === "cyr") applyScript(true);
   })();
-  $$("[data-set-script]").forEach(function (b) {
-    b.addEventListener("click", function () {
-      var on = b.dataset.setScript === "cyr";
-      if (on === cyr) return;
-      applyScript(on);
-      store.set("dsrb.script", on ? "cyr" : "lat");
-      try {
-        var url = new URL(location.href);
-        if (on) url.searchParams.set("script", "cyr"); else url.searchParams.delete("script");
-        history.replaceState(null, "", url);
-      } catch (e) { /* file:// */ }
+  function setScript(on) {
+    if (on === cyr) return;
+    applyScript(on);
+    store.set("dsrb.script", on ? "cyr" : "lat");
+    try {
+      var url = new URL(location.href);
+      if (on) url.searchParams.set("script", "cyr"); else url.searchParams.delete("script");
+      history.replaceState(null, "", url);
+    } catch (e) { /* file:// */ }
+  }
+
+  /* ---------- one language menu (globe): Srpski latinica, Српски ћирилица, English ---------- */
+  var menu = document.querySelector(".langmenu");
+  function updateMenu() {
+    if (!menu) return;
+    var cur = root.dataset.lang === "en" ? "en" : (cyr ? "sr-cyr" : "sr-lat");
+    $$("[data-opt]", menu).forEach(function (b) { b.setAttribute("aria-checked", String(b.dataset.opt === cur)); });
+    menu.querySelector(".lm-cur").textContent = cur === "en" ? "EN" : cur === "sr-cyr" ? "СР" : "SR";
+  }
+  if (menu) {
+    var mbtn = menu.querySelector(".lm-btn"), mlist = menu.querySelector(".lm-list");
+    var openMenu = function (open) {
+      mlist.hidden = !open;
+      mbtn.setAttribute("aria-expanded", String(open));
+      if (open) { var c = mlist.querySelector('[aria-checked="true"]') || mlist.querySelector("[data-opt]"); c.focus(); }
+    };
+    mbtn.addEventListener("click", function () { openMenu(mlist.hidden); });
+    $$("[data-opt]", menu).forEach(function (b) {
+      b.addEventListener("click", function () {
+        var o = b.dataset.opt;
+        if (o === "en") { setLang("en"); }
+        else { setLang("sr"); setScript(o === "sr-cyr"); }
+        updateMenu();
+        openMenu(false); mbtn.focus();
+      });
     });
-  });
+    document.addEventListener("click", function (e) { if (!mlist.hidden && !menu.contains(e.target)) openMenu(false); });
+    menu.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && !mlist.hidden) { openMenu(false); mbtn.focus(); }
+      if ((e.key === "ArrowDown" || e.key === "ArrowUp") && !mlist.hidden) {
+        e.preventDefault();
+        var items = $$("[data-opt]", menu), i = items.indexOf(document.activeElement);
+        items[(i + (e.key === "ArrowDown" ? 1 : items.length - 1)) % items.length].focus();
+      }
+    });
+    updateMenu();
+  }
 
   /* ---------- filters: topic and difficulty ---------- */
   var state = { cat: "all", tier: "all", q: "", qf: "" };

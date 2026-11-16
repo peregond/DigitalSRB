@@ -38,13 +38,13 @@
       <a href="../../index.html#ideas"><span lang="sr-Latn">‹ Sve ideje</span><span lang="en">‹ All ideas</span></a>
       <a href="#sources"><span lang="sr-Latn">Izvori</span><span lang="en">Sources</span></a>
     </div>
-    <div class="lang" role="group" aria-label="Jezik / Language">
-      <button type="button" data-set-lang="sr" aria-pressed="true">SR</button>
-      <button type="button" data-set-lang="en" aria-pressed="false">EN</button>
-    </div>
-    <div class="lang script" role="group" aria-label="Pismo / Script">
-      <button type="button" data-set-script="lat" aria-pressed="true">Lat</button>
-      <button type="button" data-set-script="cyr" aria-pressed="false">Ћир</button>
+    <div class="langmenu">
+      <button type="button" class="lm-btn" aria-haspopup="menu" aria-expanded="false" aria-label="Jezik i pismo / Language and script"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zM2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20"/></svg><span class="lm-cur">SR</span><svg class="lm-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+      <div class="lm-list" role="menu" hidden>
+        <button type="button" role="menuitemradio" aria-checked="true" data-opt="sr-lat"><span>Srpski<small>latinica</small></span><svg class="lm-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></button>
+        <button type="button" role="menuitemradio" aria-checked="false" data-opt="sr-cyr"><span>Српски<small>ћирилица</small></span><svg class="lm-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></button>
+        <button type="button" role="menuitemradio" aria-checked="false" data-opt="en"><span>English</span><svg class="lm-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></button>
+      </div>
     </div>
   </div>
 </nav>

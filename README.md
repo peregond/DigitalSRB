@@ -68,5 +68,5 @@ The "Predloži ideju / Suggest an idea" form on the home page stores messages in
 ## Other settings
 
 - **Link previews / SEO:** `python3 tools/og.py` renders `assets/og/*.jpg`; `tools/build.py` writes `sitemap.xml`, `robots.txt` and `404.html` (the site address comes from `CNAME`).
-- **Latin / Cyrillic:** `assets/translit.js` converts the Serbian text in the browser; names that must stay Latin are listed in `KEEP`.
+- **Language menu:** one globe button with Srpski (latinica), Српски (ћирилица) and English. Cyrillic is made by `assets/translit.js`, which converts the Serbian text in the browser; names that must stay Latin are listed in `KEEP`.
 - **Showcase images:** `python3 tools/shots.py`. **Review of the drafted text:** `docs/REVIEW.md`.
