@@ -235,3 +235,12 @@ html:not(.js) .fcard{opacity:1;transform:none}
 
 .cat-ico{display:block;width:32px;height:32px;color:var(--ink);margin-bottom:16px;flex:none}
 .cat-tile:hover .cat-ico{color:var(--accent)}
+
+/* featured cards: room for the hover shadow, and drag-to-scroll cursor */
+.fc-track{padding-top:26px;padding-bottom:88px;margin-top:-20px}
+.fc-ctrl{position:relative;z-index:2;margin-top:-76px}
+.featured{padding-bottom:clamp(40px,6vw,80px)}
+.drag{cursor:grab}
+.drag.dragging{cursor:grabbing;user-select:none;-webkit-user-select:none}
+.drag.dragging a{pointer-events:none}
+.drag img{-webkit-user-drag:none;user-select:none}

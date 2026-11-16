@@ -254,6 +254,47 @@
     frame();
   }
 
+  /* ---------- drag to scroll with the mouse (touch already scrolls natively) ---------- */
+  function enableDrag(el) {
+    if (!el) return;
+    var down = false, moved = false, startX = 0, startLeft = 0, id = null;
+    el.classList.add("drag");
+    el.addEventListener("pointerdown", function (e) {
+      if (e.pointerType !== "mouse" || e.button !== 0) return;
+      down = true; moved = false; startX = e.clientX; startLeft = el.scrollLeft; id = e.pointerId;
+    });
+    el.addEventListener("pointermove", function (e) {
+      if (!down) return;
+      var dx = e.clientX - startX;
+      if (!moved && Math.abs(dx) > 5) {
+        moved = true;
+        el.classList.add("dragging");
+        el.style.scrollSnapType = "none";
+        try { el.setPointerCapture(id); } catch (err) { /* ignore */ }
+      }
+      if (moved) el.scrollLeft = startLeft - dx;
+    });
+    function end() {
+      if (!down) return;
+      down = false;
+      if (moved) {
+        el.classList.remove("dragging");
+        el.style.scrollSnapType = "";
+        try { el.releasePointerCapture(id); } catch (err) { /* ignore */ }
+      }
+    }
+    el.addEventListener("pointerup", end);
+    el.addEventListener("pointercancel", end);
+    el.addEventListener("lostpointercapture", end);
+    // a drag must not open the card it ended on
+    el.addEventListener("click", function (e) {
+      if (moved) { e.preventDefault(); e.stopPropagation(); moved = false; }
+    }, true);
+    el.addEventListener("dragstart", function (e) { e.preventDefault(); });
+  }
+  enableDrag(document.getElementById("fcTrack"));
+  $$(".pa-row").forEach(enableDrag);
+
   /* ---------- phone galleries: arrows ---------- */
   $$(".pa-ctrl").forEach(function (box) {
     var row = box.parentNode.querySelector(".pa-row");
