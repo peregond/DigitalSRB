@@ -254,6 +254,17 @@
     frame();
   }
 
+  /* ---------- phone galleries: arrows ---------- */
+  $$(".pa-ctrl").forEach(function (box) {
+    var row = box.parentNode.querySelector(".pa-row");
+    $$("button", box).forEach(function (btn) {
+      btn.addEventListener("click", function () {
+        var f = row.querySelector(".pa-fig");
+        row.scrollBy({ left: Number(btn.dataset.pa) * (f.offsetWidth + 36), behavior: "smooth" });
+      });
+    });
+  });
+
   /* ---------- scroll reveal ---------- */
   var items = $$(".reveal, .fcard, .rv");
   if ("IntersectionObserver" in window) {

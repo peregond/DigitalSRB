@@ -320,3 +320,10 @@ html{scroll-padding-top:112px}
 .flow-row.after li:not(:last-child)::after{background:color-mix(in srgb,var(--th2) 45%,#fff)}
 .flow-row.today li{color:var(--ink2);font-weight:500}
 @media (max-width:760px){.pg-flow{grid-template-columns:1fr}.pg-flow::after{display:none}}
+
+/* cleaner rhythm: less air between chapters, calmer headings */
+.pg-sec{padding:clamp(52px,6.5vw,96px) 0}
+.pg-head{margin-bottom:clamp(26px,3.6vw,42px)}
+.pg-head h2{font-size:clamp(28px,4.2vw,52px)}
+.pg-intro,.pg-prose p{font-size:clamp(18px,1.9vw,22px)}
+.pg-local-links a{padding:7px 12px}

@@ -233,23 +233,15 @@ PAGES[21] = {
              ("Lična karta samo za carinu ili taksu, posebno", "ID only for duty or fees, as a separate step")],
             id="p2", extra="posta_p2", intro=("QR je unapred potvrđen jer je prijava u aplikaciju već dvofaktorska. Isti QR radi za plaćanja i druge državne usluge na pošti.",
                             "The QR is verified in advance because the app login is already two-factor. The same QR works for payments and other state services at the post office.")),
-        steps(("3/4", "3/4"), ("Carina, deklaracija i plaćanje onlajn", "Customs, declaration and payment online"), [
-            (("Deklaracija u aplikaciji", "Declaration in the app"), ("Navodiš odakle stiže pošiljka i šta je u njoj.", "You say where the parcel comes from and what is inside.")),
-            (("Javni kalkulator", "A public calculator"), ("Pokazuje kako se računaju carina, PDV i naknade, pa se zna unapred koliko košta.", "Shows how duty, PDV and fees are calculated, so the cost is known in advance.")),
-            (("Plaćanje unapred", "Pay in advance"), ("Sve se plaća onlajn pre dolaska paketa.", "Everything is paid online before the parcel arrives.")),
-            (("Doplata na vratima", "Top-up at the door"), ("Ako ipak treba doplatiti, poštar u aplikaciji odmah pravi NBS IPS QR, a ti plaćaš iz bankarske aplikacije.", "If something is still due, the postman's app instantly creates an NBS IPS QR and you pay from your banking app.")),
-        ], id="p3", extra="posta_p3", intro=("Danas se ne zna kako se računaju carina i PDV, deklaracija se popunjava na šalteru (od 23. februara 2026. Pošta je i naplaćuje), a poštar na adresi traži gotovinu.",
-                           "Today nobody knows how duty and PDV are calculated, the declaration is filled in at the counter (since 23 February 2026 Pošta charges for it), and the postman at the door wants cash.")),
+        steps(("3/4", "3/4"), ("Carina, deklaracija i plaćanje onlajn", "Customs, declaration and payment online"), [], id="p3", extra="posta_p3",
+              intro=("Danas se deklaracija popunjava na šalteru (od 23. februara 2026. Pošta je i naplaćuje), a poštar na adresi traži gotovinu. Ovde deklarišeš u aplikaciji, unapred vidiš javni obračun i plaćaš onlajn, a ako ipak treba doplatiti na adresi, koristiš NBS IPS QR.",
+                     "Today the declaration is filled in at the counter (since 23 February 2026 Pošta Srbije charges for it) and the postman at the door wants cash. Here you declare in the app, see a public calculation up front and pay online, and if something is still due at the door you use an NBS IPS QR.")),
         bars(("4/4", "4/4"), ("Carinjenje za jedan radni dan", "Customs clearance within one working day"), [
             (("Danas", "Today"), 35, ("35+ dana", "35+ days"), "lo"),
             (("Cilj", "Target"), 1, ("1 radni dan", "1 working day"), "hi"),
         ], note=("Danas nema zakonskog roka za carinjenje. Izvor: Kurir, pošiljke na carini i više od 35 dana.", "Today there is no legal deadline for clearance. Source: Kurir, parcels at customs for over 35 days."), id="p4", extra="posta_p4", unit=("dana", "days"),
-            intro=("Cilj je 99,9% pošiljki ocarinjeno u roku od jednog radnog dana. To je izvodljivo jer su deklaracija i plaćanje već onlajn i unapred, a sistem je gotovo potpuno automatizovan.",
-                   "The target is 99.9% of parcels cleared within one working day of arrival. That is feasible because the declaration and payment are already online and in advance, and the system is almost fully automated.")),
-        flow(("Kad automat pogreši", "When the machine gets it wrong"), ("Žalba i živ čovek", "An appeal and a human"), [
-            ("Pošiljka čeka ručnu obradu", "The parcel waits for manual handling"), ("Nema roka", "No deadline"), ("Nikad se ne zna kad stiže", "Nobody knows when it arrives")],
-            [("Automatska odluka za gotovo sve", "An automatic decision for almost everything"), ("Žališ se onlajn", "Appeal online"), ("Odluku pregleda čovek", "A human reviews the decision"),
-             ("Složeni slučajevi onlajn, po potrebi uživo", "Complex cases online, in person if needed")]),
+            intro=("Cilj je 99,9% pošiljki ocarinjeno u roku od jednog radnog dana. To je izvodljivo jer su deklaracija i plaćanje već onlajn i unapred, a sistem je gotovo potpuno automatizovan. Na odluku automata možeš da se žališ, pa je pregleda živ čovek.",
+                   "The target is 99.9% of parcels cleared within one working day of arrival. That is feasible because the declaration and payment are already online and in advance, and the system is almost fully automated. You can appeal an automatic decision, and a human then reviews it.")),
         check(CHANGE, ("Šta treba da se uradi", "What needs to happen"), [
             ("tech", ("Aplikacija Pošte Srbije sa prijavom preko eUprave i dvofaktorskom potvrdom", "A Pošta Srbije app with eUprava login and two-factor confirmation")),
             ("tech", ("QR za preuzimanje i NBS IPS QR za doplatu na adresi", "A pickup QR and an NBS IPS QR for top-ups at the door")),
@@ -263,6 +255,15 @@ PAGES[21] = {
         ]),
     ],
 }
+
+for _blk in PAGES[21]["blocks"]:
+    _nav = {"p1": ("Aplikacija", "The app"), "p2": ("QR preuzimanje", "QR pickup"), "p3": ("Deklaracija", "Declaration"), "p4": ("Carinjenje", "Clearance")}.get(_blk.get("id"))
+    if _blk["k"] == "check":
+        _nav = ("Promene", "Changes")
+    elif _blk["k"] == "faq":
+        _nav = ("Pitanja", "Q&A")
+    if _nav:
+        _blk["nav"] = _nav
 
 # ---------------------------------------------------------------- 47 ID in Wallet
 PAGES[47] = {

@@ -95,6 +95,8 @@ def r_flow(b):
 
 
 def r_steps(b):
+    if not b["items"]:
+        return ""
     items = "".join(f'<li><span class="n">{k + 1}</span>{B(t, "h3")}{B(x, "p")}</li>' for k, (t, x) in enumerate(b["items"]))
     return f'<ol class="pg-steps">{items}</ol>'
 
@@ -267,11 +269,7 @@ def _pair(part):
 
 def c_posta_app(b):
     import posta_app
-    lead = (f'<div class="pa-lead"><p class="pg-eyebrow">{B(("Kako bi izgledalo", "What it could look like"))}</p>'
-            + B(("Nova aplikacija Pošte Srbije: prijava preko eUprave, paketi, QR preuzimanje, carina i plaćanje, u bojama Srbije.",
-                 "A new Pošta Srbije app: sign-in through eUprava, parcels, QR pickup, customs and payment, in the colours of Serbia."), "p", "pg-intro")
-            + "</div>")
-    return lead + posta_app.phones_html()
+    return posta_app.phones_html()
 
 
 CUSTOM = {"posta_p2": _pair("p2"), "posta_p3": _pair("p3"), "posta_p4": _pair("p4"), "posta_stages": c_posta_stages, "posta_app": c_posta_app, "licence53": c_licence53, "clerk": c_clerk, "journey22": c_journey22, "network30": c_network30, "stats30": c_stats30,
@@ -320,7 +318,7 @@ def build_all(ctx):
                 if blk.get("extra"):
                     inner += CUSTOM[blk["extra"]](blk)
             sections += sec(blk, inner, i, "dark" if blk["k"] == "check" else "")
-            lab = blk["eb"]
+            lab = blk.get("nav") or blk["eb"]
             m = re.match(r"^(\d)/\d$", lab[1])
             if m:
                 lab = (f"Deo {m.group(1)}", f"Part {m.group(1)}")

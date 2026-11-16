@@ -236,7 +236,9 @@ def phones_html():
     note = B("Vizualizacija je napravljena uz pomoć veštačke inteligencije (AI) i predstavlja koncept. Imena, brojevi pošiljki, iznosi i poslovnice su primeri.",
              "This visual was created with the help of AI and shows a concept. Names, tracking numbers, amounts and branches are examples.", "p", "pa-note")
     note = f'<div class="pa-ai"><span class="pa-ai-tag">AI</span>{note}</div>'
-    return f'<div class="pa">{note}<div class="pa-row">{figs}</div></div>'
+    ctrl = ('<div class="pa-ctrl"><button type="button" class="fc-arrow" data-pa="-1" aria-label="Previous / Prethodna">‹</button>'
+            '<button type="button" class="fc-arrow" data-pa="1" aria-label="Next / Sledeća">›</button></div>')
+    return f'<div class="pa">{note}<div class="pa-row">{figs}</div>{ctrl}</div>'
 
 
 # ------------------------------------------------------------------ web versions and app+web pairs
@@ -303,8 +305,7 @@ PAIRS = {
 
 def pair_html(part):
     ph, web, cap_a, cap_w = PAIRS[part]
-    ai = (f'<p class="pa-ai-mini"><span class="pa-ai-tag">AI</span>'
-          f'{B("Vizualizacija uz pomoć AI, koncept. Primeri podataka.", "Visualised with AI, a concept. Example data.", "span")}</p>')
-    cap = lambda c, tag: f'<figcaption><span class="pa-n">{tag}</span>{B(c[0], c[1], "b")}</figcaption>'
-    return (f'<div class="pa pa-pairwrap">{ai}<div class="pa-pair"><figure class="pa-fig">{ph()}{cap(cap_a, B("APP", "APP"))}</figure>'
-            f'<figure class="pa-webfig">{web()}{cap(cap_w, B("VEB", "WEB"))}</figure></div></div>')
+    tag = '<span class="pa-aitag">AI</span>'
+    cap = lambda cp, label: f'<figcaption><span class="pa-n">{label}{tag}</span>{B(cp[0], cp[1], "b")}</figcaption>'
+    return (f'<div class="pa pa-pairwrap"><div class="pa-pair"><figure class="pa-fig">{ph()}{cap(cap_a, "APP")}</figure>'
+            f'<figure class="pa-webfig">{web()}{cap(cap_w, "WEB")}</figure></div></div>')
