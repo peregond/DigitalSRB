@@ -51,7 +51,7 @@ FEATURED = [
 
 # Ready-made pictures that replace the drawn SVG of an idea (assets/ideas/NN.webp).
 PHOTOS = {55: {"sr": "Gomila papira sa pečatima, a papiri lete naviše (vizuelizacija uz pomoć AI)",
-               "en": "A pile of stamped paperwork with sheets flying up from it (AI-made visual)", "wh": (1100, 825)},
+               "en": "A pile of stamped paperwork with sheets flying up from it (AI-made visual)", "wh": (1100, 614)},
           34: {"sr": "Obaveštenje eUprave na telefonu: Vaš pasoš ističe za 30 dana (vizuelizacija uz pomoć AI)",
                "en": "An eUprava notification on a phone: your passport expires in 30 days (AI-made visual)"},
           47: {"sr": "Pasoš Republike Srbije u Apple Wallet-u na telefonu (vizuelizacija uz pomoć AI)",
