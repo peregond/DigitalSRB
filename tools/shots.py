@@ -4,7 +4,7 @@
   portal-sr.webp / portal-en.webp   the proposed single tax portal (Apple-style), Serbian is the default
   old-eporezi.webp / old-apr.webp   simplified, deliberately dated ("90s") views of today's ePorezi and APR sites
 
-The old views are drawn from public descriptions (ePorezi start page: eID / SmartBox / ePorezi app sign-in, downloads,
+The old views are real screenshots supplied by the author (src-*.webp, personal data removed from the ePorezi header). Earlier drawn versions were based on public descriptions (ePorezi start page: eID / SmartBox / ePorezi app sign-in, downloads,
 user guides; APR: eID sign-in and e-services for sole traders), not copied from the sites. All names, amounts and dates
 are examples. Run:  python3 tools/shots.py   (needs node + playwright and Pillow)
 """
@@ -291,7 +291,13 @@ def old_html(inner):
 def main():
     OUT.mkdir(parents=True, exist_ok=True)
     TMP.mkdir(parents=True, exist_ok=True)
-    jobs = {"portal-sr": portal_html("sr"), "portal-en": portal_html("en"), "old-apr": old_html(APR_OLD), "old-eporezi": old_html(EPOREZI_OLD)}
+    def real(file, url):
+        inner = (f'<div class="win"><div class="chrome"><i></i><i></i><i></i><div class="url">{url}</div></div>'
+                 f'<div style="flex:1;min-height:0;overflow:hidden;position:relative"><img src="../../assets/shots/{file}" '
+                 f'style="position:absolute;left:-1%;top:-1%;width:102%;display:block"></div></div>')
+        return old_html(inner)
+    jobs = {"portal-sr": portal_html("sr"), "portal-en": portal_html("en"),
+            "old-apr": real("src-apr.webp", "apr.gov.rs"), "old-eporezi": real("src-eporezi.webp", "eporezi.purs.gov.rs")}
     for name, html in jobs.items():
         (TMP / f"{name}.html").write_text(html, encoding="utf-8")
     js = ROOT / "tools" / "render_shots.js"

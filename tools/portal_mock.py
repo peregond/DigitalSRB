@@ -10,7 +10,7 @@ def portal_html():
     base = "../../assets/shots/"
     ai = '<span class="pa-aitag">AI</span>'
     note = (f'<div class="pa-ai"><span class="pa-ai-tag">AI</span>'
-            f'{B("Vizualizacija je napravljena uz pomoć veštačke inteligencije (AI) i predstavlja koncept. Prikaz današnjih sajtova je uprošćen i nije tačna kopija. Iznosi i datumi su primeri.", "This visual was created with the help of AI and shows a concept. The view of today’s sites is simplified and not an exact copy. Amounts and dates are examples.", "p", "pa-note")}</div>')
+            f'{B("Vizualizacija je napravljena uz pomoć veštačke inteligencije (AI) i predstavlja koncept. Današnji sajtovi su stvarni snimci ekrana. Iznosi i datumi su primeri.", "This visual was created with the help of AI and shows a concept. Today’s sites are real screenshots. Amounts and dates are examples.", "p", "pa-note")}</div>')
 
     def old(file, sr, en, alt_sr, alt_en):
         return (f'<figure class="shot"><a href="{base}{file}" target="_blank" rel="noopener"><img src="{base}{file}" alt="{alt_en}" loading="lazy" width="2160" height="1215"></a>'
