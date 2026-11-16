@@ -19,6 +19,7 @@
     $$("[data-set-lang]").forEach(function (b) {
       b.setAttribute("aria-pressed", String(b.dataset.setLang === lang));
     });
+    if (typeof updatePh === "function") updatePh();
   }
 
   function setLang(lang) {
@@ -87,7 +88,7 @@
       attrOrig.forEach(function (o, el) { Object.keys(o).forEach(function (a) { el.setAttribute(a, o[a]); }); });
     }
     $$("[data-set-script]").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.setScript === (on ? "cyr" : "lat"))); });
-    $$("[data-ph-sr]").forEach(function (el) { el.placeholder = on ? T.toCyr(el.dataset.phSr) : el.dataset.phSr; });
+    updatePh();
     var d = document.body.dataset;
     if (root.dataset.lang === "sr") { var base = d.titleSr || TITLES.sr; document.title = on ? T.toCyr(base) : base; }
     root.classList.toggle("cyr", on);
@@ -113,7 +114,7 @@
   });
 
   /* ---------- filters: topic and difficulty ---------- */
-  var state = { cat: "all", tier: "all" };
+  var state = { cat: "all", tier: "all", q: "", qf: "" };
   var catChips = $$(".chip[data-cat]"), tierChips = $$(".chip[data-tier]"), emptyMsg = document.getElementById("empty");
   function applyFilters() {
     function mark(list, key, val) {
@@ -129,7 +130,7 @@
     $$(".cat-section").forEach(function (s) {
       var any = 0;
       $$(".idea", s).forEach(function (a) {
-        var ok = (state.cat === "all" || s.dataset.cat === state.cat) && (state.tier === "all" || a.dataset.tier === state.tier);
+        var ok = (state.cat === "all" || s.dataset.cat === state.cat) && (state.tier === "all" || a.dataset.tier === state.tier) && (!state.qf || matches(a));
         a.hidden = !ok;
         if (ok) any++;
       });
@@ -253,8 +254,86 @@
       totals = {};
       rows.forEach(function (r) { totals[r.idea] = { up: r.up, down: r.down }; });
       Object.keys(boxes).forEach(paint);
+      buildTop();
     }).catch(function (e) { console.warn(e); });
   }
+
+  /* ---------- most supported ideas (home page, needs shared totals) ---------- */
+  function buildTop() {
+    var host = document.getElementById("topvoted");
+    if (!host || !totals) return;
+    var list = Object.keys(totals).map(function (id) {
+      var t = totals[id];
+      return { id: id, up: t.up, score: t.up - t.down };
+    }).filter(function (x) { return x.up > 0 && x.score > 0 && document.getElementById("idea-" + x.id); })
+      .sort(function (a, b) { return b.score - a.score || b.up - a.up; }).slice(0, 5);
+    if (!list.length) { host.hidden = true; return; }
+    var html = '<div class="tv-box"><h3><span lang="sr-Latn">Najviše podrške</span><span lang="en">Most supported</span></h3><ol>';
+    list.forEach(function (x) {
+      var a = document.getElementById("idea-" + x.id);
+      var esc = function (s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;"); };
+      html += '<li><a href="#idea-' + x.id + '"><span class="t"><span lang="sr-Latn">' + esc(a.dataset.tSr) + '</span><span lang="en">' + esc(a.dataset.tEn) + "</span></span><b>+" + x.score + "</b></a></li>";
+    });
+    host.innerHTML = html + "</ol></div>";
+    host.hidden = false;
+    if (cyr) applyScript(true);
+  }
+
+  /* ---------- share ---------- */
+  var toastTimer = null;
+  function toast(sr, en) {
+    var t = document.querySelector(".toast");
+    if (!t) { t = document.createElement("div"); t.className = "toast"; t.setAttribute("role", "status"); document.body.appendChild(t); }
+    var msg = root.dataset.lang === "en" ? en : (cyr && T ? T.toCyr(sr) : sr);
+    t.textContent = msg;
+    requestAnimationFrame(function () { t.classList.add("in"); });
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { t.classList.remove("in"); }, 2200);
+  }
+  $$("[data-share]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var key = b.dataset.share, url;
+      try {
+        var u = new URL(location.href);
+        u.search = ""; u.hash = key === "page" ? "" : "#idea-" + key;
+        url = u.toString();
+      } catch (e) { url = location.href; }
+      var data = { title: document.title, url: url };
+      if (navigator.share) {
+        navigator.share(data).catch(function () { /* cancelled */ });
+      } else if (navigator.clipboard) {
+        navigator.clipboard.writeText(url).then(function () { toast("Link je kopiran", "Link copied"); }, function () { toast(url, url); });
+      } else { toast(url, url); }
+    });
+  });
+
+  /* ---------- search ---------- */
+  var qInput = document.getElementById("q"), qTimer = null, searchIdx = new Map();
+  function matches(a) {
+    var k = searchIdx.get(a);
+    if (k === undefined) { k = T ? T.fold(a.textContent) : a.textContent.toLowerCase(); searchIdx.set(a, k); }
+    return k.indexOf(state.qf) > -1;
+  }
+  if (qInput) {
+    qInput.addEventListener("input", function () {
+      clearTimeout(qTimer);
+      qTimer = setTimeout(function () {
+        state.q = qInput.value.trim();
+        state.qf = T ? T.fold(state.q) : state.q.toLowerCase();
+        applyFilters();
+      }, 120);
+    });
+    qInput.addEventListener("focus", function () {
+      var area = document.getElementById("ideas");
+      if (area && area.getBoundingClientRect().top > innerHeight * 0.6) area.scrollIntoView();
+    });
+  }
+  function updatePh() {
+    $$("[data-ph-sr]").forEach(function (el) {
+      el.placeholder = root.dataset.lang === "en" ? el.dataset.phEn : (cyr && T ? T.toCyr(el.dataset.phSr) : el.dataset.phSr);
+    });
+  }
+  updatePh();
 
   /* ---------- featured cards ---------- */
   var track = document.getElementById("fcTrack"), prev = document.getElementById("fcPrev"), next = document.getElementById("fcNext");

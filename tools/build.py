@@ -136,6 +136,14 @@ def wide_set(nums, ideas):
     return wide
 
 
+SHARE_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7M16 6l-4-4-4 4M12 2v13"/></svg>'
+
+
+def share_btn(key):
+    return (f'<button type="button" class="sbtn" data-share="{key}">{SHARE_ICON}'
+            f'<span lang="sr-Latn">Podeli</span><span lang="en">Share</span></button>')
+
+
 def render_idea(num, by_lang, tier, toc, wide):
     body = []
     for l in LANGS:
@@ -192,10 +200,11 @@ def render_idea(num, by_lang, tier, toc, wide):
         f'<span class="sign" aria-hidden="true">+</span>{bi("vote_up", cls="sr-only")}<span class="count" hidden></span></button>'
         f'<button type="button" class="vbtn down" data-dir="down" aria-pressed="false">'
         f'<span class="sign" aria-hidden="true">−</span>{bi("vote_down", cls="sr-only")}<span class="count" hidden></span></button>'
-        f"</div></footer>"
+        f'</div>{share_btn(num)}</footer>'
     )
+    ttl = {l: re.sub(r"<[^>]+>", "", toc[l][num]).replace("&", "&amp;").replace('"', "&quot;") for l in LANGS}
     return (
-        f'<article class="idea reveal{" wide" if wide else ""}" id="idea-{num}" data-tier="{tier["n"]}" style="--tc:{tier["color"]}">'
+        f'<article class="idea reveal{" wide" if wide else ""}" id="idea-{num}" data-tier="{tier["n"]}" data-t-sr="{ttl["sr"]}" data-t-en="{ttl["en"]}" style="--tc:{tier["color"]}">'
         f'<p class="idea-num"><span class="idnum">№ {num:02d}</span><i class="tdot"></i>{bi({l: tier[l]["name"] for l in LANGS}, cls="tname")}</p>'
         f'{"".join(body)}{more}{vote}</article>'
     )

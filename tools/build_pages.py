@@ -487,12 +487,17 @@ def sources_html(parts):
     return "".join(out)
 
 
+def build_share(key):
+    from build import share_btn
+    return share_btn(key)
+
+
 def vote_html(n):
     return (f'<div class="pg-vote" id="vote"><div class="wrap"><footer class="vote" data-vote="{n}">'
             f'{B(UI["vote_q"], "span", "vote-q")}<div class="vote-btns">'
             f'<button type="button" class="vbtn up" data-dir="up" aria-pressed="false"><span class="sign" aria-hidden="true">+</span>{B(UI["up"], "span", "sr-only")}<span class="count" hidden></span></button>'
             f'<button type="button" class="vbtn down" data-dir="down" aria-pressed="false"><span class="sign" aria-hidden="true">−</span>{B(UI["down"], "span", "sr-only")}<span class="count" hidden></span></button>'
-            f'</div></footer></div></div>')
+            f'</div>{build_share("page")}</footer></div></div>')
 
 
 def build_all(ctx):
