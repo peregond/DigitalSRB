@@ -1,6 +1,6 @@
 :root{
   --ink:#111; --ink2:#333; --muted:#5E5E5E; --line:#E6E2DC; --bg:#fff; --alt:#FBF1F0; --alt2:#F6DEDC;
-  --accent:#E30613; --link:#E30613; --up:#12A150; --down:#E30613;
+  --accent:#D4000F; --link:#E30613; --up:#12A150; --down:#E30613;
   --display:"Unbounded","Manrope",system-ui,sans-serif;
   --font:"Manrope",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
   --nav-h:48px; --bar-h:56px; --r:28px; --w:1080px;
@@ -289,3 +289,4 @@ html[data-lang="en"] .lang.script{display:none}
 .sug-foot .btn{cursor:pointer;font-size:16px}
 .sug-foot .btn[disabled]{opacity:.55;cursor:default}
 .sug-msg{font-weight:700;font-size:15px}.sug-msg.ok{color:var(--up)}.sug-msg.err{color:var(--down)}
+.cat-count{color:#C4000F}

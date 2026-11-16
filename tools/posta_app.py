@@ -83,7 +83,7 @@ def tabs(active):
 def phone(body, tab=None, dark=False):
     tabs_on = tab is not None
     status = ('<div class="pa-status"><b>9:41</b><span class="pa-sig"><i></i><i></i><i></i><i></i></span></div>')
-    return (f'<div class="pa-phone"><span class="pa-island"></span><div class="pa-screen{" dark" if dark else ""}{" has-tabs" if tabs_on else ""}">{status}'
+    return (f'<div class="pa-phone" inert aria-hidden="true"><span class="pa-island"></span><div class="pa-screen{" dark" if dark else ""}{" has-tabs" if tabs_on else ""}">{status}'
             f'<div class="pa-body">{body}</div>{tabs(tab) if tab else ""}</div></div>')
 
 
@@ -238,12 +238,12 @@ def phones_html():
     note = f'<div class="pa-ai"><span class="pa-ai-tag">AI</span>{note}</div>'
     ctrl = ('<div class="pa-ctrl"><button type="button" class="fc-arrow" data-pa="-1" aria-label="Previous / Prethodna">‹</button>'
             '<button type="button" class="fc-arrow" data-pa="1" aria-label="Next / Sledeća">›</button></div>')
-    return f'<div class="pa">{note}<div class="pa-row">{figs}</div>{ctrl}</div>'
+    return f'<div class="pa">{note}<div class="pa-row" tabindex="0" role="region" aria-label="App screens / Ekrani aplikacije">{figs}</div>{ctrl}</div>'
 
 
 # ------------------------------------------------------------------ web versions and app+web pairs
 def browser(body, url="posta.rs"):
-    return (f'<div class="pa-browser"><div class="pa-bbar"><i></i><i></i><i></i><span class="pa-url">{ic("lock")}{url}</span></div>'
+    return (f'<div class="pa-browser" inert aria-hidden="true"><div class="pa-bbar"><i></i><i></i><i></i><span class="pa-url">{ic("lock")}{url}</span></div>'
             f'<div class="pa-wbody">{body}</div></div>')
 
 

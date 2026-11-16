@@ -79,6 +79,12 @@ def clean_svg(svg, lang, uid):
     for t in svg.find_all(attrs={"font-family": True}):
         del t["font-family"]
         t["class"] = (t.get("class") or []) + ["dsp"]
+    # the pictures are decorative: the text next to them says the same
+    if svg.has_attr("role"):
+        del svg["role"]
+    if svg.has_attr("aria-label"):
+        del svg["aria-label"]
+    svg["aria-hidden"] = "true"
     out = str(svg)
     for i in set(re.findall(r'\bid="([^"]+)"', out)):
         out = out.replace(f'id="{i}"', f'id="{i}-{uid}-{lang}"').replace(f"url(#{i})", f"url(#{i}-{uid}-{lang})")
@@ -175,7 +181,7 @@ def render_idea(num, by_lang, tier, toc, wide):
                     dots = ""
                     if meter:
                         on = len(meter.select(".m.on"))
-                        dots = f'<span class="meter" aria-label="{on}/3">' + "".join(
+                        dots = f'<span class="meter" role="img" aria-label="{on}/3">' + "".join(
                             f'<i class="{"on" if k < on else ""}"></i>' for k in range(3)) + "</span>"
                         meter.extract()
                     cols.append(f'<div><p class="lbl">{lbl.get_text().strip()}{dots}</p><p>{inner(txt)}</p></div>')

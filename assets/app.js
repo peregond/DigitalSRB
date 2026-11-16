@@ -509,7 +509,10 @@
         document.body.style.overflow = "";
         setTimeout(function () { document.body.removeChild(box); btn.focus(); }, 280);
       }
-      function onKey(e) { if (e.key === "Escape") close(); }
+      function onKey(e) {
+        if (e.key === "Escape") close();
+        else if (e.key === "Tab") { e.preventDefault(); box.querySelector(".x").focus(); } // keep focus in the dialog
+      }
       document.addEventListener("keydown", onKey);
       box.addEventListener("click", close);
       box.querySelector(".x").focus();

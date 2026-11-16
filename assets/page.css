@@ -409,3 +409,6 @@ body[style*="--hl:#F1BD40"] .pg-stage-top i{background:var(--th)}
 @media (max-width:420px){.pg-vs-n{font-size:clamp(34px,13vw,48px);white-space:normal}.pg-vs{min-width:0}}
 body.pg{overflow-x:clip}
 body.pg main{overflow-x:clip}
+
+.pg-intro,.pg-prose p{color:#636366}
+.pg-vs.after .pg-vs-k{color:rgba(255,255,255,.92)}

@@ -1,5 +1,5 @@
 /* Concept screens for the Pošta Srbije app. Static visual, all values are placeholders. */
-.pa{--blue:#1D3F72;--blue2:#2C5688;--navy:#142E57;--red:#C6363C;--yellow:#F1BD40;--bg:#FFF6DC;--soft:#FBEBC0;--tx:#1B2742;--mu:#76705C;--ln:#F0E3BF;--ok:#12A150}
+.pa{--blue:#1D3F72;--blue2:#2C5688;--navy:#142E57;--red:#C6363C;--yellow:#F1BD40;--bg:#FFF6DC;--soft:#FBEBC0;--tx:#1B2742;--mu:#645F4A;--ln:#F0E3BF;--ok:#0E8A43}
 .pa-row{display:flex;gap:clamp(22px,3vw,40px);overflow-x:auto;scroll-snap-type:x proximity;padding:8px 22px 36px;margin:0 -22px;scrollbar-width:thin}
 .pa-fig{flex:none;width:340px;scroll-snap-align:center}
 .pa-fig figcaption{display:grid;gap:4px;margin-top:22px;padding:0 6px}
@@ -528,3 +528,7 @@
 .wl-share li{display:flex;gap:10px;align-items:center;font-weight:700;font-size:12.5px;padding:8px 11px;border-radius:12px;background:rgba(255,255,255,.85);box-shadow:inset 0 0 0 1px var(--ln)}
 .wl-share li b{width:20px;height:20px;border-radius:50%;display:grid;place-items:center;font-size:11px;color:#fff;background:#12A150;flex:none}.wl-share li b svg{width:11px;height:11px;stroke-width:3.5}
 .wl-share li.off{color:var(--mu);text-decoration:line-through}.wl-share li.off b{background:#BDB8B0}
+
+/* contrast fixes found by the automated audit */
+.pa-n{color:#C4000F}
+.pa-chip.blue{color:var(--navy)}
