@@ -200,21 +200,25 @@ ART[2] = (RED, f'''
 <rect x="260" y="192" width="80" height="8" rx="4" fill="#fff" opacity=".55"/></g>
 ''')
 
-# 09 one tax portal
+# 09 one tax portal: three registers send money and documents to one coin
+P9 = {"tl": "M92 92Q136 100 154 130", "tr": "M308 92Q264 100 246 130", "br": "M308 208Q264 200 246 170"}
+def flow(path, item, dur, delay):
+    return (f'<g>{item}<animateMotion dur="{dur}s" begin="{delay}s" repeatCount="indefinite" path="{path}" keyPoints="0;1" keyTimes="0;1" calcMode="linear"/></g>')
+COIN9 = f'<circle r="8" fill="{AMBER}" stroke="#fff" stroke-width="2"/><circle r="3" fill="none" stroke="#fff" stroke-width="1.5"/>'
+DOC9 = f'<rect x="-7" y="-9" width="14" height="18" rx="2.5" fill="#fff" stroke="{INK}" stroke-width="2"/><path d="M-3.5-3h7M-3.5 1h7M-3.5 5h4" stroke="{GREY}" stroke-width="1.8" stroke-linecap="round"/>'
 ART[9] = (RED, f'''
-<g class="fl"><rect x="30" y="50" width="120" height="82" rx="12" fill="#fff" stroke="{INK}" stroke-width="4.5" filter="url(#s)"/>
-<rect x="30" y="50" width="120" height="18" rx="12" fill="{GREY}"/><rect x="30" y="60" width="120" height="8" fill="{GREY}"/>
-<rect x="46" y="82" width="64" height="8" rx="4" fill="{GREY}"/><rect x="46" y="100" width="44" height="8" rx="4" fill="{GREY}"/></g>
-<g class="fl2"><rect x="30" y="160" width="120" height="82" rx="12" fill="#fff" stroke="{INK}" stroke-width="4.5" filter="url(#s)"/>
-<rect x="30" y="160" width="120" height="18" rx="12" fill="{GREY}"/><rect x="30" y="170" width="120" height="8" fill="{GREY}"/>
-<rect x="46" y="192" width="64" height="8" rx="4" fill="{GREY}"/><rect x="46" y="210" width="44" height="8" rx="4" fill="{GREY}"/></g>
-<path class="da" d="M158 92Q196 100 204 138M158 202Q196 194 204 160" fill="none" stroke="{RED}" stroke-width="5" stroke-linecap="round"/>
-<path d="M196 142l10 -8 10 10" fill="none" stroke="{RED}" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity="0"/>
-<g class="fl"><rect x="214" y="84" width="160" height="132" rx="16" fill="{RED}" filter="url(#s)"/>
-<rect x="214" y="84" width="160" height="22" rx="16" fill="#fff" opacity=".25"/>
-<circle cx="294" cy="152" r="32" fill="#fff"/><path d="M278 152l12 12 22-24" fill="none" stroke="{RED}" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
-<rect x="238" y="194" width="112" height="8" rx="4" fill="#fff" opacity=".55"/></g>
+<g class="fl">{cyl(58,70,56,64,RED)}</g>
+<g class="fl2">{cyl(342,70,56,64,RED)}</g>
+<g class="fl">{cyl(342,232,56,64,RED)}</g>
+{"".join(f'<path class="da" d="{d}" fill="none" stroke="{RED}" stroke-width="4" stroke-linecap="round" opacity=".55"/>' for d in P9.values())}
+{flow(P9["tl"], COIN9, 2.4, 0)}{flow(P9["tl"], COIN9, 2.4, 1.2)}
+{flow(P9["tr"], DOC9, 2.6, 0.4)}{flow(P9["br"], DOC9, 2.6, 0)}{flow(P9["br"], COIN9, 2.6, 1.3)}
+<g class="fl2"><circle cx="200" cy="150" r="58" fill="{AMBER}" opacity=".22" class="pu"/>
+<circle cx="200" cy="150" r="50" fill="{AMBER}" filter="url(#s)"/>
+<circle cx="200" cy="150" r="41" fill="none" stroke="#fff" stroke-width="3.5" opacity=".9"/>
+<g transform="translate(200 150) scale(2) translate(-300 -226)"><path d="M300 215v22M293 222h10a4 4 0 0 1 0 8h-8" fill="none" stroke="#fff" stroke-width="3.8" stroke-linecap="round"/></g></g>
 ''')
+
 
 from pages_data import THEMES
 
