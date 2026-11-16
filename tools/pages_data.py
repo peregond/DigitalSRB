@@ -114,7 +114,6 @@ PAGES[9] = {
                   intro=("Danas firmu registruješ u jednom elektronskom sistemu, a poreze plaćaš u drugom, pa moraš da prelaziš sa portala na portal. Predlog je jedinstveni poreski portal u kome je sve to na jednom mestu.",
                          "Today you register a business in one electronic system and pay taxes in another, so you have to switch from portal to portal. The proposal is a single tax portal where it is all in one place.")),
          "cls": "compact", "nav": ("Pregled", "Overview")},
-        {**custom("versus9", ("Razlika", "The difference"), ("Koliko sistema moraš da koristiš", "How many systems you have to use")), "nav": ("Razlika", "Difference")},
         {**custom("portal9", ("Kako izgleda", "What it looks like"), ("Jedan portal, jedan pogled", "One portal, one view"),
                   intro=("Danas ePorezi nudi tri načina prijave i programe za preuzimanje, a APR ima poseban portal sa svojim uslugama. Jedinstveni portal sve to prikazuje na jednom ekranu, na jednom nalogu.",
                          "Today ePorezi offers three ways to sign in and programs to download, and APR has its own portal with its own services. The single portal shows it all on one screen, on one account."), id="mock"),

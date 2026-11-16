@@ -1,0 +1,102 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet"><style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1440px;height:810px;overflow:hidden}
+body{font-family:'Manrope','Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;position:relative}
+.win{position:absolute;left:46px;top:34px;right:46px;bottom:46px;border-radius:20px;background:#fff;overflow:hidden;display:flex;flex-direction:column;
+  box-shadow:0 40px 90px rgba(20,30,5,.28),0 6px 18px rgba(0,0,0,.14),0 0 0 1px rgba(0,0,0,.08)}
+.chrome{height:48px;flex:none;display:flex;align-items:center;gap:9px;padding:0 18px}
+.chrome i{width:12px;height:12px;border-radius:50%;display:block}
+.chrome i:nth-child(1){background:#FF5F57}.chrome i:nth-child(2){background:#FEBC2E}.chrome i:nth-child(3){background:#28C840}
+.url{flex:1;max-width:460px;margin:0 auto;transform:translateX(-30px);display:flex;align-items:center;justify-content:center;gap:7px;height:28px;border-radius:9px;font-size:13px;font-weight:600}
+.url svg{width:12px;height:12px}
+
+.win{background:#F6FAE9}
+.chrome{background:#EAF2CF}.url{background:rgba(255,255,255,.75);color:#4a5a1a}
+.pg{flex:1;min-height:0;padding:18px 28px 18px;display:grid;grid-template-rows:auto auto 1fr auto;gap:14px;
+  background:radial-gradient(52% 42% at 96% 0,#DCEBA6 0,transparent 70%),radial-gradient(46% 40% at 0 78%,rgba(124,161,10,.13),transparent 70%),#F6FAE9;color:#232E08}
+.nav{display:flex;align-items:center;gap:16px;background:rgba(255,255,255,.72);border:1px solid rgba(255,255,255,.95);border-radius:999px;padding:9px 12px;box-shadow:0 10px 26px rgba(60,80,10,.09),inset 0 1px 0 #fff}
+.logo{width:36px;height:36px;border-radius:12px;background:linear-gradient(145deg,#9BC21B,#5C7A0A);color:#fff;display:grid;place-items:center}
+.logo svg{width:20px;height:20px}
+.nav b{font-size:17px;font-weight:800;letter-spacing:-.01em}
+.tabs{display:flex;gap:4px;margin-left:10px}
+.tabs span{padding:9px 18px;border-radius:999px;font-weight:700;font-size:14.5px;color:#69734B}
+.tabs span.on{background:#fff;color:#3F5406;box-shadow:0 2px 10px rgba(60,80,10,.16)}
+.srch{margin-left:auto;display:flex;align-items:center;gap:9px;background:rgba(92,122,10,.08);border-radius:999px;padding:9px 16px;font-weight:600;font-size:14px;color:#69734B;min-width:230px}
+.srch svg{width:16px;height:16px}
+.lang{display:flex;background:rgba(92,122,10,.1);border-radius:999px;padding:3px}
+.lang i{font-style:normal;font-weight:800;font-size:12px;padding:6px 12px;border-radius:999px;color:#69734B}
+.lang i.on{background:#fff;color:#3F5406;box-shadow:0 1px 5px rgba(60,80,10,.2)}
+.bell{position:relative;width:38px;height:38px;border-radius:50%;background:#fff;display:grid;place-items:center;color:#3F5406;box-shadow:0 2px 8px rgba(60,80,10,.14)}
+.bell svg{width:18px;height:18px}.bell u{position:absolute;top:8px;right:9px;width:9px;height:9px;border-radius:50%;background:#E5333D;border:2px solid #fff}
+.av{width:38px;height:38px;border-radius:50%;background:linear-gradient(145deg,#9BC21B,#3F5406);color:#fff;display:grid;place-items:center}.av svg{width:19px;height:19px}
+.hero{display:flex;justify-content:space-between;align-items:flex-end;padding:0 6px}
+.hi{font-size:15px;font-weight:600;color:#69734B}
+h1{font-size:42px;font-weight:800;letter-spacing:-.035em;line-height:1.08;display:flex;align-items:center;gap:14px}
+.ex{font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;background:#FFF0CC;color:#8A5A00;border-radius:7px;padding:4px 9px}
+.pills{display:flex;gap:9px}
+.pill{display:flex;align-items:center;gap:7px;font-weight:800;font-size:13px;padding:8px 15px;border-radius:999px;background:#DDF4E6;color:#0C7A3B}
+.pill.b{background:#E5ECCB;color:#3F5406}
+.pill svg{width:14px;height:14px;stroke-width:3}
+.grid{display:grid;grid-template-columns:1.2fr 1fr 1fr;grid-template-rows:1fr 1fr;gap:14px;min-height:0}
+.card{background:rgba(255,255,255,.74);border:1px solid rgba(255,255,255,.96);border-radius:28px;padding:18px 20px;box-shadow:0 12px 30px rgba(60,80,10,.08),inset 0 1px 0 #fff;display:flex;flex-direction:column;gap:9px;min-height:0;overflow:hidden}
+.k{display:flex;align-items:center;gap:9px;font-size:12.5px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:#69734B}
+.tag{margin-left:auto;font-size:11px;font-weight:800;letter-spacing:.03em;padding:4px 10px;border-radius:999px;background:#E3EEB8;color:#3F5406;text-transform:none}
+.big{grid-row:1/3;background:linear-gradient(150deg,#86AB10 0%,#5C7A0A 45%,#3A4C05 100%);color:#fff;border-color:rgba(255,255,255,.3);padding:22px 26px;gap:10px;
+  box-shadow:0 26px 54px rgba(63,84,6,.38),inset 0 1px 0 rgba(255,255,255,.45)}
+.big .k{color:rgba(255,255,255,.82)}
+.amt{font-size:70px;font-weight:800;letter-spacing:-.045em;line-height:1}.amt small{font-size:24px;font-weight:700;letter-spacing:0;opacity:.92;margin-left:6px}
+.bar{display:flex;gap:5px;height:13px}.bar i{display:block;border-radius:7px;background:#CFE58A}.bar i+i{background:rgba(255,255,255,.55)}
+.leg{display:flex;gap:22px;font-size:14px;font-weight:700;color:rgba(255,255,255,.92)}.leg span{display:flex;align-items:center;gap:7px}.leg u{width:10px;height:10px;border-radius:50%;background:#CFE58A}.leg u.b{background:rgba(255,255,255,.7)}
+.due{display:grid;gap:8px;margin-top:2px}
+.due div{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.24);border-radius:18px;padding:9px 16px;font-weight:700;font-size:15px}
+.due svg{width:18px;height:18px}.due span{flex:1}.due b{color:#E4F2A8;font-weight:800}
+.btns{display:grid;gap:9px;margin-top:auto}
+.btn{display:flex;align-items:center;justify-content:center;gap:9px;border-radius:999px;padding:13px;font-weight:800;font-size:15.5px}
+.btn svg{width:18px;height:18px}
+.btn.w{background:#fff;color:#3F5406;box-shadow:0 10px 24px rgba(0,0,0,.22)}
+.btn.g{background:rgba(255,255,255,.15);color:#fff;box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.5)}
+.btn.s{padding:9px 17px;font-size:13.5px;align-self:flex-start;background:#fff;color:#3F5406;box-shadow:inset 0 0 0 1.5px rgba(92,122,10,.35)}
+.list{list-style:none;display:grid;gap:11px}
+.list li{display:flex;align-items:center;gap:12px;font-weight:700;font-size:14.5px}
+.list li>div{flex:1;display:grid;gap:1px}.list small{font-size:12.5px;color:#69734B;font-weight:600}
+.dot{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;background:#12A150;color:#fff}.dot svg{width:15px;height:15px;stroke-width:3}
+.dot.c{background:#E3EEB8;color:#3F5406}.dot.c svg{stroke-width:2}.dot.s{background:#CFE58A}
+.chart{display:flex;align-items:flex-end;gap:16px;height:100%;min-height:0;padding-top:4px}
+.chart>div{flex:1;display:flex;flex-direction:column;align-items:center;gap:7px;justify-content:flex-end;height:100%}
+.pair{display:flex;gap:5px;align-items:flex-end;height:100%;width:100%;justify-content:center}
+.pair i{display:block;width:36%;border-radius:8px 8px 3px 3px;background:linear-gradient(180deg,#B4D456,#86AB10)}.pair i+i{background:linear-gradient(180deg,#5C7A0A,#3F5406)}
+.chart span{font-size:12px;font-weight:700;color:#69734B}
+.chartwrap{flex:1;min-height:0;display:flex;flex-direction:column;gap:8px}
+.lg{display:flex;gap:16px;font-size:12.5px;font-weight:700;color:#69734B}.lg span{display:flex;align-items:center;gap:6px}.lg u{width:10px;height:10px;border-radius:3px;background:#86AB10}.lg u.b{background:#3F5406}
+.notes{display:flex;gap:14px}
+.note{flex:1;display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.74);border:1px solid rgba(255,255,255,.96);border-radius:22px;padding:12px 16px;font-weight:700;font-size:14px;box-shadow:0 10px 24px rgba(60,80,10,.07)}
+.note .tag{font-size:10.5px}
+.note small{display:block;font-size:12px;color:#69734B;font-weight:600}
+.note>div{flex:1}
+.foot{display:flex;align-items:center;gap:10px;padding:0 8px;font-size:13px;font-weight:600;color:#69734B}.foot svg{width:16px;height:16px;color:#7CA10A}
+</style></head><body style="background:linear-gradient(135deg,#DDEBB0 0%,#EDF4D2 55%,#F7F9E8 100%)">
+<div class="win"><div class="chrome"><i></i><i></i><i></i><div class="url"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 11h14v10H5zM8 11V7a4 4 0 0 1 8 0v4"/></svg>portal.gov.rs</div></div>
+<div class="pg" lang="en">
+<div class="nav"><span class="logo"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></svg></span><b>Tax portal</b><div class="tabs"><span class="on">Overview</span><span class="">Business</span><span class="">Registration</span><span class="">Taxes</span><span class="">Reports</span></div>
+<span class="srch"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16zM21 21l-4.3-4.3"/></svg>Search services</span><span class="lang"><i class="on">SR</i><i>EN</i></span><span class="bell"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0"/></svg><u></u></span><span class="av"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8z"/></svg></span></div>
+<div class="hero"><div><p class="hi">Good afternoon</p><h1>My business <span class="ex">example</span></h1></div>
+<div class="pills"><span class="pill"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Registered</span><span class="pill"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>Filings in order</span><span class="pill b"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10zM9 12l2 2 4-4"/></svg>One account, eUprava</span></div></div>
+<div class="grid">
+<section class="card big"><p class="k">To pay</p><div class="amt">16.000<small>RSD</small></div>
+<div class="bar"><i style="width:60%"></i><i style="width:40%"></i></div>
+<div class="leg"><span><u></u>Tax 9.600</span><span><u class="b"></u>Contributions 6.400</span></div>
+<div class="due"><div><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18v16H3zM3 10h18M8 3v4M16 3v4"/></svg><span>Tax filing</span><b>in 12 days</b></div><div><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18v16H3zM3 10h18M8 3v4M16 3v4"/></svg><span>Contributions</span><b>in 26 days</b></div></div>
+<div class="btns"><span class="btn w"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2zM2 10h20"/></svg>Pay everything at once</span><span class="btn g"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h3v3h-3zM20 14v3M14 20h3M20 20v1"/></svg>Pay by IPS QR</span></div></section>
+<section class="card"><p class="k">Registration<span class="tag">APR</span></p>
+<ul class="list"><li><span class="dot"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><div>Business data<small>Everything is up to date</small></div></li><li><span class="dot"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><div>Last change<small>3 months ago</small></div></li></ul>
+<span class="btn s"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>Change data</span></section>
+<section class="card"><p class="k">Filings and deadlines<span class="tag">Tax Admin.</span></p>
+<ul class="list"><li><span class="dot s"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18v16H3zM3 10h18M8 3v4M16 3v4"/></svg></span><div>Tax filing<small>due in 12 days</small></div></li><li><span class="dot c"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5h18v16H3zM3 10h18M8 3v4M16 3v4"/></svg></span><div>Contributions<small>due in 26 days</small></div></li></ul>
+<span class="btn s"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zM14 2v6h6"/></svg>File a return</span></section>
+<section class="card" style="grid-column:2/4"><p class="k">Income and tax<span class="tag">example</span></p>
+<div class="chartwrap"><div class="chart"><div><div class="pair"><i style="height:46%"></i><i style="height:34%"></i></div><span>Jun</span></div><div><div class="pair"><i style="height:58%"></i><i style="height:44%"></i></div><span>Jul</span></div><div><div class="pair"><i style="height:52%"></i><i style="height:37%"></i></div><span>Aug</span></div><div><div class="pair"><i style="height:70%"></i><i style="height:51%"></i></div><span>Sep</span></div><div><div class="pair"><i style="height:62%"></i><i style="height:46%"></i></div><span>Oct</span></div><div><div class="pair"><i style="height:84%"></i><i style="height:61%"></i></div><span>Nov</span></div></div><div class="lg"><span><u></u>Income</span><span><u class="b"></u>Tax</span></div></div></section>
+</div>
+<div class="notes"><div class="note"><span class="dot"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><div>Tax return received<small>Tax Administration, yesterday</small></div></div>
+<div class="note"><span class="dot"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><div>Registration confirmed<small>APR, 3 months ago</small></div></div>
+<div class="note"><span class="dot"><svg class="" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span><div>Payment recorded<small>Tax Administration, 5 days ago</small></div></div></div>
+</div></div></body></html>

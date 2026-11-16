@@ -483,3 +483,15 @@
 .tp-mini li svg{width:16px;height:16px;flex:none;opacity:.9}.tp-mini li span{flex:1}.tp-mini li b{font-weight:800;color:var(--yellow)}
 .tp-card.big{grid-template-rows:auto auto auto auto auto 1fr}
 .tp-card.big .tp-amt small{color:rgba(255,255,255,.92);font-size:20px;font-weight:700}
+
+/* the single tax portal: dated screenshots on the left, the proposal on the right (images, Serbian by default) */
+.pa-shots{display:grid;grid-template-columns:minmax(0,.62fr) minmax(0,1.38fr);gap:clamp(20px,3vw,36px);align-items:center}
+.shots-old{display:grid;gap:22px}
+.shot{margin:0}
+.shot img{display:block;width:100%;height:auto;border-radius:16px;box-shadow:0 16px 40px rgba(20,30,5,.16)}
+.shot.new img{border-radius:20px;box-shadow:0 30px 70px color-mix(in srgb,var(--navy) 28%,transparent),0 4px 14px rgba(0,0,0,.08)}
+.shot.new a{display:block}
+.shot figcaption{display:grid;gap:4px;margin-top:14px;padding:0 4px}
+.shot figcaption b{font-family:var(--display);font-size:14px;line-height:1.25;color:var(--ink)}
+.shot.new figcaption b{font-size:16px}
+@media (max-width:860px){.pa-shots{grid-template-columns:1fr}}
