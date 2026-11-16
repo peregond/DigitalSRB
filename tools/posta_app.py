@@ -307,7 +307,7 @@ def pair_html(part):
     ph, web, cap_a, cap_w = PAIRS[part]
     tag = '<span class="pa-aitag">AI</span>'
     cap = lambda cp, label: f'<figcaption><span class="pa-n">{label}{tag}</span>{B(cp[0], cp[1], "b")}</figcaption>'
-    cls = {"c1": " pa-apr", "q1": " pa-green", "n30": " pa-amber", "l2": " pa-teal"}.get(part, "")
+    cls = {"c1": " pa-apr", "q1": " pa-green", "n30": " pa-amber", "l2": " pa-teal", "b48": " pa-red", "f50": " pa-pink"}.get(part, "")
     return (f'<div class="pa pa-pairwrap{cls}"><div class="pa-pair"><figure class="pa-fig">{ph()}{cap(cap_a, "APP")}</figure>'
             f'<figure class="pa-webfig">{web()}{cap(cap_w, "WEB")}</figure></div></div>')
 
@@ -552,3 +552,54 @@ def w_verify():
 
 
 PAIRS["l2"] = (s_level, w_verify, ("Aplikacija: izbor nivoa", "App: choosing the level"), ("Veb: potvrda identiteta", "Web: the identity check"))
+
+
+# ------------------------------------------------------------------ no registration of stay (red variant)
+def s_stay():
+    return phone(f'''
+<div class="pa-nav"><span>{ic("back")}</span>{B("Moj boravak", "My stay", "b")}<span></span></div>
+<div class="pa-card center"><p class="pa-k">{B("Preostalo dana", "Days left")} <em class="pa-ex">{B("primer", "example")}</em></p><div class="pa-bigamt">62 <small>{B("dana", "days")}</small></div>
+<div class="pa-meter w"><i style="width:31%"></i></div>{B("Računa sistem, iz podataka sa granice.", "Calculated by the system from the border data.", "small")}</div>
+<div class="pa-card"><div class="pa-line">{B("Ulazak", "Entry")}<b>{B("datum sa granice", "date from the border")}</b></div><div class="pa-line">{B("Osnov", "Basis")}<b>{B("bezvizno 90/180", "visa-free 90/180")}</b></div></div>
+<div class="pa-card"><div class="pa-lv"><i class="pa-ico">{ic("check")}</i><div>{B("Prijava boravka", "Registration of stay", "b")}{B("Nije potrebna", "Not needed", "small")}</div>{chip("ok", "Ništa da radiš", "Nothing to do")}</div></div>''', tab=None)
+
+
+def w_border():
+    return browser(f'''
+<div class="pa-wnav"><span class="pa-wlogo">{ic("shield")}</span><b>{B("Granična baza", "Border database")}</b><span class="pa-wuser">{ic("scan")}{B("Provera", "Lookup")}</span></div>
+<div class="pa-wgrid">
+<div class="pa-card"><p class="pa-k">{B("Ulazak i izlazak", "Entry and exit")} <em class="pa-ex">{B("primer", "example")}</em></p>
+<div class="pa-line">{B("Ulazak", "Entry")}<b>{B("datum, granični prelaz", "date, border crossing")}</b></div><div class="pa-line">{B("Osnov", "Basis")}<b>{B("bezvizno ili viza", "visa-free or visa")}</b></div><div class="pa-line">{B("Izlazak", "Exit")}<b>{B("datum", "date")}</b></div></div>
+<div class="pa-card"><p class="pa-k">{B("Dani", "Days")}</p><div class="pa-kpi plain"><b>62</b>{B("preostalo", "left", "small")}</div><div class="pa-meter w"><i style="width:31%"></i></div>{chip("ok", "Sistem računa sam", "Calculated by the system")}</div></div>
+<div class="pa-wfoot"><p class="pa-fine">{B("Sve što treba već je u bazi: bez prijave od hotela i stanodavca.", "Everything needed is already in the database: no report from hotels or landlords.")}</p></div>''', url="granica.gov.rs")
+
+
+PAIRS["b48"] = (s_stay, w_border, ("Aplikacija: dani boravka", "App: days of stay"), ("Granica: ulazak i dani", "Border: entry and days"))
+
+# ------------------------------------------------------------------ legal fast track (pink variant)
+def s_speed():
+    def opt(sr, en, days_sr, days_en, fee, on=False):
+        return (f'<div class="pa-speedopt{" on" if on else ""}"><div>{B(sr, en, "b")}{B(days_sr, days_en, "small")}</div><strong>{fee}</strong></div>')
+    return phone(f'''
+<div class="pa-nav"><span>{ic("back")}</span>{B("Brzina izdavanja", "Processing speed", "b")}<span class="pa-step">2/3</span></div>
+<div class="pa-card"><p class="pa-k">{B("Dokument", "Document")} <em class="pa-ex">{B("primer", "example")}</em></p>{B("Izdavanje dokumenta", "Issuing a document", "b")}</div>
+{opt("Standard", "Standard", "30 dana", "30 days", "1.000 RSD")}{opt("Brže", "Faster", "15 dana, +50%", "15 days, +50%", "1.500 RSD", True)}{opt("Hitno", "Urgent", "7 dana, dvostruka taksa", "7 days, double fee", "2.000 RSD")}
+<p class="pa-fine c">{B("Osnovna taksa je primer. Novac ide u budžet službe.", "The base fee is an example. The money goes to the office budget.")}</p>
+<button class="pa-btn primary">{B("Nastavi", "Continue")}</button>''', tab=None)
+
+
+def w_pay50():
+    return browser(f'''
+<div class="pa-wnav"><span class="pa-wlogo">{ic("card")}</span><b>{B("Plaćanje takse", "Paying the fee")}</b><span class="pa-wuser">{ic("user")}eUprava</span></div>
+<div class="pa-stepper"><span class="d">{ic("check")}{B("Dokument", "Document")}</span><span class="d">{ic("check")}{B("Brzina", "Speed")}</span><span class="n">3 {B("Plaćanje", "Payment")}</span></div>
+<div class="pa-wgrid">
+<div class="pa-card"><p class="pa-k">{B("Izabrano", "Selected")} <em class="pa-ex">{B("primer", "example")}</em></p>
+<div class="pa-line">{B("Brzina", "Speed")}<b>{B("Brže, 15 dana", "Faster, 15 days")}</b></div><div class="pa-line">{B("Osnovna taksa", "Base fee")}<b>1.000 RSD</b></div><div class="pa-line">{B("Dodatak +50%", "Surcharge +50%")}<b>500 RSD</b></div>
+<div class="pa-line tot">{B("Ukupno", "Total")}<b>1.500 RSD</b></div></div>
+<div class="pa-card"><p class="pa-k">{B("Gde ide novac", "Where the money goes")}</p>
+<div class="pa-flowbox"><span>{B("Tvoja uplata", "Your payment")}</span><i>›</i><span class="on">{B("Budžet službe", "The office budget")}</span></div>
+{chip("ok", "Službeni račun i potvrda", "An official account and receipt")}{B("Bez „veze”, uz rok koji se vidi unapred.", "No “connections”, with a deadline you see up front.", "small")}</div></div>
+<div class="pa-wfoot row"><button class="pa-btn primary">{ic("card")}{B("Plati", "Pay")}</button><button class="pa-btn ghost">{ic("qr")}{B("Plati preko IPS QR", "Pay by IPS QR")}</button></div>''', url="euprava.gov.rs")
+
+
+PAIRS["f50"] = (s_speed, w_pay50, ("Aplikacija: izbor brzine", "App: choosing the speed"), ("Veb: plaćanje takse", "Web: paying the fee"))

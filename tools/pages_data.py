@@ -279,80 +279,61 @@ PAGES[47] = {
 
 # ---------------------------------------------------------------- 48 abolish registration of stay
 PAGES[48] = {
-    "stats": [("24 h", ("rok za prijavu boravka danas", "deadline to register stay today")),
-              ("2020", ("Kazahstan ukida obavezu do 30 dana", "Kazakhstan drops it for stays up to 30 days")),
-              ("2022", ("Velika Britanija ukida prijavu policiji", "the UK drops police registration"))],
+    "stats": [],
     "related": [11, 49, 47, 12],
     "blocks": [
-        text(PROBLEM, ("Beli karton: obaveza koja ništa ne dodaje", "The beli karton: a duty that adds nothing"), [
-            ("Stranac mora da prijavi adresu u roku od 24 časa od dolaska i posle svake promene, a stanodavci i hoteli moraju da ga prijave policiji.",
-             "A foreigner must register their address within 24 hours of arrival and after every move, and landlords and hotels must report them to the police."),
-            ("To je stres za ljude, posao za stanodavce i gomila papira za policiju, a ne donosi bezbednost koju granica već ne obezbeđuje.",
-             "It means stress for people, work for landlords and piles of paper for the police, without adding security the border does not already provide."),
-        ]),
-        flow(("Put", "The path"), ("Prijava, pa prijava, pa prijava", "Register, register, register"), [
+        {**custom("stages48", ("Pregled", "Overview"), ("Zašto prijava boravka ništa ne dodaje", "Why registering a stay adds nothing"),
+                  intro=("Stranac mora da prijavi adresu u roku od 24 časa od dolaska i posle svake promene, a stanodavci i hoteli moraju da ga prijave policiji. To je stres za ljude, posao za stanodavce i gomila papira, bez bezbednosti koju granica već ne obezbeđuje.",
+                         "A foreigner must register their address within 24 hours of arrival and after every move, and landlords and hotels must report them to the police. It means stress for people, work for landlords and piles of paper, without adding security the border does not already provide.")),
+         "cls": "compact", "nav": ("Pregled", "Overview")},
+        {**custom("versus48", ("Razlika", "The difference"), ("Rok za prijavu", "The deadline to register")), "nav": ("Razlika", "Difference")},
+        {**flow(("Put", "The path"), ("Prijava, pa prijava, pa prijava", "Register, register, register"), [
             ("Stranac stiže", "A foreigner arrives"), ("U roku od 24 h hotel ili stanodavac prijavljuje policiji", "Within 24 h the hotel or landlord reports to the police"),
             ("Selidba na novu adresu", "A move to a new address"), ("Nova prijava u roku od 24 h", "A new registration within 24 h"), ("Rizik od kazne za svaki propušteni rok", "A risk of a fine for each missed deadline")],
-            [("Stranac stiže", "A foreigner arrives"), ("Granica beleži ulazak", "The border logs the entry"), ("Nema dalje prijave, nema rokova", "No further registration, no deadlines")]),
-        table(("Ko je to ukinuo", "Who dropped it"), ("Zemlje i predlog", "Countries and the proposal"),
-              [("Zemlja", "Country"), ("Pravilo", "Rule"), ("Status", "Status")],
-              [[("Srbija", "Serbia"), ("Prijava u roku od 24 h i posle svake selidbe", "Register within 24 h and after every move"), ("Danas", "Today")],
-               [("Kazahstan", "Kazakhstan"), ("Registracija ukinuta za boravak do 30 dana", "Registration dropped for stays up to 30 days"), ("2020.", "2020")],
-               [("Velika Britanija", "United Kingdom"), ("Prijava stranaca policiji ukinuta", "Police registration of foreigners dropped"), ("2022.", "2022")],
-               [("Srbija, predlog", "Serbia, proposal"), ("Potpuno ukinuti, i papirno i onlajn", "Abolish fully, paper and online"), ("Predlog", "Proposal")]], hl=3),
-        custom("border48", ("Šta je dovoljno", "What is enough"), ("Granična baza već sve zna", "The border database already knows"),
-               intro=("Granična policija ima bazu ulazaka i izlazaka. Iz nje se zna ko je ušao, kada i koliko dana sme da ostane, bez vize ili po vizi.", "The border police already hold an entry and exit database. It tells who entered, when, and how many days they may stay visa-free or on a visa.")),
-        cards(WHO, ("Ko dobija olakšanje", "Who gets relief"), [
+            [("Stranac stiže", "A foreigner arrives"), ("Granica beleži ulazak", "The border logs the entry"), ("Nema dalje prijave, nema rokova", "No further registration, no deadlines")],
+            id="c1", extra="b48_pair"), "nav": ("Put", "The path")},
+        {**custom("countries48", ("Ko je to ukinuo", "Who dropped it"), ("Zemlje i predlog", "Countries and the proposal")), "nav": ("Zemlje", "Countries")},
+        {**cards(WHO, ("Ko dobija olakšanje", "Who gets relief"), [
             ("Policija", "Police", "Nema papira i evidencija koje ne daju dodatnu bezbednost.", "No paperwork or records that add no extra security."),
             ("Stanodavci i hoteli", "Landlords and hotels", "Nema obaveze prijavljivanja gostiju.", "No duty to report guests."),
             ("Stranci", "Foreigners", "Nema stresa zbog roka od 24 časa i kazni.", "No stress about the 24-hour deadline and fines."),
-        ], intro=("Kontrola ostaje na granici.", "Control stays at the border.")),
-        check(CHANGE, ("Težina: srednja", "Difficulty: medium"), [
-            ("law", ("Izmena Zakona o strancima", "An amendment to the Zakon o strancima (Law on Foreigners)")),
-            ("tech", ("Skoro ništa novo: granična baza ulazaka i izlazaka već postoji", "Almost nothing new: the border entry and exit database already exists")),
-            ("org", ("Prestanak rada na prijavama i evidencijama boravišta kod policije i smeštajnih objekata", "Ending the work on stay registrations and records at the police and accommodation providers")),
-        ]),
-        faq(QA, ("Šta ako…", "What if…"), [
+        ], intro=("Kontrola ostaje na granici.", "Control stays at the border.")), "nav": ("Ko dobija", "Who gains")},
+        {**faq(QA, ("Šta ako…", "What if…"), [
             (("Država neće znati gde stranac živi?", "The state will not know where a foreigner lives?"), ("Argument predloga je da adresna prijava ne dodaje bezbednost koju granica već ne daje: zna se ko je ušao, kada i do kada sme da ostane.", "The proposal's argument is that address registration adds no security the border does not already give: it is known who entered, when and until when they may stay.")),
             (("A boravišne dozvole?", "What about residence permits?"), ("To su zasebni postupci i zasebne ideje, na primer jasni rokovi za boravišne dozvole.", "Those are separate procedures and separate ideas, for example clear deadlines for residence permits.")),
-        ]),
+        ]), "nav": ("Pitanja", "Q&A")},
     ],
 }
 
 # ---------------------------------------------------------------- 50 legal fast track
 PAGES[50] = {
-    "stats": [("30 / 15 / 7", ("dana: tri zvanične brzine", "days: three official speeds")),
-              ("×1 / +50% / ×2", ("taksa za svaku brzinu", "fee for each speed")),
-              ("150 / 300 / 350", ("lari za pasoš u Gruziji", "lari for a passport in Georgia"))],
+    "stats": [],
     "related": [13, 14, 49, 54],
     "blocks": [
-        text(PROBLEM, ("Ko hitno treba, traži „vezu”", "Whoever is in a hurry looks for “connections”"), [
-            ("Ko hitno treba dokument nema legalan način da ga dobije brže. Zato se traži veza, poznanik, nekome se plati. Tu se rađa korupcija.",
-             "Anyone who needs a document urgently has no legal way to get it faster. So they look for a connection, an acquaintance, someone to pay. That is where corruption is born."),
-        ]),
-        custom("speed50", ("Predlog", "The proposal"), ("Tri zvanične brzine", "Three official speeds"),
-               intro=("Brzina je izbor građanina i vidi se unapred. Novac ide u budžet službe, ne u nečiji džep.", "Speed is the citizen's choice and visible up front. The money goes to the office budget, not into someone's pocket.")),
-        flow(("Tok novca", "Where the money goes"), ("Od „veze” do računa", "From “connections” to a receipt"), [
+        {**custom("stages50", ("Pregled", "Overview"), ("Tri zvanične brzine", "Three official speeds"),
+                  intro=("Ko hitno treba dokument nema legalan način da ga dobije brže, pa traži „vezu”, poznanika ili nekome plati. Predlog je da hitnost postane javna: brzinu biraš pri podnošenju, taksa je zvanična, a novac ide u budžet službe.",
+                         "Anyone who needs a document urgently has no legal way to get it faster, so they look for a connection, an acquaintance or someone to pay. The proposal makes urgency public: you pick the speed when filing, the fee is official and the money goes to the office budget.")),
+         "cls": "compact", "nav": ("Pregled", "Overview")},
+        {**custom("versus50", ("Razlika", "The difference"), ("Kako se danas ubrzava", "How it is sped up today")), "nav": ("Razlika", "Difference")},
+        {**custom("speed50", ("Predlog", "The proposal"), ("Tri zvanične brzine", "Three official speeds"),
+                  intro=("Brzina je izbor građanina i vidi se unapred.", "Speed is the citizen's choice and visible up front.")), "nav": ("Brzine", "Speeds")},
+        {**flow(("Tok novca", "Where the money goes"), ("Od „veze” do računa", "From “connections” to a receipt"), [
             ("Hitno ti treba dokument", "You urgently need a document"), ("Tražiš vezu", "Look for a connection"), ("Plaćaš nekome u džep", "Pay into someone's pocket"), ("Ishod zavisi od poznanstva", "The result depends on who you know")],
-            [("Biraš brzinu pri podnošenju", "Choose a speed when filing"), ("Plaćaš višu taksu službenim putem", "Pay the higher fee officially"), ("Novac ide u budžet službe", "The money goes to the office budget"), ("Rok je zvaničan i jasan", "The deadline is official and clear")]),
-        bars(("Primer: Gruzija", "Example: Georgia"), ("Pasoš po brzini", "A passport by speed"), [
+            [("Biraš brzinu pri podnošenju", "Choose a speed when filing"), ("Plaćaš višu taksu službenim putem", "Pay the higher fee officially"), ("Novac ide u budžet službe", "The money goes to the office budget"), ("Rok je zvaničan i jasan", "The deadline is official and clear")],
+            id="c1", extra="f50_pair"), "nav": ("Tok", "Flow")},
+        {**bars(("Primer: Gruzija", "Example: Georgia"), ("Pasoš po brzini", "A passport by speed"), [
             (("10 radnih dana", "10 working days"), 150, ("150 lari", "150 lari"), "lo"),
-            (("24 sata", "24 hours"), 300, "300 lari", ""),
-            (("Isti dan", "Same day"), 350, "350 lari", "hi"),
-        ], note=("Izvor: SDA (Gruzija), rokovi i takse za pasoš.", "Source: SDA (Georgia), passport terms and fees."), unit="lari"),
-        cards(("Primer: Velika Britanija", "Example: the United Kingdom"), ("Dve brže opcije za pasoš", "Two faster options for a passport"), [
+            (("24 sata", "24 hours"), 300, ("300 lari", "300 lari"), ""),
+            (("Isti dan", "Same day"), 350, ("350 lari", "350 lari"), "hi"),
+        ], note=("Izvor: SDA (Gruzija), rokovi i takse za pasoš.", "Source: SDA (Georgia), passport terms and fees."), unit="lari"), "nav": ("Gruzija", "Georgia")},
+        {**cards(("Primer: Velika Britanija", "Example: the United Kingdom"), ("Dve brže opcije za pasoš", "Two faster options for a passport"), [
             ("Fast track", "Fast track", "Pasoš za nedelju dana uz višu taksu.", "A passport in one week for a higher fee."),
             ("Premium", "Premium", "Pasoš za jedan dan uz još višu taksu.", "A passport in one day for a still higher fee."),
-        ], intro=("Izvor: GOV.UK, hitno izdavanje pasoša.", "Source: GOV.UK, getting a passport urgently.")),
-        check(CHANGE, ("Šta treba da se uradi", "What needs to happen"), [
-            ("law", ("Rokovi i takse za tri brzine propisani zakonom", "Deadlines and fees for the three speeds set by law")),
-            ("tech", ("Izbor brzine u zahtevu i plaćanje uz zahtev", "Choosing the speed in the request and paying with it")),
-            ("org", ("Kapacitet službi da stvarno ispoštuju kraće rokove", "Capacity in the offices to really meet the shorter deadlines")),
-        ]),
-        faq(QA, ("Šta ako…", "What if…"), [
+        ], intro=("Izvor: GOV.UK, hitno izdavanje pasoša.", "Source: GOV.UK, getting a passport urgently.")), "nav": ("UK", "UK")},
+        {**faq(QA, ("Šta ako…", "What if…"), [
             (("Ovo ne pogoduje bogatima?", "This favours the rich?"), ("Standardna brzina i njena taksa ostaju. Danas hitnost već postoji, samo kroz vezu koja je nezvanična i nejednaka. Predlog je čini javnom i jednakom.", "The standard speed and its fee stay. Today urgency already exists, only through connections that are unofficial and unequal. The proposal makes it public and equal.")),
             (("Neće li standard postati sporiji?", "Won't the standard get slower?"), ("To je rizik koji treba pratiti. Zato je predlog povezan sa javnom tablom kvaliteta usluga, gde se vide stvarni rokovi.", "That is a risk to watch. This is why the proposal ties in with a public dashboard of service quality, where real deadlines show.")),
-        ]),
+        ]), "nav": ("Pitanja", "Q&A")},
     ],
 }
 

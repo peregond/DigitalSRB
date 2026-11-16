@@ -11,7 +11,7 @@ from pathlib import Path
 from bs4 import BeautifulSoup
 
 import build_pages
-from categories import CATEGORIES, cat_of
+from categories import CATEGORIES, ICONS, cat_of
 from pages_data import THEMES
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -256,7 +256,7 @@ def main():
         name = {l: c[l][0] for l in LANGS}
         desc = {l: c[l][1] for l in LANGS}
         cnt = {"sr": sr_count(len(nums)), "en": f"{len(nums)} ideas"}
-        cat_tiles += (f'<a class="cat-tile reveal" href="#cat-{c["id"]}">{bi(name, "h3")}{bi(desc, "p")}'
+        cat_tiles += (f'<a class="cat-tile reveal" href="#cat-{c["id"]}"><svg class="cat-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="{ICONS[c["id"]]}"/></svg>{bi(name, "h3")}{bi(desc, "p")}'
                       f'{bi(cnt, "span", "cat-count")}</a>')
         cat_chips += (f'<button type="button" class="chip" data-cat="{c["id"]}" aria-pressed="false">'
                       f'{bi(name)}<b>{len(nums)}</b></button>')

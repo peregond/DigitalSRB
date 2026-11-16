@@ -45,3 +45,21 @@ assert _ALL == list(range(1, 61)), "every idea must be in exactly one category"
 
 def cat_of(n):
     return next(c for c in CATEGORIES if n in c["ideas"])
+
+
+# line icons (24x24, stroke) for the topic tiles on the home page
+ICONS = {
+    "identity": "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10zM9 12l2 2 4-4",
+    "counters": "M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zM12 6v6l4 2",
+    "documents": "M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zM14 2v6h6M8 13h8M8 17h6",
+    "foreigners": "M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zM2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20",
+    "business": "M3 7h18v13H3zM8 7V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v3M3 13h18",
+    "payments": "M2 6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2zM2 10h20",
+    "health": "M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z",
+    "family": "M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM23 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8",
+    "home": "M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z",
+    "justice": "M12 3v18M5 21h14M5 7h14M5 7l-3 8a3.5 3.5 0 0 0 6 0zM19 7l-3 8a3.5 3.5 0 0 0 6 0z",
+    "transport": "M5 16V6a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3v10zM5 16v3h3v-3M16 16v3h3v-3M5 11h14M8 13.5h.01M16 13.5h.01",
+    "post": "M3 5h18v14H3zM3 7l9 7 9-7",
+}
+assert all(c["id"] in ICONS for c in CATEGORIES), [c["id"] for c in CATEGORIES if c["id"] not in ICONS]

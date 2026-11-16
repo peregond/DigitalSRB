@@ -547,7 +547,7 @@ def build_all(ctx):
                 .replace("{{EYEBROW}}", B((cat_of(n)["sr"][0], cat_of(n)["en"][0])) + " · " + B(UI["idea"]) + f" {n:02d}")
                 .replace("{{H1}}", B(titles[n], "h1")).replace("{{TAGLINE}}", B(HERO_TEXT.get(n, taglines[n]), "p", "pg-tag"))
                 .replace("{{TIERLINE}}", B(tsub, "p", "pg-tier"))
-                .replace("{{EXTRA_HEAD}}", '<link rel="stylesheet" href="../../assets/posta-app.css?v=%s">' % ver if n in (1, 2, 21, 22, 30) else "").replace("{{LOCAL}}", local).replace("{{HSTATS}}", hstats).replace("{{SECTIONS}}", sections)
+                .replace("{{EXTRA_HEAD}}", '<link rel="stylesheet" href="../../assets/posta-app.css?v=%s">' % ver if n in (1, 2, 21, 22, 30, 48, 50) else "").replace("{{LOCAL}}", local).replace("{{HSTATS}}", hstats).replace("{{SECTIONS}}", sections)
                 .replace("{{RELATED}}", rel).replace("{{SOURCES}}", sources_html(parts))
                 .replace("{{VOTE}}", vote_html(n))
                 .replace("{{PREV}}", nb(prev_n, UI["prev"])).replace("{{NEXT}}", nb(next_n, UI["next"]))
@@ -561,3 +561,72 @@ def build_all(ctx):
         out.mkdir(parents=True, exist_ok=True)
         (out / "index.html").write_text(html, encoding="utf-8")
     print(f"idea/: {len(ORDER)} pages")
+
+
+# ---------------------------------------------------------------- generic helpers for the redesigned pages
+def make_stages(items):
+    def f(b):
+        import posta_app
+        cards = "".join(
+            f'<a class="pg-stage" href="#c1"><span class="pg-stage-top"><b>{i:02d}</b><i>{posta_app.ic(icon)}</i></span>'
+            f'{B(title, "h3")}{B(text, "p")}<span class="pg-stage-go" aria-hidden="true">›</span></a>'
+            for i, (icon, title, text) in enumerate(items, 1))
+        return f'<div class="pg-stages">{cards}</div>'
+    return f
+
+
+def make_versus(today, today_text, after, after_text, note=None, words=False):
+    def big(x):
+        cls = " w" if words else ""
+        return f'<b class="pg-vs-n{cls}">{B(x) if isinstance(x, tuple) else x}</b>'
+    def f(b):
+        out = (f'<div class="pg-versus"><div class="pg-vs today"><p class="pg-vs-k">{B(("Danas", "Today"))}</p>{big(today)}{B(today_text, "p")}</div>'
+               f'<span class="pg-vs-arrow" aria-hidden="true">›</span>'
+               f'<div class="pg-vs after"><p class="pg-vs-k">{B(("Predlog", "Proposal"))}</p>{big(after)}{B(after_text, "p")}</div></div>')
+        if note:
+            out += B(note, "p", "pg-note")
+        return out
+    return f
+
+
+def make_countries(items):
+    def f(b):
+        cards = "".join(f'<article class="pg-country{cls}"><span class="pg-flag" aria-hidden="true">{flag}</span>{B(t, "h3")}{B(x, "p")}</article>' for flag, t, x, cls in items)
+        return f'<div class="pg-countries">{cards}</div>'
+    return f
+
+
+def make_pair(key):
+    def f(b):
+        import posta_app
+        return posta_app.pair_html(key)
+    return f
+
+
+CUSTOM.update({
+    "stages48": make_stages([
+        ("scan", ("Granica beleži ulazak", "The border logs the entry"), ("Ko je ušao, kada i na kom osnovu.", "Who entered, when and on what basis.")),
+        ("clock", ("Sistem računa dane", "The system counts the days"), ("Bezvizno 90/180, viza ili dozvola: preostali dani se računaju sami.", "Visa-free 90/180, a visa or a permit: the days left are calculated by themselves.")),
+        ("check", ("Nema prijave boravka", "No registration of stay"), ("Ni papirno ni onlajn, ni od hotela ni od stanodavca.", "Not on paper or online, not from hotels or landlords.")),
+        ("shield", ("Kontrola ostaje na granici", "Control stays at the border"), ("Bezbednost se ne smanjuje, a papira nema.", "Security is not reduced and the paperwork is gone.")),
+    ]),
+    "versus48": make_versus("24 h", ("Toliko ima stranac da prijavi adresu, i posle svake selidbe.", "That is how long a foreigner has to register an address, and again after every move."),
+                            "0", ("Nema prijave boravka, ni papirne ni onlajn. Dovoljna je granična baza.", "No registration of stay, on paper or online. The border database is enough."),
+                            note=("Izvor: MSP Srbije, prijava boravka stranaca u roku od 24 časa.", "Source: the Serbian MFA, foreigners register stay within 24 hours.")),
+    "countries48": make_countries([
+        ("🇷🇸", ("Srbija danas", "Serbia today"), ("Prijava u roku od 24 h i posle svake selidbe.", "Register within 24 h and after every move."), ""),
+        ("🇰🇿", ("Kazahstan, 2020.", "Kazakhstan, 2020"), ("Registracija ukinuta za boravak do 30 dana.", "Registration dropped for stays up to 30 days."), ""),
+        ("🇬🇧", ("Velika Britanija, 2022.", "United Kingdom, 2022"), ("Prijava stranaca policiji ukinuta.", "Police registration of foreigners dropped."), ""),
+        ("🇷🇸", ("Predlog za Srbiju", "The proposal for Serbia"), ("Potpuno ukinuti, i papirno i onlajn.", "Abolish fully, paper and online."), " mine"),
+    ]),
+    "b48_pair": make_pair("b48"),
+    "stages50": make_stages([
+        ("clock", ("Tri brzine", "Three speeds"), ("Standard 30 dana, 15 dana uz +50% i 7 dana uz dvostruku taksu.", "Standard 30 days, 15 days for +50% and 7 days for double the fee.")),
+        ("check", ("Biraš pri podnošenju", "Pick when filing"), ("Brzina i taksa se vide unapred.", "The speed and the fee are visible up front.")),
+        ("card", ("Plaćaš službeno", "Pay officially"), ("Zvanična uplata i potvrda, bez „veze”.", "An official payment and receipt, without “connections”.")),
+        ("home", ("Novac u budžet", "Money to the budget"), ("Taksa ide u budžet službe, ne u nečiji džep.", "The fee goes to the office budget, not into someone's pocket.")),
+    ]),
+    "versus50": make_versus(("Veza", "A connection"), ("Hitnost postoji, ali neformalno: poznanik, usluga ili novac u džep.", "Urgency exists, but informally: an acquaintance, a favour or money into a pocket."),
+                            ("Račun", "A receipt"), ("Ista hitnost, ali javna, jednaka za sve i uz zvaničnu potvrdu.", "The same urgency, but public, equal for all and with an official receipt."), words=True),
+    "f50_pair": make_pair("f50"),
+})

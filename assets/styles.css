@@ -232,3 +232,6 @@ html:not(.js) .fcard{opacity:1;transform:none}
 .empty{max-width:var(--w);margin:60px auto 0;padding:0 22px;color:var(--muted);font-weight:600}
 .idea-num .tdot{margin-left:.7em}
 @media (max-width:560px){.ideas-top .tally{margin-left:0}}
+
+.cat-ico{display:block;width:32px;height:32px;color:var(--ink);margin-bottom:16px;flex:none}
+.cat-tile:hover .cat-ico{color:var(--accent)}
