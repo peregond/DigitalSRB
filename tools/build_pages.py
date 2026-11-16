@@ -249,8 +249,8 @@ def c_licence53(b):
 
 
 STAGES = [
-    ("home", "p1", ("Aplikacija", "The app"), ("Sve poštanske usluge u jednoj aplikaciji, uz prijavu preko eUprave.", "All postal services in one app, with sign-in through eUprava.")),
-    ("qr", "p2", ("Paket jednim QR kodom", "A parcel with one QR code"), ("Preuzimanje bez prepisivanja podataka i kopiranja lične karte.", "Pickup without retyping data or copying the ID card.")),
+    ("search", "p1", ("Analiza i procesi", "Analysis and processes"), ("Popis svega na papiru i jasan plan digitalizacije, cilj 99,9%.", "An inventory of everything on paper and a clear digitisation plan, aiming at 99.9%.")),
+    ("home", "p2", ("Nova aplikacija i infrastruktura", "A new app and infrastructure"), ("Sve usluge u aplikaciji, paket jednim QR kodom i digitalne poslovnice.", "All services in one app, a parcel with one QR code and digital branches.")),
     ("card", "p3", ("Carina i plaćanje onlajn", "Customs and payment online"), ("Javni obračun unapred, doplata na adresi preko IPS QR koda.", "A public calculation up front, a top-up at the door by IPS QR.")),
     ("clock", "p4", ("Carinjenje za jedan dan", "Customs in one working day"), ("Cilj: 99,9% pošiljki ocarinjeno u roku od jednog radnog dana.", "Target: 99.9% of parcels cleared within one working day.")),
 ]
@@ -270,6 +270,29 @@ def _pair(part):
         import posta_app
         return posta_app.pair_html(part)
     return f
+
+
+POSTA_QR_FLOW = {
+    "today": [("Doneseš papirni izveštaj", "Bring a paper notice"), ("Službenica ručno unosi podatke", "The clerk types the data"),
+              ("Uzima i prepisuje ličnu kartu", "Takes and copies your ID"), ("Sve iz početka za svaku uslugu", "Everything from scratch for every service")],
+    "after": [("Prijava u aplikaciju preko eUprave sa 2FA", "Log in to the app via eUprava with 2FA"), ("Paket ima QR kod za preuzimanje", "The parcel has a pickup QR code"),
+              ("Službenica skenira, ništa ne kuca", "The clerk scans, types nothing"), ("Dodatna potvrda: četvorocifreni kod na telefon", "Extra check: a four-digit code on your phone"),
+              ("Lična karta samo za carinu ili taksu, posebno", "ID only for duty or fees, as a separate step")],
+}
+
+
+def c_posta_target(b):
+    rows = [(("Cilj: digitalno", "Target: digital"), 99.9, ("99,9%", "99.9%"), "hi"), (("Papir", "Paper"), 0.1, ("0,1%", "0.1%"), "lo")]
+    return r_bars({"rows": rows, "note": (("Udeo procesa u pošti koji su elektronski. Papir ostaje samo tamo gde ga propis izričito traži.",
+                                           "The share of the post's processes that are electronic. Paper stays only where a regulation expressly requires it."))})
+
+
+def c_posta_part2(b):
+    import posta_app
+    sub = f'<h3 class="pg-sub">{B(("Paket jednim QR kodom", "A parcel with one QR code"))}</h3>'
+    lead = B(("QR je unapred potvrđen jer je prijava u aplikaciju već dvofaktorska. Isti QR radi za plaćanja i druge državne usluge na pošti.",
+              "The QR is verified in advance because the app login is already two-factor. The same QR works for payments and other state services at the post office."), "p", "pg-intro")
+    return posta_app.phones_html() + sub + lead + r_flow(POSTA_QR_FLOW) + posta_app.pair_html("p2")
 
 
 def c_posta_app(b):
@@ -311,7 +334,7 @@ def c_countries22(b):
     return f'<div class="pg-countries">{cards}</div>'
 
 
-CUSTOM = {"stages22": c_stages22, "versus22": c_versus22, "countries22": c_countries22, "biz_c1": _pair("c1"), "posta_p2": _pair("p2"), "posta_p3": _pair("p3"), "posta_p4": _pair("p4"), "posta_stages": c_posta_stages, "posta_app": c_posta_app, "licence53": c_licence53, "clerk": c_clerk, "journey22": c_journey22, "network30": c_network30, "stats30": c_stats30,
+CUSTOM = {"posta_target": c_posta_target, "posta_part2": c_posta_part2, "stages22": c_stages22, "versus22": c_versus22, "countries22": c_countries22, "biz_c1": _pair("c1"), "posta_p2": _pair("p2"), "posta_p3": _pair("p3"), "posta_p4": _pair("p4"), "posta_stages": c_posta_stages, "posta_app": c_posta_app, "licence53": c_licence53, "clerk": c_clerk, "journey22": c_journey22, "network30": c_network30, "stats30": c_stats30,
           "phone47": c_phone47, "border48": c_border48, "speed50": c_speed50}
 RENDER = {"text": r_text, "cards": r_cards, "flow": r_flow, "steps": r_steps, "bars": r_bars, "table": r_table,
           "check": r_check, "faq": r_faq}

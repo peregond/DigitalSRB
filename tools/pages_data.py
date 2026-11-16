@@ -212,16 +212,17 @@ PAGES[21] = {
         {**custom("posta_stages", ("Pregled", "Overview"), ("Četiri dela jedne reforme", "Four parts of one reform"),
                   intro=("Pošta Srbije je mesto gde se država svakodnevno susreće sa građaninom, a veliki deo posla još ide na papiru. Predlog ima četiri dela.",
                          "Pošta Srbije is where the state meets the citizen every day, and much of the work still runs on paper. The proposal has four parts.")), "cls": "compact"},
-        cards(("1/4", "1/4"), ("Sve poštanske usluge u jednoj aplikaciji", "All postal services in one app"), [], id="p1", extra="posta_app", intro=("Mnogo toga na pošti još se radi na papiru i ručno, a red u poslovnici traje. Poslovnice dobijaju skenere i digitalne procese, pa se usluga obavi za nekoliko minuta.",
-                           "Much at the pošta is still done on paper and by hand, and the queue at the branch drags on. Branches get scanners and digital processes, so a service takes a few minutes.")),
-        flow(("2/4", "2/4"), ("Paket jednim QR kodom", "A parcel with one QR code"), [
-            ("Doneseš papirni izveštaj", "Bring a paper notice"), ("Službenica ručno unosi podatke", "The clerk types the data"),
-            ("Uzima i prepisuje ličnu kartu", "Takes and copies your ID"), ("Sve iz početka za svaku uslugu", "Everything from scratch for every service")],
-            [("Prijava u aplikaciju preko eUprave sa 2FA", "Log in to the app via eUprava with 2FA"), ("Paket ima QR kod za preuzimanje", "The parcel has a pickup QR code"),
-             ("Službenica skenira, ništa ne kuca", "The clerk scans, types nothing"), ("Dodatna potvrda: četvorocifreni kod na telefon", "Extra check: a four-digit code on your phone"),
-             ("Lična karta samo za carinu ili taksu, posebno", "ID only for duty or fees, as a separate step")],
-            id="p2", extra="posta_p2", intro=("QR je unapred potvrđen jer je prijava u aplikaciju već dvofaktorska. Isti QR radi za plaćanja i druge državne usluge na pošti.",
-                            "The QR is verified in advance because the app login is already two-factor. The same QR works for payments and other state services at the post office.")),
+        steps(("1/4", "1/4"), ("Analiza svega što je još na papiru", "An audit of everything still on paper"), [
+            (("Popis", "Inventory"), ("Svaki papir, obrazac, pečat i šalterski korak u pošti, na jednom spisku.", "Every paper, form, stamp and counter step in the post, on one list.")),
+            (("Mapa procesa", "Process map"), ("Za svaki korak: ko ga radi, koji se podaci unose i kuda idu dalje.", "For each step: who does it, which data is entered and where it goes next.")),
+            (("Novi tok", "New flow"), ("Svaki papirni korak dobija jasan digitalni, bez duplih unosa i kopija.", "Each paper step gets a clear digital one, with no double entry or copies.")),
+            (("Digitalizacija", "Digitise"), ("Digitalizuje se sve što može, do cilja od 99,9% elektronskih procesa.", "Everything that can be digital goes digital, up to the target of 99.9% electronic processes.")),
+        ], id="p1", extra="posta_target",
+              intro=("Pre nego što gradimo nešto novo, radimo punu analizu svega što pošta danas radi na papiru i ručno, i pravimo jasan proces kako da se sve to digitalizuje. Cilj je da 99,9% procesa bude elektronsko.",
+                     "Before building anything new, we run a full analysis of everything the post still does on paper and by hand, and design a clear process for digitising all of it. The goal is for 99.9% of processes to be digital.")),
+        steps(("2/4", "2/4"), ("Nova aplikacija i infrastruktura", "A new app and infrastructure"), [], id="p2", extra="posta_part2",
+              intro=("Mnogo toga na pošti se i dalje radi na papiru i ručno, a red u poslovnici traje. Zato je sve novo: aplikacija, QR kod za svaki paket i digitalne poslovnice sa skenerima, na zajedničkoj infrastrukturi i u istom dizajnu kao druge državne usluge.",
+                     "Much at the pošta is still done on paper and by hand, and the queue at the branch drags on. So everything is new: the app, a QR code for every parcel and digital branches with scanners, on shared infrastructure and in the same design as other state services.")),
         steps(("3/4", "3/4"), ("Carina, deklaracija i plaćanje onlajn", "Customs, declaration and payment online"), [], id="p3", extra="posta_p3",
               intro=("Danas se deklaracija popunjava na šalteru (od 23. februara 2026. Pošta je i naplaćuje), a poštar na adresi traži gotovinu. Ovde deklarišeš u aplikaciji, unapred vidiš javni obračun i plaćaš onlajn, a ako ipak treba doplatiti na adresi, koristiš NBS IPS QR.",
                      "Today the declaration is filled in at the counter (since 23 February 2026 Pošta Srbije charges for it) and the postman at the door wants cash. Here you declare in the app, see a public calculation up front and pay online, and if something is still due at the door you use an NBS IPS QR.")),
@@ -239,7 +240,7 @@ PAGES[21] = {
 }
 
 for _blk in PAGES[21]["blocks"]:
-    _nav = {"p1": ("Aplikacija", "The app"), "p2": ("QR preuzimanje", "QR pickup"), "p3": ("Deklaracija", "Declaration"), "p4": ("Carinjenje", "Clearance")}.get(_blk.get("id"))
+    _nav = {"p1": ("Analiza", "Analysis"), "p2": ("Aplikacija", "The app"), "p3": ("Deklaracija", "Declaration"), "p4": ("Carinjenje", "Clearance")}.get(_blk.get("id"))
     if _blk["k"] == "check":
         _nav = ("Promene", "Changes")
     elif _blk["k"] == "faq":
