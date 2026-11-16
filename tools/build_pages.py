@@ -255,6 +255,13 @@ def c_posta_stages(b):
     return f'<div class="pg-stages">{cards}</div>'
 
 
+def _pair(part):
+    def f(b):
+        import posta_app
+        return posta_app.pair_html(part)
+    return f
+
+
 def c_posta_app(b):
     import posta_app
     lead = (f'<div class="pa-lead"><p class="pg-eyebrow">{B(("Kako bi izgledalo", "What it could look like"))}</p>'
@@ -264,7 +271,7 @@ def c_posta_app(b):
     return lead + posta_app.phones_html()
 
 
-CUSTOM = {"posta_stages": c_posta_stages, "posta_app": c_posta_app, "licence53": c_licence53, "clerk": c_clerk, "journey22": c_journey22, "network30": c_network30, "stats30": c_stats30,
+CUSTOM = {"posta_p2": _pair("p2"), "posta_p3": _pair("p3"), "posta_p4": _pair("p4"), "posta_stages": c_posta_stages, "posta_app": c_posta_app, "licence53": c_licence53, "clerk": c_clerk, "journey22": c_journey22, "network30": c_network30, "stats30": c_stats30,
           "phone47": c_phone47, "border48": c_border48, "speed50": c_speed50}
 RENDER = {"text": r_text, "cards": r_cards, "flow": r_flow, "steps": r_steps, "bars": r_bars, "table": r_table,
           "check": r_check, "faq": r_faq}

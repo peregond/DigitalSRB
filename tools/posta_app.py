@@ -220,3 +220,74 @@ def phones_html():
              "This visual was created with the help of AI and shows a concept. Names, tracking numbers, amounts and branches are examples.", "p", "pa-note")
     note = f'<div class="pa-ai"><span class="pa-ai-tag">AI</span>{note}</div>'
     return f'<div class="pa">{note}<div class="pa-row">{figs}</div></div>'
+
+
+# ------------------------------------------------------------------ web versions and app+web pairs
+def browser(body):
+    return (f'<div class="pa-browser"><div class="pa-bbar"><i></i><i></i><i></i><span class="pa-url">{ic("lock")}posta.rs</span></div>'
+            f'<div class="pa-wbody">{body}</div></div>')
+
+
+def wnav(active=0):
+    items = [("Paketi", "Parcels"), ("Plaćanja", "Payments"), ("Poslovnice", "Branches"), ("Podrška", "Help")]
+    nav = "".join(f'<span class="{"on" if i == active else ""}">{B(*t)}</span>' for i, t in enumerate(items))
+    return (f'<div class="pa-wnav"><span class="pa-wlogo">{ic("send")}</span><b>Pošta Srbije</b><nav>{nav}</nav>'
+            f'<span class="pa-wuser">{ic("user")}eUprava</span></div>')
+
+
+def w_clerk():
+    def chk(sr, en):
+        return f'<li><b>{ic("check")}</b>{B(sr, en)}</li>'
+    return browser(f'''
+<div class="pa-wnav clerk"><span class="pa-wlogo">{ic("send")}</span><b>{B("Šalter 3 · Poslovnica Beograd 1", "Counter 3 · Branch Belgrade 1")}</b><span class="pa-wuser">{ic("scan")}{B("Skenirano", "Scanned")}</span></div>
+<div class="pa-wgrid">
+<div class="pa-card"><p class="pa-k">{B("Paket pronađen", "Parcel found")}</p>{B("Onlajn prodavnica", "Online shop", "h5")}<code>RS ••••• ••••• RS</code>
+<div class="pa-shelf">{ic("box")}<span>{B("Polica", "Shelf")}</span><b>B-14</b></div></div>
+<div class="pa-card"><p class="pa-k">{B("Provere", "Checks")}</p><ul class="pa-checks">
+{chk("QR kod potvrđen", "QR code verified")}{chk("Carina plaćena unapred", "Customs paid in advance")}{chk("Identitet potvrđen preko eUprave", "Identity confirmed through eUprava")}{chk("Dodatni kod nije potreban", "No extra code needed")}</ul></div></div>
+<div class="pa-wfoot"><button class="pa-btn primary">{ic("check")}{B("Predaj paket", "Hand over the parcel")}</button><p class="pa-fine">{B("Ništa se ne kuca ručno, ni lična karta se ne prepisuje.", "Nothing is typed by hand, and the ID is not copied.")}</p></div>''')
+
+
+def w_declaration():
+    def field(sr, en, val_sr, val_en):
+        return f'<div class="pa-field">{B(sr, en, "small")}<div>{B(val_sr, val_en)}</div></div>'
+    return browser(f'''
+{wnav(1)}
+<div class="pa-stepper"><span class="d">{ic("check")}{B("Deklaracija", "Declaration")}</span><span class="n">2 {B("Obračun", "Calculation")}</span><span>3 {B("Plaćanje", "Payment")}</span></div>
+<div class="pa-wgrid">
+<div class="pa-card"><p class="pa-k">{B("Deklaracija", "Declaration")}</p>{field("Poreklo", "Origin", "Inostranstvo", "Abroad")}{field("Sadržaj", "Contents", "Odeća", "Clothing")}{field("Vrednost", "Value", "6.000 RSD", "6,000 RSD")}</div>
+<div class="pa-card"><p class="pa-k">{B("Kako se računa", "How it is calculated")} <em class="pa-ex">{B("primer", "example")}</em></p>
+<div class="pa-line">{B("Carina", "Customs duty")}<b>600 RSD</b></div><div class="pa-line">{B("PDV", "VAT")}<b>1.320 RSD</b></div><div class="pa-line">{B("Obrada", "Handling")}<b>250 RSD</b></div>
+<div class="pa-line tot">{B("Ukupno", "Total")}<b>2.170 RSD</b></div></div></div>
+<div class="pa-wfoot row"><button class="pa-btn primary">{ic("card")}{B("Plati odmah", "Pay now")}</button><button class="pa-btn ghost">{ic("qr")}{B("Plati preko IPS QR", "Pay by IPS QR")}</button></div>''')
+
+
+def w_status():
+    def st(kind, sr, en, sub_sr="", sub_en=""):
+        sub = B(sub_sr, sub_en, "small") if sub_sr else ""
+        mark = ic("check") if kind == "done" else ""
+        return f'<li class="{kind}"><i>{mark}</i>{B(sr, en, "b")}{sub}</li>'
+    return browser(f'''
+{wnav(0)}
+<div class="pa-wtitle">{B("Pošiljka iz inostranstva", "Parcel from abroad", "b")}<code>RS ••••• ••••• RS</code></div>
+<ol class="pa-hsteps">{st("done", "Primljeno", "Received")}{st("done", "Stiglo u Srbiju", "Arrived in Serbia")}{st("done", "Carinjenje", "Customs cleared", "1 radni dan", "1 working day")}{st("now", "U poslovnici", "At the branch")}{st("todo", "Preuzeto", "Collected")}</ol>
+<div class="pa-wgrid">
+<div class="pa-card"><p class="pa-k">{B("Automatska odluka", "Automatic decision")}</p>{chip("ok", "Ocarinjeno", "Cleared")}<small>{B("Odluka je doneta za jedan radni dan od dolaska.", "The decision was made within one working day of arrival.")}</small></div>
+<div class="pa-card"><p class="pa-k">{B("Ne slažeš se?", "Disagree?")}</p><div class="pa-lines"><i></i><i></i><i class="s"></i></div>
+<button class="pa-btn ghost">{ic("chat")}{B("Pošalji na pregled", "Send for review")}</button><small>{B("Žalbu pregleda čovek.", "A human reviews the appeal.")}</small></div></div>''')
+
+
+PAIRS = {
+    "p2": (s_pickup, w_clerk, ("Aplikacija: QR i kod", "App: QR and code"), ("Šalter: službenik skenira", "Counter: the clerk scans")),
+    "p3": (s_customs, w_declaration, ("Aplikacija: obračun i plaćanje", "App: calculation and payment"), ("Veb: deklaracija i kalkulator", "Web: declaration and calculator")),
+    "p4": (s_detail, w_status, ("Aplikacija: status i žalba", "App: status and appeal"), ("Veb: status i žalba", "Web: status and appeal")),
+}
+
+
+def pair_html(part):
+    ph, web, cap_a, cap_w = PAIRS[part]
+    ai = (f'<p class="pa-ai-mini"><span class="pa-ai-tag">AI</span>'
+          f'{B("Vizualizacija uz pomoć AI, koncept. Primeri podataka.", "Visualised with AI, a concept. Example data.", "span")}</p>')
+    cap = lambda c, tag: f'<figcaption><span class="pa-n">{tag}</span>{B(c[0], c[1], "b")}</figcaption>'
+    return (f'<div class="pa pa-pairwrap">{ai}<div class="pa-pair"><figure class="pa-fig">{ph()}{cap(cap_a, B("APP", "APP"))}</figure>'
+            f'<figure class="pa-webfig">{web()}{cap(cap_w, B("VEB", "WEB"))}</figure></div></div>')

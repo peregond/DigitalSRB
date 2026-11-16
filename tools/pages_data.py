@@ -27,16 +27,16 @@ def cards(eb, t, items, id=None, intro=None, extra=None):
     return {"k": "cards", "eb": eb, "t": t, "items": items, "id": id, "intro": intro, "extra": extra}
 
 
-def flow(eb, t, today, after, note=None, id=None, intro=None):
-    return {"k": "flow", "eb": eb, "t": t, "today": today, "after": after, "note": note, "id": id, "intro": intro}
+def flow(eb, t, today, after, note=None, id=None, intro=None, extra=None):
+    return {"k": "flow", "eb": eb, "t": t, "today": today, "after": after, "note": note, "id": id, "intro": intro, "extra": extra}
 
 
-def steps(eb, t, items, id=None, intro=None):
-    return {"k": "steps", "eb": eb, "t": t, "items": items, "id": id, "intro": intro}
+def steps(eb, t, items, id=None, intro=None, extra=None):
+    return {"k": "steps", "eb": eb, "t": t, "items": items, "id": id, "intro": intro, "extra": extra}
 
 
-def bars(eb, t, rows, note=None, id=None, intro=None, unit=""):
-    return {"k": "bars", "eb": eb, "t": t, "rows": rows, "note": note, "id": id, "intro": intro, "unit": unit}
+def bars(eb, t, rows, note=None, id=None, intro=None, unit="", extra=None):
+    return {"k": "bars", "eb": eb, "t": t, "rows": rows, "note": note, "id": id, "intro": intro, "unit": unit, "extra": extra}
 
 
 def table(eb, t, head, rows, hl=None, id=None, intro=None):
@@ -231,19 +231,19 @@ PAGES[21] = {
             [("Prijava u aplikaciju preko eUprave sa 2FA", "Log in to the app via eUprava with 2FA"), ("Paket ima QR kod za preuzimanje", "The parcel has a pickup QR code"),
              ("Službenica skenira, ništa ne kuca", "The clerk scans, types nothing"), ("Dodatna potvrda: četvorocifreni kod na telefon", "Extra check: a four-digit code on your phone"),
              ("Lična karta samo za carinu ili taksu, posebno", "ID only for duty or fees, as a separate step")],
-            id="p2", intro=("QR je unapred potvrđen jer je prijava u aplikaciju već dvofaktorska. Isti QR radi za plaćanja i druge državne usluge na pošti.",
+            id="p2", extra="posta_p2", intro=("QR je unapred potvrđen jer je prijava u aplikaciju već dvofaktorska. Isti QR radi za plaćanja i druge državne usluge na pošti.",
                             "The QR is verified in advance because the app login is already two-factor. The same QR works for payments and other state services at the post office.")),
         steps(("3/4", "3/4"), ("Carina, deklaracija i plaćanje onlajn", "Customs, declaration and payment online"), [
             (("Deklaracija u aplikaciji", "Declaration in the app"), ("Navodiš odakle stiže pošiljka i šta je u njoj.", "You say where the parcel comes from and what is inside.")),
             (("Javni kalkulator", "A public calculator"), ("Pokazuje kako se računaju carina, PDV i naknade, pa se zna unapred koliko košta.", "Shows how duty, PDV and fees are calculated, so the cost is known in advance.")),
             (("Plaćanje unapred", "Pay in advance"), ("Sve se plaća onlajn pre dolaska paketa.", "Everything is paid online before the parcel arrives.")),
             (("Doplata na vratima", "Top-up at the door"), ("Ako ipak treba doplatiti, poštar u aplikaciji odmah pravi NBS IPS QR, a ti plaćaš iz bankarske aplikacije.", "If something is still due, the postman's app instantly creates an NBS IPS QR and you pay from your banking app.")),
-        ], id="p3", intro=("Danas se ne zna kako se računaju carina i PDV, deklaracija se popunjava na šalteru (od 23. februara 2026. Pošta je i naplaćuje), a poštar na adresi traži gotovinu.",
+        ], id="p3", extra="posta_p3", intro=("Danas se ne zna kako se računaju carina i PDV, deklaracija se popunjava na šalteru (od 23. februara 2026. Pošta je i naplaćuje), a poštar na adresi traži gotovinu.",
                            "Today nobody knows how duty and PDV are calculated, the declaration is filled in at the counter (since 23 February 2026 Pošta charges for it), and the postman at the door wants cash.")),
         bars(("4/4", "4/4"), ("Carinjenje za jedan radni dan", "Customs clearance within one working day"), [
             (("Danas", "Today"), 35, ("35+ dana", "35+ days"), "lo"),
             (("Cilj", "Target"), 1, ("1 radni dan", "1 working day"), "hi"),
-        ], note=("Danas nema zakonskog roka za carinjenje. Izvor: Kurir, pošiljke na carini i više od 35 dana.", "Today there is no legal deadline for clearance. Source: Kurir, parcels at customs for over 35 days."), id="p4", unit=("dana", "days"),
+        ], note=("Danas nema zakonskog roka za carinjenje. Izvor: Kurir, pošiljke na carini i više od 35 dana.", "Today there is no legal deadline for clearance. Source: Kurir, parcels at customs for over 35 days."), id="p4", extra="posta_p4", unit=("dana", "days"),
             intro=("Cilj je 99,9% pošiljki ocarinjeno u roku od jednog radnog dana. To je izvodljivo jer su deklaracija i plaćanje već onlajn i unapred, a sistem je gotovo potpuno automatizovan.",
                    "The target is 99.9% of parcels cleared within one working day of arrival. That is feasible because the declaration and payment are already online and in advance, and the system is almost fully automated.")),
         flow(("Kad automat pogreši", "When the machine gets it wrong"), ("Žalba i živ čovek", "An appeal and a human"), [
