@@ -309,7 +309,7 @@ html[data-lang="en"] .lang.script{display:none}
 .visual .photo{display:block;width:100%;height:auto;border-radius:20px}
 .visual:has(.photo.cut){padding:36px 24px 0;background:#F8EFED;overflow:hidden;align-items:flex-end}
 .visual .photo.cut{width:min(100%,300px);border-radius:0;filter:drop-shadow(0 20px 40px rgba(60,20,20,.22))}
-.possible{padding:0 0 clamp(60px,8vw,100px)}
+.possible{padding:clamp(60px,8vw,100px) 0 0}
 .pos-card{display:block;position:relative;overflow:hidden;background:#111;color:#fff;border-radius:28px;padding:clamp(28px,5vw,52px);transition:transform .3s ease,box-shadow .3s ease}
 .pos-card::before{content:"";position:absolute;right:-90px;top:-90px;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(227,6,19,.55),rgba(227,6,19,0) 70%)}
 .pos-card:hover{transform:translateY(-3px);box-shadow:0 24px 60px rgba(0,0,0,.25)}
