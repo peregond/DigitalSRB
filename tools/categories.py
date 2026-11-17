@@ -16,12 +16,9 @@ CATEGORIES = [
     {"id": "business", "ideas": [9, 22, 26, 27, 43, 44],
      "sr": ("Porezi i biznis", "Jedan portal, firma za dan, jedan izveštaj i jednostavni porezi."),
      "en": ("Taxes and business", "One portal, a firm in a day, one report and simpler taxes.")},
-    {"id": "payments", "ideas": [17, 23, 28, 29, 42],
-     "sr": ("Plaćanja", "Računi i takse na jednom mestu, i za one bez domaće kartice."),
-     "en": ("Payments", "Bills and fees in one place, also for people without a local card.")},
-    {"id": "telecom", "ideas": [25],
-     "sr": ("Mobilni i internet", "Mesečno plaćanje bez ugovorne obaveze i bez penala."),
-     "en": ("Mobile and internet", "Monthly payment with no contract lock-in and no penalties.")},
+    {"id": "payments", "ideas": [17, 23, 25, 28, 29, 42],
+     "sr": ("Plaćanja", "Računi i takse na jednom mestu, mobilni tarifni paketi bez penala, i za one bez domaće kartice."),
+     "en": ("Payments", "Bills and fees in one place, mobile plans with no penalties, also for people without a local card.")},
     {"id": "health", "ideas": [10, 33, 40, 41, 60],
      "sr": ("Zdravlje", "Jedna aplikacija, jedna lista čekanja i rezultati svuda."),
      "en": ("Health", "One app, one waiting list and results everywhere.")},
@@ -52,7 +49,6 @@ def cat_of(n):
 
 # line icons (24x24, stroke) for the topic tiles on the home page
 ICONS = {
-    "telecom": "M7 2h10a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1zM11 18.5h2",
     "identity": "M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10zM9 12l2 2 4-4",
     "counters": "M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zM12 6v6l4 2",
     "documents": "M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zM14 2v6h6M8 13h8M8 17h6",
