@@ -322,3 +322,4 @@ html[data-lang="en"] .lang.script{display:none}
 .pos-tags li{font-size:12px;font-weight:700;padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.12);color:#fff}
 .pos-go{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#111;font-weight:700;font-size:15px;padding:12px 22px;border-radius:999px}
 .pos-card:focus-visible{outline:3px solid #fff;outline-offset:3px}
+.pos-shot{display:block;width:100%;height:auto;border-radius:18px;margin-top:32px;box-shadow:0 16px 40px rgba(0,0,0,.45)}
