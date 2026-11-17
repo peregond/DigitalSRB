@@ -322,3 +322,10 @@ html[data-lang="en"] .lang.script{display:none}
 .pos-go{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#111;font-weight:700;font-size:15px;padding:12px 22px;border-radius:999px}
 .pos-go:hover{background:#f1f1f1}.pos-go:focus-visible{outline:3px solid #fff;outline-offset:3px}
 .pos-shot{display:block;width:100%;height:auto;border-radius:18px;margin-top:32px;box-shadow:0 16px 40px rgba(0,0,0,.45)}
+@media (min-width:900px){
+.pos-card{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);column-gap:44px;align-items:center;align-content:center}
+.pos-card>*{grid-column:1}
+.pos-card .pos-shot{grid-column:2;grid-row:1/7;margin:0}
+.pos-go{justify-self:start}
+.pos-tags{margin:20px 0 24px}
+}
