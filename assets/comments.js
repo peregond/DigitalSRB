@@ -63,7 +63,10 @@
     p_on: ["Na tvoj komentar", "On your comment"],
     p_open: ["Otvori ideju", "Open the idea"],
     close: ["Zatvori", "Close"],
-    p_label: ["Profil", "Profile"]
+    p_label: ["Profil", "Profile"],
+    p_new: ["novi odgovori", "new replies"],
+    have: ["Imaš profil? Vrati ga kodom", "Have a profile? Restore it"],
+    delq: ["Obrisati komentar? Ne može da se vrati.", "Delete this comment? This cannot be undone."]
   };
 
   function lang() { return root.dataset.lang === "en" ? "en" : "sr"; }
@@ -75,7 +78,10 @@
   }
   function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); }
   function when(iso) {
-    try { return new Date(iso).toLocaleDateString(lang() === "en" ? "en-GB" : "sr-Latn-RS", { day: "numeric", month: "short", year: "numeric" }); }
+    try {
+      var d = new Date(iso).toLocaleDateString(lang() === "en" ? "en-GB" : "sr-Latn-RS", { day: "numeric", month: "short", year: "numeric" });
+      return lang() === "sr" && cyr() ? T.toCyr(d) : d;
+    }
     catch (e) { return ""; }
   }
 
@@ -103,17 +109,24 @@
   }
 
   /* ---------- profile in this browser ---------- */
-  var me = null;
+  var me = null, replies = [], fresh = false; // fresh: there are replies not seen yet
   try { me = JSON.parse(store.get("dsrb.me") || "null"); } catch (e) { me = null; }
-  function setMe(p) { me = p; if (p) store.set("dsrb.me", JSON.stringify(p)); else store.del("dsrb.me"); paintProfBtn(); }
+  function setMe(p) {
+    me = p;
+    if (p) store.set("dsrb.me", JSON.stringify(p));
+    else { store.del("dsrb.me"); store.del("dsrb.seenReply"); replies = []; fresh = false; }
+    paintProfBtn();
+  }
+  // "seen" is the id of the newest reply the visitor has seen: no clock of the browser is involved
+  function lastReplyId() { return replies.reduce(function (m, r) { return Math.max(m, Number(r.id)); }, 0); }
 
   var profBtn = $("#profBtn");
   function paintProfBtn() {
     if (!profBtn) return;
     profBtn.hidden = !me;
     if (!me) return;
-    profBtn.innerHTML = AV(me.avatar) + '<i class="prof-dot" hidden></i>';
-    profBtn.setAttribute("aria-label", str("p_label") + ": " + me.name);
+    profBtn.innerHTML = AV(me.avatar) + '<i class="prof-dot"' + (fresh ? "" : " hidden") + "></i>";
+    profBtn.setAttribute("aria-label", str("p_label") + ": " + me.name + (fresh ? " (" + str("p_new") + ")" : ""));
   }
 
   /* ---------- modal ---------- */
@@ -148,27 +161,41 @@
     var box = $(".cmodal-box", overlay);
     box.innerHTML = "";
     render(box);
+    nameDialog(box);
     var f = $("input, textarea, button.btn", box);
     if (f) f.focus();
+  }
+  function nameDialog(box) {
+    var title = $("h3", box);
+    if (title) { title.id = "cmTitle"; box.setAttribute("aria-labelledby", "cmTitle"); }
   }
   function avatarGrid(selected) {
     var out = '<div class="av-grid" role="radiogroup" aria-label="' + esc(str("m_pick")) + '">';
     for (var i = 0; i < 50; i++) {
-      out += '<button type="button" class="av-opt" role="radio" aria-checked="' + (i === selected) + '" data-av="' + i + '" aria-label="' + (i + 1) + '">' + AV(i) + "</button>";
+      out += '<button type="button" class="av-opt" role="radio" aria-checked="' + (i === selected) + '" tabindex="' + (i === selected ? 0 : -1) + '" data-av="' + i + '" aria-label="' + (i + 1) + '">' + AV(i) + "</button>";
     }
     return out + "</div>";
   }
   function bindGrid(box, state) {
-    $$(".av-opt", box).forEach(function (b) {
-      b.addEventListener("click", function () {
-        state.avatar = Number(b.dataset.av);
-        $$(".av-opt", box).forEach(function (x) { x.setAttribute("aria-checked", String(x === b)); });
+    var all = $$(".av-opt", box);
+    function pick(b) {
+      state.avatar = Number(b.dataset.av);
+      all.forEach(function (x) { x.setAttribute("aria-checked", String(x === b)); x.tabIndex = x === b ? 0 : -1; });
+    }
+    all.forEach(function (b, i) {
+      b.addEventListener("click", function () { pick(b); });
+      b.addEventListener("keydown", function (e) {
+        var step = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key];
+        if (!step) return;
+        e.preventDefault();
+        var next = all[(i + step + all.length) % all.length];
+        pick(next); next.focus();
       });
     });
   }
 
   // resolves with the profile once one exists (made, restored or already there); rejects when the visitor cancels
-  function ensureProfile() {
+  function ensureProfile(startWithRestore) {
     if (me) return Promise.resolve(me);
     return new Promise(function (resolve, reject) {
       var done = false;
@@ -187,6 +214,7 @@
           $(".cancel", box).addEventListener("click", function () { closeModal(); reject(new Error("cancel")); });
           $(".have", box).addEventListener("click", stepRestore);
           function submit() {
+            if (go.disabled) return; // Enter pressed twice must not make two profiles
             var name = $(".cm-in-name", box).value.trim();
             if (name.length < 2) { msg.hidden = false; msg.textContent = str("e_name"); return; }
             go.disabled = true; msg.hidden = true;
@@ -222,11 +250,13 @@
           var msg = $(".cm-msg", box), go = $(".go", box), inp = $(".cm-in-code", box);
           $(".back", box).addEventListener("click", stepSetup);
           function submit() {
+            if (go.disabled) return;
             var code = inp.value.trim();
             if (code.length < 8) { msg.hidden = false; msg.textContent = str("e_code"); return; }
             go.disabled = true; msg.hidden = true;
             rpc("restore_profile", { p_code: code }).then(function (rows) {
               var r = Array.isArray(rows) ? rows[0] : rows;
+              code = (code.toUpperCase().replace(/[^0-9A-Z]/g, "").match(/.{1,4}/g) || []).join("-");
               setMe({ code: code, id: r.id, name: r.name, avatar: r.avatar });
               loadReplies();
               finish(me);
@@ -236,7 +266,7 @@
           inp.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); submit(); } });
         });
       }
-      stepSetup();
+      if (startWithRestore) stepRestore(); else stepSetup();
       // closing by Esc or by clicking outside also cancels
       var iv = setInterval(function () { if (!overlay && !done) { clearInterval(iv); if (me) resolve(me); else reject(new Error("cancel")); } else if (done) { clearInterval(iv); } }, 250);
     });
@@ -270,7 +300,7 @@
   function formHtml(idea, parent) {
     return '<form class="cm-form" data-idea="' + idea + '"' + (parent ? ' data-parent="' + parent + '"' : "") + ' novalidate>' +
       '<textarea rows="' + (parent ? 2 : 3) + '" maxlength="1000" required placeholder="' + esc(str("ph")) + '" aria-label="' + esc(str("ph")) + '"></textarea>' +
-      '<div class="cm-row"><span class="cm-me">' + (me ? '<span class="cm-av sm">' + AV(me.avatar) + "</span>" + h("as") + " <strong>" + esc(me.name) + "</strong>" : h("anon")) + "</span>" +
+      '<div class="cm-row"><span class="cm-me">' + (me ? '<span class="cm-av sm">' + AV(me.avatar) + "</span>" + h("as") + " <strong>" + esc(me.name) + "</strong>" : h("anon") + ' <button type="button" class="linkbtn" data-restore>' + h("have") + "</button>") + "</span>" +
       '<span class="cm-btns">' + (parent ? '<button type="button" class="linkbtn" data-cancel>' + h("cancel") + "</button>" : "") +
       '<button type="submit" class="btn sm">' + h("send") + "</button></span></div>" +
       '<p class="cm-msg" role="alert" hidden></p></form>';
@@ -278,6 +308,7 @@
   function renderPanel(idea) {
     var panel = $("#cm-" + idea);
     if (!panel) return;
+    var drafts = $$("form.cm-form", panel).map(function (f) { return { parent: f.dataset.parent || "", text: $("textarea", f).value }; });
     var list = data[idea];
     var html = "";
     if (list === undefined) html = '<p class="cm-note">…</p>';
@@ -294,11 +325,24 @@
         if (slot) slot.insertAdjacentHTML("beforeend", commentHtml(r, idea, true));
       });
     }
+    drafts.forEach(function (d) {
+      var form;
+      if (d.parent) {
+        var slot = $('[data-slot="' + d.parent + '"]', panel);
+        if (!slot) return;
+        slot.innerHTML = formHtml(idea, Number(d.parent));
+        form = $("form", slot);
+      } else form = $(".cm-wrap > .cm-form", panel);
+      if (form) $("textarea", form).value = d.text;
+    });
   }
+  function renderOpen() { Object.keys(open).forEach(function (i) { if (open[i]) renderPanel(Number(i)); }); }
   function load(idea) {
     data[idea] = undefined; renderPanel(idea);
     return rpc("get_comments", { p_idea: idea }).then(function (rows) {
-      data[idea] = rows || []; counts[idea] = data[idea].length; paintCount(idea);
+      data[idea] = rows || [];
+      // the list holds at most 300 threads; beyond that the number from get_comment_counts stays
+      if (data[idea].filter(function (c) { return !c.parent_id; }).length < 300) { counts[idea] = data[idea].length; paintCount(idea); }
     }).catch(function () { data[idea] = null; }).then(function () { renderPanel(idea); });
   }
   function toggle(idea) {
@@ -313,6 +357,10 @@
   function openIdea(idea) {
     var card = $("#idea-" + idea);
     if (!card) return;
+    if (card.closest("[hidden]")) { // filtered out: app.js clears the filters for the idea in the address
+      history.replaceState(null, "", "#idea-" + idea);
+      window.dispatchEvent(new Event("hashchange"));
+    }
     if (!open[idea]) toggle(idea);
     card.scrollIntoView({ block: "start" });
   }
@@ -329,8 +377,10 @@
     }).then(function (rows) {
       var c = Array.isArray(rows) ? rows[0] : rows;
       (data[idea] = data[idea] || []).push(c);
-      counts[idea] = data[idea].length; paintCount(idea);
-      renderPanel(idea);
+      counts[idea] = (counts[idea] || 0) + 1; paintCount(idea);
+      // the sent text must not come back as a draft
+      if (parent) form.remove(); else ta.value = "";
+      renderOpen();
     }).catch(function (e) {
       sendBtn.disabled = false;
       if (e && e.message === "cancel") return;
@@ -340,8 +390,9 @@
   }
 
   document.addEventListener("click", function (e) {
-    var t = e.target.closest("[data-cm], [data-reply], [data-del], [data-cancel], #profBtn");
+    var t = e.target.closest("[data-cm], [data-reply], [data-del], [data-cancel], [data-restore], #profBtn");
     if (!t) return;
+    if (t.matches("[data-restore]")) { ensureProfile(true).then(renderOpen).catch(function () { /* cancelled */ }); return; }
     if (t.matches("[data-cm]")) { toggle(Number(t.dataset.cm)); return; }
     if (t.id === "profBtn") { openProfile(); return; }
     var panel = t.closest(".cm"), idea = panel ? Number(panel.id.replace("cm-", "")) : 0;
@@ -354,11 +405,13 @@
       t.closest(".cm-slot").innerHTML = "";
     } else if (t.matches("[data-del]")) {
       var id = Number(t.dataset.del);
-      if (!me) return;
-      rpc("delete_my_comment", { p_code: me.code, p_id: id }).then(function () {
+      if (!me || !window.confirm(str("delq"))) return;
+      rpc("delete_my_comment", { p_code: me.code, p_id: id }).then(function (ok) {
+        if (ok === false) throw new Error("not_deleted");
+        var before = (data[idea] || []).length;
         data[idea] = (data[idea] || []).filter(function (c) { return c.id !== id && c.parent_id !== id; });
-        counts[idea] = data[idea].length; paintCount(idea); renderPanel(idea);
-      }).catch(function () { /* ignore */ });
+        counts[idea] = Math.max(0, (counts[idea] || 0) - (before - data[idea].length)); paintCount(idea); renderPanel(idea);
+      }).catch(function (err) { window.alert(errText(err)); });
     }
   });
   document.addEventListener("submit", function (e) {
@@ -366,22 +419,20 @@
   });
 
   /* ---------- profile window + replies ---------- */
-  var replies = [];
   function loadReplies() {
     if (!me) return Promise.resolve();
     return rpc("get_my_replies", { p_code: me.code }).then(function (rows) {
       replies = rows || [];
-      var seen = Number(store.get("dsrb.seen") || 0);
-      var fresh = replies.some(function (r) { return new Date(r.created_at).getTime() > seen; });
-      var dot = profBtn && $(".prof-dot", profBtn);
-      if (dot) dot.hidden = !fresh;
+      fresh = lastReplyId() > Number(store.get("dsrb.seenReply") || 0);
+      paintProfBtn();
     }).catch(function (e) { if (e && e.code === "unknown_code") setMe(null); });
   }
   function openProfile() {
     if (!me) return;
     loadReplies().then(function () {
-      store.set("dsrb.seen", String(Date.now()));
-      var dot = profBtn && $(".prof-dot", profBtn); if (dot) dot.hidden = true;
+      if (!me) return; // the server no longer knows this code
+      store.set("dsrb.seenReply", String(lastReplyId()));
+      fresh = false; paintProfBtn();
       openModal(function (box) {
         var st = { avatar: me.avatar };
         var list = replies.length ? replies.map(function (r) {
@@ -405,16 +456,19 @@
         $(".showcode", box).addEventListener("click", function () { $(".cm-code", box).hidden = false; });
         $(".out", box).addEventListener("click", function () {
           if (!window.confirm(str("p_outq"))) return;
-          setMe(null); replies = []; closeModal();
-          Object.keys(open).forEach(function (i) { if (open[i]) renderPanel(Number(i)); });
+          setMe(null); closeModal(); renderOpen();
         });
         $(".save", box).addEventListener("click", function () {
           var name = $(".cm-in-name", box).value.trim();
           if (name.length < 2) { msg.hidden = false; msg.textContent = str("e_name"); return; }
-          rpc("update_profile", { p_code: me.code, p_name: name, p_avatar: st.avatar }).then(function () {
-            setMe({ code: me.code, id: me.id, name: name, avatar: st.avatar });
-            closeModal();
-            Object.keys(open).forEach(function (i) { if (open[i]) renderPanel(Number(i)); });
+          rpc("update_profile", { p_code: me.code, p_name: name, p_avatar: st.avatar }).then(function (rows) {
+            var r = (Array.isArray(rows) ? rows[0] : rows) || { name: name, avatar: st.avatar };
+            setMe({ code: me.code, id: me.id, name: r.name, avatar: r.avatar });
+            // comments already on the page show the new name and picture
+            Object.keys(data).forEach(function (i) {
+              (data[i] || []).forEach(function (c) { if (c.profile_id === me.id) { c.name = r.name; c.avatar = r.avatar; } });
+            });
+            closeModal(); renderOpen();
           }).catch(function (e) { msg.hidden = false; msg.textContent = errText(e); });
         });
         box.addEventListener("click", function (e) {
@@ -440,7 +494,7 @@
     if (k === viewKey) return;
     viewKey = k;
     paintProfBtn();
-    Object.keys(open).forEach(function (i) { if (open[i]) renderPanel(Number(i)); });
-    if (overlay && modalRender) { var box = $(".cmodal-box", overlay); box.innerHTML = ""; modalRender(box); }
+    renderOpen();
+    if (overlay && modalRender) { var box = $(".cmodal-box", overlay); box.innerHTML = ""; modalRender(box); nameDialog(box); }
   }).observe(root, { attributes: true, attributeFilter: ["data-lang", "class"] });
 })();

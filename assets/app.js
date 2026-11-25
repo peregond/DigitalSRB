@@ -113,7 +113,9 @@
     if (!menu) return;
     var cur = root.dataset.lang === "en" ? "en" : (cyr ? "sr-cyr" : "sr-lat");
     $$("[data-opt]", menu).forEach(function (b) { b.setAttribute("aria-checked", String(b.dataset.opt === cur)); });
-    menu.querySelector(".lm-cur").textContent = cur === "en" ? "EN" : cur === "sr-cyr" ? "СР" : "SR";
+    var short = cur === "en" ? "EN" : cur === "sr-cyr" ? "СР" : "SR";
+    menu.querySelector(".lm-cur").textContent = short;
+    menu.querySelector(".lm-btn").setAttribute("aria-label", short + " · Jezik i pismo / Language and script");
   }
   if (menu) {
     var mbtn = menu.querySelector(".lm-btn"), mlist = menu.querySelector(".lm-list");
@@ -192,7 +194,8 @@
   function revealTarget() {
     var el = location.hash.length > 1 && document.getElementById(location.hash.slice(1));
     if (el && (el.hidden || el.closest("[hidden]"))) {
-      state.cat = "all"; state.tier = "all";
+      state.cat = "all"; state.tier = "all"; state.q = state.qf = "";
+      if (qInput) qInput.value = "";
       applyFilters();
       el.scrollIntoView();
     }

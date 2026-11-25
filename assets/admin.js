@@ -107,6 +107,8 @@
     th.addEventListener("click", function () {
       var by = th.dataset.sort;
       sort = { by: by, dir: sort.by === by ? -sort.dir : (by === "idea" || by === "title" ? 1 : -1) };
+      $$("#ideasTable th").forEach(function (x) { x.removeAttribute("aria-sort"); });
+      th.setAttribute("aria-sort", sort.dir > 0 ? "ascending" : "descending");
       renderIdeas();
     });
   });
@@ -122,17 +124,18 @@
       if (ft && (c.body + " " + (c.name || "")).toLowerCase().indexOf(ft) < 0) return false;
       return true;
     });
-    $("#cCount").textContent = "Показано: " + list.length + " из " + comments.length;
+    $("#cCount").textContent = "Показано: " + list.length + " из " + comments.length + (comments.length >= 1000 ? " (загружены только 1000 самых новых; фильтры ищут среди них)" : "");
     $("#cList").innerHTML = list.map(function (c) {
       var av = c.is_staff ? '<svg viewBox="0 0 64 64"><rect width="64" height="64" fill="#E30613"/><circle cx="32" cy="32" r="13" fill="#fff"/></svg>' : window.DSRB_AVATAR(c.avatar || 0);
       var t = titles[c.idea] ? titles[c.idea].sr : "";
       return '<div class="cm' + (c.parent_id ? " rep" : "") + (c.hidden ? " hid" : "") + '" data-id="' + c.id + '"><span class="av">' + av + '</span><div class="grow">' +
         '<div class="meta"><b>' + esc(c.is_staff ? "Вы (команда)" : c.name || "удалённый профиль") + "</b><span>идея № " + c.idea + (t ? " · " + esc(t) : "") + "</span><span>" + esc(fmt(c.created_at)) + "</span>" +
-        (c.parent_id ? '<span class="tag">ответ на #' + c.parent_id + "</span>" : "") + (c.hidden ? '<span class="tag red">скрыт</span>' : "") +
+        (c.parent_id ? '<span class="tag">ответ на #' + c.parent_id + "</span>" : "") + (c.hidden ? '<span class="tag red">' + (c.deleted ? "удалён автором" : "скрыт") + "</span>" : "") +
         (c.profile_id ? "<span>id " + esc(String(c.profile_id).slice(0, 8)) + "</span>" : "") + "</div>" +
         '<div class="body">' + esc(c.body) + '</div><div class="acts">' +
-        '<button class="ghost" data-hide="' + c.id + '" data-to="' + (!c.hidden) + '">' + (c.hidden ? "Показать" : "Скрыть") + "</button>" +
-        '<button class="ghost" data-reply="' + c.id + '">Ответить</button></div><div data-slot="' + c.id + '"></div></div></div>';
+        // what the author deleted stays deleted; a reply under it would not be visible
+        (c.deleted ? "" : '<button class="ghost" data-hide="' + c.id + '" data-to="' + (!c.hidden) + '">' + (c.hidden ? "Показать" : "Скрыть") + "</button>" +
+        (c.hidden || (byId[c.parent_id] && byId[c.parent_id].hidden) ? "" : '<button class="ghost" data-reply="' + c.id + '">Ответить</button>')) + '</div><div data-slot="' + c.id + '"></div></div></div>';
     }).join("");
   }
   ["#fIdea", "#fText"].forEach(function (s) { $(s).addEventListener("input", renderComments); });

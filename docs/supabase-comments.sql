@@ -1,4 +1,5 @@
 -- Comments, anonymous profiles and the admin tools. Run ONCE in the Supabase SQL editor (after the votes SQL in README.md).
+-- Running it again is safe: it also upgrades an earlier version of this file and keeps the data.
 --
 -- How it works
 --  * A visitor picks a name and one of 50 abstract avatars. The server creates a profile and returns a secret
@@ -29,6 +30,10 @@ create table if not exists comments (
   hidden boolean not null default false,
   created_at timestamptz not null default now()
 );
+-- reply_to: the exact comment a team reply answers (threads are one level deep, so parent_id is always the top one)
+alter table comments add column if not exists reply_to bigint references comments (id) on delete set null;
+-- deleted: removed by its author; the row stays (rate limits count it) and nobody can show it again
+alter table comments add column if not exists deleted boolean not null default false;
 create index if not exists comments_idea_idx on comments (idea, created_at);
 create index if not exists comments_parent_idx on comments (parent_id);
 create index if not exists comments_profile_idx on comments (profile_id);
@@ -39,6 +44,7 @@ alter table profiles enable row level security;
 alter table comments enable row level security;
 alter table app_settings enable row level security;
 -- no policies on purpose: the anon key cannot read or write these tables directly
+revoke all on table profiles, comments, app_settings from anon, authenticated;
 
 -- ---------------------------------------------------------------- helpers
 create or replace function _hash(p_code text) returns text
@@ -64,10 +70,11 @@ create or replace function register_profile(p_name text, p_avatar int)
 returns table (id uuid, code text, name text, avatar int)
 language plpgsql security definer set search_path = public, extensions as $$
 declare
-  v_code text; v_row profiles; v_name text := btrim(coalesce(p_name, ''));
+  v_code text; v_row profiles; v_name text := btrim(regexp_replace(coalesce(p_name, ''), '\s+', ' ', 'g'));
 begin
   if char_length(v_name) < 2 or char_length(v_name) > 30 then raise exception 'bad_name'; end if;
   if p_avatar is null or p_avatar < 0 or p_avatar > 49 then raise exception 'bad_avatar'; end if;
+  perform pg_advisory_xact_lock(hashtext('dsrb.register'));
   if (select count(*) from profiles where created_at > now() - interval '1 minute') > 30 then raise exception 'busy'; end if;
   v_code := upper(encode(gen_random_bytes(8), 'hex'));
   insert into profiles (name, avatar, code_hash) values (v_name, p_avatar, _hash(v_code)) returning * into v_row;
@@ -89,7 +96,7 @@ end $$;
 create or replace function update_profile(p_code text, p_name text, p_avatar int)
 returns table (id uuid, name text, avatar int)
 language plpgsql security definer set search_path = public, extensions as $$
-declare v_row profiles; v_name text := btrim(coalesce(p_name, ''));
+declare v_row profiles; v_name text := btrim(regexp_replace(coalesce(p_name, ''), '\s+', ' ', 'g'));
 begin
   v_row := _profile(p_code);
   if v_row.id is null then raise exception 'unknown_code'; end if;
@@ -103,7 +110,8 @@ end $$;
 create or replace function get_comment_counts()
 returns table (idea int, n bigint)
 language sql stable security definer set search_path = public as $$
-  select idea, count(*) from comments where not hidden group by idea;
+  select c.idea, count(*) from comments c left join comments t on t.id = c.parent_id
+  where not c.hidden and t.hidden is not true group by c.idea;
 $$;
 
 create or replace function get_comments(p_idea int)
@@ -112,9 +120,11 @@ returns table (id bigint, parent_id bigint, body text, created_at timestamptz, i
 language sql stable security definer set search_path = public as $$
   select c.id, c.parent_id, c.body, c.created_at, c.is_staff, p.name, p.avatar, c.profile_id
   from comments c left join profiles p on p.id = c.profile_id
-  where c.idea = p_idea and not c.hidden
-  order by c.created_at asc
-  limit 500;
+  -- the 300 newest threads, each with its replies
+  where c.idea = p_idea and not c.hidden and coalesce(c.parent_id, c.id) in (
+    select t.id from comments t where t.idea = p_idea and t.parent_id is null and not t.hidden
+    order by t.created_at desc, t.id desc limit 300)
+  order by c.created_at asc, c.id asc;
 $$;
 
 -- ---------------------------------------------------------------- writing (with the profile code)
@@ -123,13 +133,15 @@ returns table (id bigint, parent_id bigint, body text, created_at timestamptz, i
                name text, avatar int, profile_id uuid)
 language plpgsql security definer set search_path = public, extensions as $$
 declare
-  v_profile profiles; v_body text := btrim(coalesce(p_body, '')); v_parent comments; v_new comments;
+  v_profile profiles; v_body text := btrim(coalesce(p_body, ''), E' \t\r\n'); v_parent comments; v_new comments;
 begin
   v_profile := _profile(p_code);
   if v_profile.id is null then raise exception 'unknown_code'; end if;
   if p_idea is null or p_idea < 1 or p_idea > 100 then raise exception 'bad_idea'; end if;
   if char_length(v_body) < 1 or char_length(v_body) > 1000 then raise exception 'bad_body'; end if;
-  if exists (select 1 from comments c where c.profile_id = v_profile.id and c.created_at > now() - interval '15 seconds') then
+  -- one post at a time per profile, so that parallel requests cannot pass the limits together
+  perform 1 from profiles pr where pr.id = v_profile.id for update;
+  if exists (select 1 from comments c where c.profile_id = v_profile.id and c.created_at > clock_timestamp() - interval '15 seconds') then
     raise exception 'slow_down';
   end if;
   if (select count(*) from comments c where c.profile_id = v_profile.id and c.created_at > now() - interval '1 day') >= 40 then
@@ -139,7 +151,8 @@ begin
     select * into v_parent from comments c where c.id = p_parent and not c.hidden;
     if v_parent.id is null or v_parent.idea <> p_idea or v_parent.parent_id is not null then raise exception 'bad_parent'; end if;
   end if;
-  insert into comments (idea, parent_id, profile_id, body) values (p_idea, p_parent, v_profile.id, v_body) returning * into v_new;
+  insert into comments (idea, parent_id, profile_id, body, created_at)
+    values (p_idea, p_parent, v_profile.id, v_body, clock_timestamp()) returning * into v_new;
   update profiles set last_seen = now() where profiles.id = v_profile.id;
   return query select v_new.id, v_new.parent_id, v_new.body, v_new.created_at, v_new.is_staff, v_profile.name, v_profile.avatar, v_profile.id;
 end $$;
@@ -151,7 +164,7 @@ declare v_profile profiles;
 begin
   v_profile := _profile(p_code);
   if v_profile.id is null then raise exception 'unknown_code'; end if;
-  update comments set hidden = true where id = p_id and profile_id = v_profile.id;
+  update comments c set hidden = true, deleted = true where c.id = p_id and c.profile_id = v_profile.id;
   return found;
 end $$;
 
@@ -165,24 +178,31 @@ begin
   v_profile := _profile(p_code);
   if v_profile.id is null then raise exception 'unknown_code'; end if;
   return query
-    select r.id, r.idea, r.body, r.created_at, r.is_staff, p.name, p.avatar, c.body
-    from comments c
-    join comments r on r.parent_id = c.id and not r.hidden
+    select r.id, r.idea, r.body, r.created_at, r.is_staff, p.name, p.avatar, m.body
+    from comments r
+    join comments t on t.id = r.parent_id and not t.hidden
+    -- my comment that this reply is about: the one the team answered, otherwise the top of the thread
+    join lateral (
+      select c.body from comments c
+      where c.id in (r.reply_to, r.parent_id) and c.profile_id = v_profile.id and not c.hidden
+      order by c.id desc limit 1
+    ) m on true
     left join profiles p on p.id = r.profile_id
-    where c.profile_id = v_profile.id and r.profile_id is distinct from v_profile.id
-    order by r.created_at desc
+    where not r.hidden and r.profile_id is distinct from v_profile.id
+    order by r.created_at desc, r.id desc
     limit 50;
 end $$;
 
 -- ---------------------------------------------------------------- admin (needs the admin key)
+drop function if exists admin_comments(text, int);
 create or replace function admin_comments(p_key text, p_limit int default 300)
 returns table (id bigint, idea int, parent_id bigint, body text, created_at timestamptz, hidden boolean,
-               is_staff boolean, profile_id uuid, name text, avatar int)
+               is_staff boolean, profile_id uuid, name text, avatar int, deleted boolean)
 language plpgsql stable security definer set search_path = public, extensions as $$
 begin
   if not _is_admin(p_key) then raise exception 'forbidden'; end if;
   return query
-    select c.id, c.idea, c.parent_id, c.body, c.created_at, c.hidden, c.is_staff, c.profile_id, p.name, p.avatar
+    select c.id, c.idea, c.parent_id, c.body, c.created_at, c.hidden, c.is_staff, c.profile_id, p.name, p.avatar, c.deleted
     from comments c left join profiles p on p.id = c.profile_id
     order by c.created_at desc limit least(greatest(p_limit, 1), 2000);
 end $$;
@@ -192,30 +212,32 @@ returns boolean
 language plpgsql security definer set search_path = public, extensions as $$
 begin
   if not _is_admin(p_key) then raise exception 'forbidden'; end if;
-  update comments set hidden = p_hidden where id = p_id;
+  update comments c set hidden = p_hidden where c.id = p_id and (p_hidden or not c.deleted);
   return found;
 end $$;
 
 create or replace function admin_reply(p_key text, p_parent bigint, p_body text)
 returns bigint
 language plpgsql security definer set search_path = public, extensions as $$
-declare v_parent comments; v_id bigint; v_body text := btrim(coalesce(p_body, ''));
+declare v_parent comments; v_id bigint; v_body text := btrim(coalesce(p_body, ''), E' \t\r\n');
 begin
   if not _is_admin(p_key) then raise exception 'forbidden'; end if;
   select * into v_parent from comments c where c.id = p_parent;
   if v_parent.id is null then raise exception 'bad_parent'; end if;
   if char_length(v_body) < 1 or char_length(v_body) > 1000 then raise exception 'bad_body'; end if;
-  insert into comments (idea, parent_id, profile_id, is_staff, body)
-    values (v_parent.idea, coalesce(v_parent.parent_id, v_parent.id), null, true, v_body) returning id into v_id;
+  insert into comments (idea, parent_id, reply_to, profile_id, is_staff, body)
+    values (v_parent.idea, coalesce(v_parent.parent_id, v_parent.id), v_parent.id, null, true, v_body) returning id into v_id;
   return v_id;
 end $$;
 
 create or replace function admin_stats(p_key text)
 returns jsonb
 language plpgsql stable security definer set search_path = public, extensions as $$
-declare v jsonb;
+declare v jsonb; v_sugg bigint := 0;
 begin
   if not _is_admin(p_key) then raise exception 'forbidden'; end if;
+  -- the suggestions table comes from docs/supabase-suggestions.sql; the overview works without it
+  if to_regclass('public.suggestions') is not null then select count(*) into v_sugg from suggestions; end if;
   select jsonb_build_object(
     'profiles_total', (select count(*) from profiles),
     'profiles_7d', (select count(*) from profiles where created_at > now() - interval '7 days'),
@@ -225,12 +247,14 @@ begin
     'hidden', (select count(*) from comments where hidden),
     'staff_replies', (select count(*) from comments where is_staff),
     'by_idea', coalesce((select jsonb_agg(jsonb_build_object('idea', x.idea, 'comments', x.n, 'authors', x.a) order by x.idea)
-                         from (select idea, count(*) n, count(distinct profile_id) a from comments where not is_staff and not hidden group by idea) x), '[]'::jsonb),
+                         from (select c.idea, count(*) n, count(distinct c.profile_id) a
+                               from comments c left join comments t on t.id = c.parent_id
+                               where not c.is_staff and not c.hidden and t.hidden is not true group by c.idea) x), '[]'::jsonb),
     'by_day', coalesce((select jsonb_agg(jsonb_build_object('day', d.day, 'n', d.n) order by d.day)
                         from (select (created_at at time zone 'UTC')::date as day, count(*) n from comments
                               where not is_staff and created_at > now() - interval '30 days' group by 1) d), '[]'::jsonb),
     'votes', coalesce((select jsonb_agg(jsonb_build_object('idea', idea, 'up', up, 'down', down) order by idea) from idea_votes), '[]'::jsonb),
-    'suggestions', (select count(*) from suggestions)
+    'suggestions', v_sugg
   ) into v;
   return v;
 end $$;
@@ -240,6 +264,7 @@ returns table (id bigint, created_at timestamptz, idea int, message text, contac
 language plpgsql stable security definer set search_path = public, extensions as $$
 begin
   if not _is_admin(p_key) then raise exception 'forbidden'; end if;
+  if to_regclass('public.suggestions') is null then return; end if;
   return query select s.id, s.created_at, s.idea, s.message, s.contact, s.lang from suggestions s
     order by s.created_at desc limit least(greatest(p_limit, 1), 1000);
 end $$;

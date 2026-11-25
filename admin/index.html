@@ -16,17 +16,20 @@
 <section id="login" class="card narrow">
   <h1>Вход</h1>
   <p>Введите админ-ключ (длинный секрет из SQL-настройки). Он хранится только в этой вкладке и не сохраняется на сервере сайта.</p>
-  <form id="loginForm"><input id="key" type="password" autocomplete="off" placeholder="админ-ключ" required><button class="btn" type="submit">Войти</button></form>
-  <p id="loginMsg" class="err" hidden></p>
+  <form id="loginForm"><input id="key" type="password" autocomplete="off" placeholder="админ-ключ" aria-label="Админ-ключ" required><button class="btn" type="submit">Войти</button></form>
+  <p id="loginMsg" class="err" role="alert" hidden></p>
 </section>
 
 <section id="app" hidden>
-  <nav class="tabs" role="tablist">
+  <h1 class="sr">Админка</h1>
+  <div class="tabs">
+  <div class="tablist" role="tablist" aria-label="Разделы">
     <button role="tab" aria-selected="true" data-tab="stats">Обзор</button>
     <button role="tab" aria-selected="false" data-tab="comments">Комментарии</button>
     <button role="tab" aria-selected="false" data-tab="sugg">Предложения</button>
-    <button id="refresh" class="ghost">Обновить</button>
-  </nav>
+  </div>
+    <button type="button" id="refresh" class="ghost">Обновить</button>
+  </div>
 
   <div data-pane="stats">
     <div class="cards" id="cards"></div>
@@ -35,7 +38,7 @@
     <h2>Идеи: комментарии и голоса</h2>
     <p class="hint">Нажмите на заголовок столбца, чтобы отсортировать. Красным выделены идеи без комментариев.</p>
     <div class="scroll"><table id="ideasTable"><thead><tr>
-      <th data-sort="idea">№</th><th data-sort="title">Идея</th><th data-sort="comments">Комм.</th><th data-sort="authors">Авторов</th><th data-sort="up">За</th><th data-sort="down">Против</th><th data-sort="score">Баланс</th>
+      <th data-sort="idea"><button type="button">№</button></th><th data-sort="title"><button type="button">Идея</button></th><th data-sort="comments"><button type="button">Комм.</button></th><th data-sort="authors"><button type="button">Авторов</button></th><th data-sort="up"><button type="button">За</button></th><th data-sort="down"><button type="button">Против</button></th><th data-sort="score"><button type="button">Баланс</button></th>
     </tr></thead><tbody></tbody></table></div>
   </div>
 
