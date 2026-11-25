@@ -1,4 +1,4 @@
-"""Thematic categories of the 60 ideas. The numbers stay as ids, the topic is what readers browse by."""
+"""Thematic categories of the 61 ideas. The numbers stay as ids, the topic is what readers browse by."""
 
 CATEGORIES = [
     {"id": "identity", "ideas": [2, 3, 5, 6, 7, 8, 18, 36, 47],
@@ -7,7 +7,7 @@ CATEGORIES = [
     {"id": "counters", "ideas": [1, 13, 24],
      "sr": ("Šalteri i transparentnost", "Manje čekanja, jasan status i javni podaci o kvalitetu usluga."),
      "en": ("Counters and transparency", "Less waiting, a clear status and public data on service quality.")},
-    {"id": "documents", "ideas": [4, 30, 34, 46, 54, 55],
+    {"id": "documents", "ideas": [4, 30, 34, 46, 54, 55, 61],
      "sr": ("Dokumenta i papiri", "Država ne traži papire koje već ima, a svaki dokument se proverava za sekundu."),
      "en": ("Documents and paperwork", "The state does not ask for papers it already has, and any document is checked in a second.")},
     {"id": "foreigners", "ideas": [11, 12, 14, 35, 37, 48, 49, 51, 53],
@@ -40,7 +40,7 @@ CATEGORIES = [
 ]
 
 _ALL = sorted(i for c in CATEGORIES for i in c["ideas"])
-assert _ALL == list(range(1, 61)), "every idea must be in exactly one category"
+assert _ALL == list(range(1, 62)), "every idea must be in exactly one category"
 
 
 def cat_of(n):

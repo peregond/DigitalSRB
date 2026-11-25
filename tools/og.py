@@ -51,7 +51,7 @@ def main():
     taglines.update({n: sr for n, sr, en in build.FEATURED})
     jobs = {}
     three = "".join(f'<div style="right:{r}px;top:{t}px"><img src="../../assets/featured/{n:02d}.svg"></div>' for n, r, t in ((9, 0, 0), (1, 120, 110), (22, 30, 220)))
-    jobs["home"] = page("linear-gradient(135deg,#E30613 0%,#9d0410 100%)", "60 ideja protiv birokratije i korupcije", "Za građane i strance.", 54, f'<div class="three">{three}</div>')
+    jobs["home"] = page("linear-gradient(135deg,#E30613 0%,#9d0410 100%)", "61 ideja protiv birokratije i korupcije", "Za građane i strance.", 54, f'<div class="three">{three}</div>')
     for n, (slug, th, dk) in THEMES.items():
         title = re.sub(r"\s*\(.*?\)\s*$", "", re.sub(r"</?strong>", "", toc["sr"][n]))
         size = 56 if len(title) < 32 else 46

@@ -30,7 +30,7 @@ TIERS = [
             "desc": "Bez novog zakona, ali traži povezivanje registara, podzakonske akte i dogovor sa NBS i bankama."},
      "en": {"name": "A bit longer", "sub": "Integration and bylaws", "time": "1–2 years",
             "desc": "No new law, but it needs connected registers, bylaws and agreements with NBS (the central bank) and banks."}},
-    {"n": 3, "color": "#E30613", "first": 47, "last": 60,
+    {"n": 3, "color": "#E30613", "first": 47, "last": 61,
      "sr": {"name": "Novi zakon", "sub": "Odluka Skupštine", "time": "2+ godine",
             "desc": "Traži izmenu postojećeg ili potpuno nov zakon."},
      "en": {"name": "A new law", "sub": "A decision of Parliament", "time": "2+ years",
@@ -275,7 +275,7 @@ def write_extras(ver):
 
 def main():
     intro, ideas, toc, src_items, src_note = parse()
-    assert sorted(ideas) == list(range(1, 61)), sorted(ideas)
+    assert sorted(ideas) == list(range(1, 62)), sorted(ideas)
 
     intro_html = ""
     for l in LANGS:

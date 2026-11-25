@@ -3,7 +3,7 @@
 create table if not exists suggestions (
   id bigint generated always as identity primary key,
   created_at timestamptz not null default now(),
-  idea int check (idea between 1 and 60),
+  idea int check (idea between 1 and 100),
   message text not null check (char_length(message) between 10 and 1500),
   contact text check (char_length(contact) <= 200),
   lang text check (lang in ('sr', 'en'))

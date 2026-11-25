@@ -1,6 +1,6 @@
 # Digitalna Srbija · Digital Serbia
 
-60 ideas against bureaucracy and corruption, for citizens and foreigners. A one-page static site in Serbian and English with a language switch and a + / − vote under every idea.
+61 ideas against bureaucracy and corruption, for citizens and foreigners. A one-page static site in Serbian and English with a language switch and a + / − vote under every idea.
 
 ## Publishing on GitHub Pages
 
@@ -38,7 +38,7 @@ Out of the box each visitor's + / − is stored only in their own browser (`loca
 
 ```sql
 create table idea_votes (
-  idea int primary key check (idea between 1 and 60),
+  idea int primary key check (idea between 1 and 100),
   up int not null default 0,
   down int not null default 0
 );

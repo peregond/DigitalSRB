@@ -8,7 +8,7 @@
   };
 
   /* ---------- language ---------- */
-  var TITLES = { sr: "Digitalna Srbija · 60 ideja", en: "Digital Serbia · 60 ideas" };
+  var TITLES = { sr: "Digitalna Srbija · 61 ideja", en: "Digital Serbia · 61 ideas" };
 
   function applyLang(lang) {
     root.dataset.lang = lang;
@@ -343,7 +343,7 @@
       if (Date.now() - last < 60000) { say("err", "Sačekaj minut pre sledeće poruke.", "Please wait a minute before the next message."); return; }
       if (!api) { say("err", "Slanje trenutno nije dostupno.", "Sending is not available right now."); return; }
       var idea = f.idea.value ? Number(f.idea.value) : null;
-      if (idea !== null && (idea < 1 || idea > 60)) idea = null;
+      if (idea !== null && (idea < 1 || idea > 61)) idea = null;
       var btn = sugForm.querySelector("button[type=submit]");
       btn.disabled = true;
       fetch(api + "/suggestions", {
