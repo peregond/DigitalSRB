@@ -5,6 +5,7 @@ Usage: python3 tools/build.py
 Edit texts in source/print.html, edit the page shell in tools/template.html, then rebuild.
 """
 import hashlib
+import json
 import re
 from pathlib import Path
 
@@ -162,6 +163,15 @@ def share_btn(key):
             f'<span lang="sr-Latn">Podeli</span><span lang="en">Share</span></button>')
 
 
+COMMENT_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>'
+
+
+def comment_btn(num):
+    """Shown by assets/comments.js only when the backend is configured."""
+    return (f'<button type="button" class="sbtn cbtn" data-cm="{num}" aria-expanded="false" aria-controls="cm-{num}" hidden>{COMMENT_ICON}'
+            f'<span lang="sr-Latn">Komentari</span><span lang="en">Comments</span><span class="ccount"></span></button>')
+
+
 def render_idea(num, by_lang, tier, toc, wide):
     body = []
     for l in LANGS:
@@ -224,7 +234,7 @@ def render_idea(num, by_lang, tier, toc, wide):
         f'<span class="sign" aria-hidden="true">+</span>{bi("vote_up", cls="sr-only")}<span class="count" hidden></span></button>'
         f'<button type="button" class="vbtn down" data-dir="down" aria-pressed="false">'
         f'<span class="sign" aria-hidden="true">−</span>{bi("vote_down", cls="sr-only")}<span class="count" hidden></span></button>'
-        f'</div>{share_btn(num)}</footer>'
+        f'</div>{share_btn(num)}{comment_btn(num)}</footer><div class="cm" id="cm-{num}" hidden></div>'
     )
     ttl = {l: re.sub(r"<[^>]+>", "", toc[l][num]).replace("&", "&amp;").replace('"', "&quot;") for l in LANGS}
     return (
@@ -261,7 +271,7 @@ def write_extras(ver):
     urls = [SITE + "/"] + [f"{SITE}/idea/{slug}/" for slug, _, _ in THEMES.values()]
     items = "".join(f"<url><loc>{u}</loc></url>" for u in urls)
     (ROOT / "sitemap.xml").write_text('<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' + items + "</urlset>\n", encoding="utf-8")
-    (ROOT / "robots.txt").write_text(f"User-agent: *\nAllow: /\nSitemap: {SITE}/sitemap.xml\n", encoding="utf-8")
+    (ROOT / "robots.txt").write_text(f"User-agent: *\nAllow: /\nDisallow: /admin/\nSitemap: {SITE}/sitemap.xml\n", encoding="utf-8")
     page = ("<!DOCTYPE html><html lang=\"sr-Latn\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">"
             "<title>404 · Digitalna Srbija</title><meta name=\"robots\" content=\"noindex\">"
             "<link rel=\"icon\" href=\"/assets/favicon.svg\" type=\"image/svg+xml\">"
@@ -328,13 +338,16 @@ def main():
            .replace("{{TIER_CHIPS}}", tier_chips).replace("{{CAT_CHIPS}}", cat_chips).replace("{{CAT_TILES}}", cat_tiles)
            .replace("{{FEATURED}}", render_featured(toc)).replace("{{CAT_SECTIONS}}", cat_sections).replace("{{SOURCES}}", src_items)
            .replace("{{SOURCES_NOTE}}", bi(src_note, "p", "note")))
-    ver = hashlib.md5(b"".join((ROOT / "assets" / f).read_bytes() for f in ("styles.css", "page.css", "posta-app.css", "app.js", "config.js", "translit.js"))).hexdigest()[:8]
+    ver = hashlib.md5(b"".join((ROOT / "assets" / f).read_bytes() for f in ("styles.css", "page.css", "posta-app.css", "app.js", "config.js", "translit.js", "avatars.js", "comments.js"))).hexdigest()[:8]
     out = out.replace("{{V}}", ver).replace("{{URL}}", SITE + "/").replace("{{OG}}", SITE + "/assets/og/home.jpg")
     assert "{{" not in out
     (ROOT / "index.html").write_text(out, encoding="utf-8")
     build_pages.build_all({"toc": toc, "ideas": ideas, "tier_of": tier_of, "featured": FEATURED, "ver": ver, "site": SITE,
                            "template": (ROOT / "tools" / "page_template.html").read_text(encoding="utf-8")})
     write_extras(ver)
+    # titles for the admin page (assets/ideas.json)
+    titles = {str(n): {l: re.sub(r"<[^>]+>", "", toc[l][n]) for l in LANGS} for n in sorted(toc["sr"])}
+    (ROOT / "assets" / "ideas.json").write_text(json.dumps(titles, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     print(f"index.html: {len(out) // 1024} KB, {len(ideas)} ideas")
 
 

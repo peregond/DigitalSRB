@@ -61,6 +61,16 @@ grant execute on function cast_vote to anon;
 
 The counts then appear next to + and −. This is an honest-visitor counter, not a secure poll: one person can vote again from another browser.
 
+## Comments, profiles and the admin page
+
+Under every idea on the home page there is a **Comments** button. A visitor writes a comment; the first time they pick a name and one of 50 abstract avatars (no email, no password). The server returns a secret **recovery code** that is shown once. The browser remembers the profile, and the code restores it in any other browser. Visitors see replies to their comments (from other visitors or from the team) in the profile window (the avatar in the top bar).
+
+1. Run `docs/supabase-comments.sql` once in the Supabase SQL editor. It creates the tables (locked: the site can only use the functions in that file), rate limits and the admin functions.
+2. Choose an admin key: a long random secret (24+ characters). Run the commented `insert into app_settings ...` statement at the end of the SQL file with your secret in place. Only its hash is stored.
+3. Open `/admin/` on the site and type the key. It stays in that browser tab only. There you see statistics (profiles, comments per day and per idea, votes next to comments, ideas nobody has commented on), all comments (hide / show, official replies marked "Tim") and the suggestions from the form.
+
+Until the SQL is run the Comments buttons show "not available right now". The admin page is `noindex` and excluded in `robots.txt`; the real protection is the key.
+
 ## Suggestions form
 
 The "Predloži ideju / Suggest an idea" form on the home page stores messages in your Supabase project. Run `docs/supabase-suggestions.sql` once in the SQL editor. Visitors can only add rows; you read the messages in the dashboard (Table editor, `suggestions`). Until the table exists the form shows a "try again later" message.

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Админка · Digitalna Srbija</title>
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/fonts/fonts.css">
+<link rel="stylesheet" href="/assets/admin.css">
+</head>
+<body>
+<header class="top"><strong>Digitalna Srbija · админка</strong><span id="who"></span><button id="logout" class="ghost" hidden>Выйти</button></header>
+
+<main>
+<section id="login" class="card narrow">
+  <h1>Вход</h1>
+  <p>Введите админ-ключ (длинный секрет из SQL-настройки). Он хранится только в этой вкладке и не сохраняется на сервере сайта.</p>
+  <form id="loginForm"><input id="key" type="password" autocomplete="off" placeholder="админ-ключ" required><button class="btn" type="submit">Войти</button></form>
+  <p id="loginMsg" class="err" hidden></p>
+</section>
+
+<section id="app" hidden>
+  <nav class="tabs" role="tablist">
+    <button role="tab" aria-selected="true" data-tab="stats">Обзор</button>
+    <button role="tab" aria-selected="false" data-tab="comments">Комментарии</button>
+    <button role="tab" aria-selected="false" data-tab="sugg">Предложения</button>
+    <button id="refresh" class="ghost">Обновить</button>
+  </nav>
+
+  <div data-pane="stats">
+    <div class="cards" id="cards"></div>
+    <h2>Комментарии по дням (30 дней)</h2>
+    <div class="bars" id="bars"></div>
+    <h2>Идеи: комментарии и голоса</h2>
+    <p class="hint">Нажмите на заголовок столбца, чтобы отсортировать. Красным выделены идеи без комментариев.</p>
+    <div class="scroll"><table id="ideasTable"><thead><tr>
+      <th data-sort="idea">№</th><th data-sort="title">Идея</th><th data-sort="comments">Комм.</th><th data-sort="authors">Авторов</th><th data-sort="up">За</th><th data-sort="down">Против</th><th data-sort="score">Баланс</th>
+    </tr></thead><tbody></tbody></table></div>
+  </div>
+
+  <div data-pane="comments" hidden>
+    <div class="filters">
+      <label>Идея № <input id="fIdea" type="number" min="1" max="100" placeholder="все"></label>
+      <label>Поиск <input id="fText" type="search" placeholder="текст или имя"></label>
+      <label class="chk"><input id="fHidden" type="checkbox"> только скрытые</label>
+      <label class="chk"><input id="fStaff" type="checkbox"> только мои ответы</label>
+    </div>
+    <p class="hint" id="cCount"></p>
+    <div id="cList"></div>
+  </div>
+
+  <div data-pane="sugg" hidden>
+    <p class="hint">Предложения из формы «Predloži ideju». Публично они не показываются.</p>
+    <div id="sList"></div>
+  </div>
+</section>
+</main>
+<script src="/assets/config.js"></script>
+<script src="/assets/avatars.js"></script>
+<script src="/assets/admin.js"></script>
+</body>
+</html>
