@@ -70,7 +70,6 @@ UI = {
     "tier": {"sr": "Nivo", "en": "Tier"},
     "list": {"sr": "Spisak ideja", "en": "List of ideas"},
     "more": {"sr": "Detaljnije ›", "en": "Read in depth ›"},
-    "vote_q": {"sr": "Šta misliš o ovoj ideji?", "en": "What do you think of this idea?"},
     "vote_up": {"sr": "Za", "en": "For"},
     "vote_down": {"sr": "Protiv", "en": "Against"},
 }
@@ -228,7 +227,7 @@ def render_idea(num, by_lang, tier, toc, wide):
     if num in THEMES:
         more = f'<a class="idea-more" href="idea/{THEMES[num][0]}/">{bi("more")}</a>'
     vote = (
-        f'<footer class="vote" data-vote="{num}">{bi("vote_q", cls="vote-q")}'
+        f'<footer class="vote" data-vote="{num}">'
         f'<div class="vote-btns">'
         f'<button type="button" class="vbtn up" data-dir="up" aria-pressed="false">'
         f'<span class="sign" aria-hidden="true">+</span>{bi("vote_up", cls="sr-only")}<span class="count" hidden></span></button>'

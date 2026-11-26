@@ -18,7 +18,6 @@ UI = {
     "next": ("Sledeća ideja", "Next idea"),
     "prev": ("Prethodna ideja", "Previous idea"),
     "more": ("Sve ideje", "All ideas"),
-    "vote_q": ("Šta misliš o ovoj ideji?", "What do you think of this idea?"),
     "up": ("Za", "For"), "down": ("Protiv", "Against"),
     "related": ("Povezane ideje", "Related ideas"),
     "today": ("Danas", "Today"), "after": ("Predlog", "Proposal"),
@@ -494,7 +493,7 @@ def build_share(key):
 
 def vote_html(n):
     return (f'<div class="pg-vote" id="vote"><div class="wrap"><footer class="vote" data-vote="{n}">'
-            f'{B(UI["vote_q"], "span", "vote-q")}<div class="vote-btns">'
+            f'<div class="vote-btns">'
             f'<button type="button" class="vbtn up" data-dir="up" aria-pressed="false"><span class="sign" aria-hidden="true">+</span>{B(UI["up"], "span", "sr-only")}<span class="count" hidden></span></button>'
             f'<button type="button" class="vbtn down" data-dir="down" aria-pressed="false"><span class="sign" aria-hidden="true">−</span>{B(UI["down"], "span", "sr-only")}<span class="count" hidden></span></button>'
             f'</div>{build_share("page")}</footer></div></div>')

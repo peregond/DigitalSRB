@@ -95,7 +95,6 @@
 .pg-rel b{font-family:var(--display);color:var(--th2)}
 .pg-vote{background:var(--tint2);padding:24px 0}
 .pg-vote .vote{margin:0;padding:0;border:0}
-.pg-vote .vote-q{font-size:15px;font-weight:700;color:var(--ink)}
 .pg-vote .vbtn{background:#fff}
 .pg-sec.src{padding-bottom:40px}
 .pg-nav{background:var(--tint);padding:clamp(40px,6vw,72px) 0}
