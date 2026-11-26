@@ -7,60 +7,71 @@
 <title>Админка · Digitalna Srbija</title>
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="/assets/fonts/fonts.css">
-<link rel="stylesheet" href="/assets/admin.css">
+<link rel="stylesheet" href="/assets/admin.css?v=2">
 </head>
 <body>
-<header class="top"><strong>Digitalna Srbija · админка</strong><span id="who"></span><button id="logout" class="ghost" hidden>Выйти</button></header>
+<header class="top"><strong data-i18n="brand">Digitalna Srbija · админка</strong><span id="who"></span><button id="logout" class="ghost" data-i18n="logout" hidden>Выйти</button>
+<div class="langmenu">
+  <button type="button" class="lm-btn" aria-haspopup="menu" aria-expanded="false" aria-label="RU · Язык / Jezik i pismo / Language and script"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20zM2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20"/></svg><span class="lm-cur">RU</span><svg class="lm-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+  <div class="lm-list" role="menu" hidden>
+    <button type="button" role="menuitemradio" aria-checked="false" data-opt="sr-lat" lang="sr-Latn"><span>Srpski<small>latinica</small></span><svg class="lm-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></button>
+    <button type="button" role="menuitemradio" aria-checked="false" data-opt="sr-cyr" lang="sr-Cyrl"><span>Српски<small>ћирилица</small></span><svg class="lm-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></button>
+    <button type="button" role="menuitemradio" aria-checked="false" data-opt="en" lang="en"><span>English</span><svg class="lm-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></button>
+    <button type="button" role="menuitemradio" aria-checked="true" data-opt="ru" lang="ru"><span>Русский</span><svg class="lm-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg></button>
+  </div>
+</div>
+</header>
 
 <main>
 <section id="login" class="card narrow">
-  <h1>Вход</h1>
-  <p>Введите админ-ключ (длинный секрет из SQL-настройки). Он хранится только в этой вкладке и не сохраняется на сервере сайта.</p>
-  <form id="loginForm"><input id="key" type="password" autocomplete="off" placeholder="админ-ключ" aria-label="Админ-ключ" required><button class="btn" type="submit">Войти</button></form>
+  <h1 data-i18n="login_h">Вход</h1>
+  <p data-i18n="login_lead">Введите админ-ключ (длинный секрет из SQL-настройки). Он хранится только в этой вкладке и не сохраняется на сервере сайта.</p>
+  <form id="loginForm"><input id="key" type="password" autocomplete="off" placeholder="админ-ключ" aria-label="Админ-ключ" data-i18n-ph="key_ph" data-i18n-aria="key_label" required><button class="btn" type="submit" data-i18n="enter">Войти</button></form>
   <p id="loginMsg" class="err" role="alert" hidden></p>
 </section>
 
 <section id="app" hidden>
-  <h1 class="sr">Админка</h1>
+  <h1 class="sr" data-i18n="h_admin">Админка</h1>
   <div class="tabs">
-  <div class="tablist" role="tablist" aria-label="Разделы">
-    <button role="tab" aria-selected="true" data-tab="stats">Обзор</button>
-    <button role="tab" aria-selected="false" data-tab="comments">Комментарии</button>
-    <button role="tab" aria-selected="false" data-tab="sugg">Предложения</button>
+  <div class="tablist" role="tablist" aria-label="Разделы" data-i18n-aria="tabs">
+    <button role="tab" aria-selected="true" data-tab="stats" data-i18n="tab_stats">Обзор</button>
+    <button role="tab" aria-selected="false" data-tab="comments" data-i18n="tab_comments">Комментарии</button>
+    <button role="tab" aria-selected="false" data-tab="sugg" data-i18n="tab_sugg">Предложения</button>
   </div>
-    <button type="button" id="refresh" class="ghost">Обновить</button>
+    <button type="button" id="refresh" class="ghost" data-i18n="refresh">Обновить</button>
   </div>
 
   <div data-pane="stats">
     <div class="cards" id="cards"></div>
-    <h2>Комментарии по дням (30 дней)</h2>
+    <h2 data-i18n="by_day">Комментарии по дням (30 дней)</h2>
     <div class="bars" id="bars"></div>
-    <h2>Идеи: комментарии и голоса</h2>
-    <p class="hint">Нажмите на заголовок столбца, чтобы отсортировать. Красным выделены идеи без комментариев.</p>
+    <h2 data-i18n="ideas_h">Идеи: комментарии и голоса</h2>
+    <p class="hint" data-i18n="ideas_hint">Нажмите на заголовок столбца, чтобы отсортировать. Красным выделены идеи без комментариев.</p>
     <div class="scroll"><table id="ideasTable"><thead><tr>
-      <th data-sort="idea"><button type="button">№</button></th><th data-sort="title"><button type="button">Идея</button></th><th data-sort="comments"><button type="button">Комм.</button></th><th data-sort="authors"><button type="button">Авторов</button></th><th data-sort="up"><button type="button">За</button></th><th data-sort="down"><button type="button">Против</button></th><th data-sort="score"><button type="button">Баланс</button></th>
+      <th data-sort="idea"><button type="button">№</button></th><th data-sort="title"><button type="button" data-i18n="th_idea">Идея</button></th><th data-sort="comments"><button type="button" data-i18n="th_comments">Комм.</button></th><th data-sort="authors"><button type="button" data-i18n="th_authors">Авторов</button></th><th data-sort="up"><button type="button" data-i18n="th_up">За</button></th><th data-sort="down"><button type="button" data-i18n="th_down">Против</button></th><th data-sort="score"><button type="button" data-i18n="th_score">Баланс</button></th>
     </tr></thead><tbody></tbody></table></div>
   </div>
 
   <div data-pane="comments" hidden>
     <div class="filters">
-      <label>Идея № <input id="fIdea" type="number" min="1" max="100" placeholder="все"></label>
-      <label>Поиск <input id="fText" type="search" placeholder="текст или имя"></label>
-      <label class="chk"><input id="fHidden" type="checkbox"> только скрытые</label>
-      <label class="chk"><input id="fStaff" type="checkbox"> только мои ответы</label>
+      <label><span data-i18n="f_idea">Идея №</span> <input id="fIdea" type="number" min="1" max="100" placeholder="все" data-i18n-ph="f_all"></label>
+      <label><span data-i18n="f_search">Поиск</span> <input id="fText" type="search" placeholder="текст или имя" data-i18n-ph="f_search_ph"></label>
+      <label class="chk"><input id="fHidden" type="checkbox"> <span data-i18n="f_hidden">только скрытые</span></label>
+      <label class="chk"><input id="fStaff" type="checkbox"> <span data-i18n="f_staff">только мои ответы</span></label>
     </div>
     <p class="hint" id="cCount"></p>
     <div id="cList"></div>
   </div>
 
   <div data-pane="sugg" hidden>
-    <p class="hint">Предложения из формы «Predloži ideju». Публично они не показываются.</p>
+    <p class="hint" data-i18n="sugg_hint">Предложения из формы «Predloži ideju». Публично они не показываются.</p>
     <div id="sList"></div>
   </div>
 </section>
 </main>
 <script src="/assets/config.js"></script>
 <script src="/assets/avatars.js"></script>
-<script src="/assets/admin.js"></script>
+<script src="/assets/translit.js"></script>
+<script src="/assets/admin.js?v=2"></script>
 </body>
 </html>

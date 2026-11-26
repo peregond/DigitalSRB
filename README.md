@@ -67,7 +67,7 @@ Under every idea on the home page there is a **Comments** button. A visitor writ
 
 1. Run `docs/supabase-comments.sql` once in the Supabase SQL editor. It creates the tables (locked: the site can only use the functions in that file), rate limits and the admin functions. Running the file again is safe and upgrades an earlier version without losing data; do that whenever the file changes.
 2. Choose an admin key: a long random secret (24+ characters). Run the commented `insert into app_settings ...` statement at the end of the SQL file with your secret in place. Only its hash is stored.
-3. Open `/admin/` on the site and type the key. It stays in that browser tab only. There you see statistics (profiles, comments per day and per idea, votes next to comments, ideas nobody has commented on), all comments (hide / show, official replies marked "Tim") and the suggestions from the form.
+3. Open `/admin/` on the site and type the key. It stays in that browser tab only. The globe menu switches the page between Serbian (Latin or Cyrillic), English and Russian (the default); the choice is remembered separately from the public site. There you see statistics (profiles, comments per day and per idea, votes next to comments, ideas nobody has commented on), all comments (hide / show, official replies marked "Tim") and the suggestions from the form.
 
 Until the SQL is run the Comments buttons show "not available right now". The admin page is `noindex` and excluded in `robots.txt`; the real protection is the key.
 
