@@ -7,6 +7,9 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%;scroll-padding-top:calc(var(--nav-h) + var(--bar-h) + 12px)}
+/* The padding above keeps a jumped-to heading clear of the two sticky bars. Without this, focusing something that is
+   in those bars (or in the profile menu over them) makes the browser think it is covered and scroll the page up. */
+.nav :focus,.filterbar :focus,.ppop,.ppop :focus{scroll-margin-top:calc(-1 * (var(--nav-h) + var(--bar-h) + 12px))}
 body{font-family:var(--font);color:var(--ink);background:var(--bg);font-size:17px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-wrap:break-word}
 a{color:inherit;text-decoration:none}
 button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}

@@ -146,7 +146,7 @@
     if (!overlay) return;
     overlay.remove(); overlay = null; modalRender = null;
     document.removeEventListener("keydown", onKey, true);
-    if (lastFocus && lastFocus.focus) lastFocus.focus();
+    if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
   }
   function onKey(e) {
     if (!overlay) return;
@@ -155,8 +155,8 @@
     var f = $$("button:not([disabled]), input, textarea, [tabindex]:not([tabindex='-1'])", overlay).filter(function (x) { return x.offsetParent; });
     if (!f.length) return;
     var first = f[0], last = f[f.length - 1];
-    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
-    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus({ preventScroll: true }); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus({ preventScroll: true }); }
   }
   function openModal(render) {
     if (!overlay) {
@@ -174,7 +174,7 @@
     render(box);
     nameDialog(box);
     var f = $("input, textarea, button.btn", box);
-    if (f) f.focus();
+    if (f) f.focus({ preventScroll: true });
   }
   function nameDialog(box) {
     var title = $("h3", box);
@@ -231,7 +231,7 @@
         if (!step) return;
         e.preventDefault();
         var next = all[(i + step + all.length) % all.length];
-        pick(next); next.focus();
+        pick(next); next.focus({ preventScroll: true });
       });
     });
   }
@@ -371,7 +371,7 @@
       if (!had) {
         renderOpen(); // "posting as" and the delete buttons follow the new profile
         var again = $('[data-cvote="' + id + '"][data-dir="' + dir + '"]');
-        if (again) again.focus();
+        if (again) again.focus({ preventScroll: true });
       }
       var c = (data[idea] || []).filter(function (x) { return x.id === id; })[0];
       if (voteBusy[id] || (c && c.profile_id === p.id)) return; // a restored profile may turn out to be the author
@@ -548,7 +548,7 @@
       if (pop && popView === "menu") {
         var had = pop.contains(document.activeElement) ? $$("button", pop).indexOf(document.activeElement) : -1;
         renderPop();
-        if (had >= 0) $$("button", pop)[had].focus();
+        if (had >= 0) $$("button", pop)[had].focus({ preventScroll: true });
       }
     }).catch(function (e) { if (e && e.code === "unknown_code") setMe(null); });
   }
@@ -572,7 +572,7 @@
     document.removeEventListener("pointerdown", onOutside, true);
     window.removeEventListener("resize", placePop);
     profBtn.setAttribute("aria-expanded", "false");
-    if (giveFocusBack) profBtn.focus();
+    if (giveFocusBack) profBtn.focus({ preventScroll: true });
   }
   function onOutside(e) { if (!pop.contains(e.target) && !profBtn.contains(e.target)) closePop(); }
   // the box lives in <body>: inside the blurred top bar "position:fixed" would be measured from the bar
@@ -604,10 +604,12 @@
   function onPopKey(e) {
     if (e.key === "Escape") { e.stopPropagation(); closePop(true); return; }
     if (e.key !== "Tab") return;
+    // moved by hand: Safari would skip the buttons and jump into the middle of the page
+    e.preventDefault();
     var f = $$("button:not([disabled]):not([tabindex='-1']), input", pop);
-    // tabbing past either end closes the menu and goes on from the picture in the top bar
-    if (e.shiftKey && (document.activeElement === f[0] || document.activeElement === pop)) { e.preventDefault(); closePop(true); }
-    else if (!e.shiftKey && document.activeElement === f[f.length - 1]) closePop(true);
+    var i = f.indexOf(document.activeElement), next = f[i < 0 ? 0 : i + (e.shiftKey ? -1 : 1)];
+    // past either end the menu closes and the focus is back on the picture in the top bar
+    if (next) next.focus(); else closePop(true);
   }
   function showView(view, focusOn) {
     popView = view;
@@ -615,14 +617,14 @@
     renderPop();
     pop.scrollTop = 0;
     var f = $(focusOn || (view === "menu" ? ".ppop-item" : ".ppop-back"), pop);
-    if (f) f.focus();
+    if (f) f.focus({ preventScroll: true });
     if (view === "mine") loadMine();
     if (view === "replies") {
       var state = popState;
       loadReplies().then(function () {
         if (!pop || popState !== state) return;
         state.loaded = true;
-        markSeen(); renderPop(); $(".ppop-back", pop).focus();
+        markSeen(); renderPop(); $(".ppop-back", pop).focus({ preventScroll: true });
       });
     }
   }
@@ -638,7 +640,7 @@
       if (e && e.code === "unknown_code") setMe(null);
       state.error = true;
     }).then(function () {
-      if (pop && popState === state) { renderPop(); $(".ppop-back", pop).focus(); }
+      if (pop && popState === state) { renderPop(); $(".ppop-back", pop).focus({ preventScroll: true }); }
     });
   }
   function ideaTitle(n) {
@@ -741,7 +743,7 @@
       var from = popView;
       showView(b.dataset.view, b.dataset.view === "menu" ? '[data-view="' + from + '"]' : null);
     } else if (b.hasAttribute("data-code")) {
-      popState.code = !popState.code; renderPop(); $("[data-code]", pop).focus();
+      popState.code = !popState.code; renderPop(); $("[data-code]", pop).focus({ preventScroll: true });
     } else if (b.hasAttribute("data-out")) {
       if (!window.confirm(str("p_outq"))) return;
       setMe(null); renderOpen();
@@ -760,7 +762,7 @@
         if (gone) { forget(gone.idea, id); if (!data[gone.idea]) refreshCounts(); }
         if (pop && popState === state) {
           // replies under a deleted thread disappear too, so the list is asked for again
-          loadMine(); renderPop(); $(".ppop-back", pop).focus();
+          loadMine(); renderPop(); $(".ppop-back", pop).focus({ preventScroll: true });
         }
       }).catch(function (err) { b.disabled = false; window.alert(errText(err)); });
     }

@@ -122,7 +122,7 @@
     var openMenu = function (open) {
       mlist.hidden = !open;
       mbtn.setAttribute("aria-expanded", String(open));
-      if (open) { var c = mlist.querySelector('[aria-checked="true"]') || mlist.querySelector("[data-opt]"); c.focus(); }
+      if (open) { var c = mlist.querySelector('[aria-checked="true"]') || mlist.querySelector("[data-opt]"); c.focus({ preventScroll: true }); }
     };
     mbtn.addEventListener("click", function () { openMenu(mlist.hidden); });
     $$("[data-opt]", menu).forEach(function (b) {
@@ -131,16 +131,16 @@
         if (o === "en") { setLang("en"); }
         else { setLang("sr"); setScript(o === "sr-cyr"); }
         updateMenu();
-        openMenu(false); mbtn.focus();
+        openMenu(false); mbtn.focus({ preventScroll: true });
       });
     });
     document.addEventListener("click", function (e) { if (!mlist.hidden && !menu.contains(e.target)) openMenu(false); });
     menu.addEventListener("keydown", function (e) {
-      if (e.key === "Escape" && !mlist.hidden) { openMenu(false); mbtn.focus(); }
+      if (e.key === "Escape" && !mlist.hidden) { openMenu(false); mbtn.focus({ preventScroll: true }); }
       if ((e.key === "ArrowDown" || e.key === "ArrowUp") && !mlist.hidden) {
         e.preventDefault();
         var items = $$("[data-opt]", menu), i = items.indexOf(document.activeElement);
-        items[(i + (e.key === "ArrowDown" ? 1 : items.length - 1)) % items.length].focus();
+        items[(i + (e.key === "ArrowDown" ? 1 : items.length - 1)) % items.length].focus({ preventScroll: true });
       }
     });
     updateMenu();
@@ -554,15 +554,15 @@
         document.removeEventListener("keydown", onKey);
         box.classList.remove("in");
         document.body.style.overflow = "";
-        setTimeout(function () { document.body.removeChild(box); btn.focus(); }, 280);
+        setTimeout(function () { document.body.removeChild(box); btn.focus({ preventScroll: true }); }, 280);
       }
       function onKey(e) {
         if (e.key === "Escape") close();
-        else if (e.key === "Tab") { e.preventDefault(); box.querySelector(".x").focus(); } // keep focus in the dialog
+        else if (e.key === "Tab") { e.preventDefault(); box.querySelector(".x").focus({ preventScroll: true }); } // keep focus in the dialog
       }
       document.addEventListener("keydown", onKey);
       box.addEventListener("click", close);
-      box.querySelector(".x").focus();
+      box.querySelector(".x").focus({ preventScroll: true });
     });
   });
 
