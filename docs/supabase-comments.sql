@@ -40,6 +40,16 @@ create index if not exists comments_profile_idx on comments (profile_id);
 
 create table if not exists app_settings (key text primary key, value text not null);
 
+-- one vote of a profile on a comment: 1 (plus) or -1 (minus); taking a vote back removes the row
+create table if not exists comment_votes (
+  comment_id bigint not null references comments (id) on delete cascade,
+  profile_id uuid not null references profiles (id) on delete cascade,
+  value smallint not null check (value in (-1, 1)),
+  primary key (comment_id, profile_id)
+);
+
+alter table comment_votes enable row level security;
+revoke all on table comment_votes from anon, authenticated;
 alter table profiles enable row level security;
 alter table comments enable row level security;
 alter table app_settings enable row level security;
@@ -209,6 +219,44 @@ begin
     limit 500;
 end $$;
 
+-- ---------------------------------------------------------------- votes on comments (a profile is needed)
+-- totals for the comments of one idea; "mine" is the vote of the profile with this code (0 without one)
+create or replace function get_comment_votes(p_idea int, p_code text default null)
+returns table (id bigint, up bigint, down bigint, mine int)
+language sql stable security definer set search_path = public, extensions as $$
+  select v.comment_id, count(*) filter (where v.value = 1), count(*) filter (where v.value = -1),
+         coalesce(max(v.value) filter (where v.profile_id = (select p.id from profiles p where p.code_hash = _hash(p_code))), 0)::int
+  from comment_votes v
+  join comments c on c.id = v.comment_id
+  left join comments t on t.id = c.parent_id
+  where c.idea = p_idea and not c.hidden and t.hidden is not true
+  group by v.comment_id;
+$$;
+
+-- p_value: 1 plus, -1 minus, 0 takes the vote back. Sending the same value again changes nothing.
+create or replace function vote_comment(p_code text, p_id bigint, p_value int)
+returns table (up bigint, down bigint, mine int)
+language plpgsql security definer set search_path = public, extensions as $$
+declare v_profile profiles; v_comment comments;
+begin
+  v_profile := _profile(p_code);
+  if v_profile.id is null then raise exception 'unknown_code'; end if;
+  if p_value is null or p_value not in (-1, 0, 1) then raise exception 'bad_vote'; end if;
+  select c.* into v_comment from comments c left join comments t on t.id = c.parent_id
+    where c.id = p_id and not c.hidden and t.hidden is not true;
+  if v_comment.id is null then raise exception 'not_found'; end if;
+  if v_comment.profile_id = v_profile.id then raise exception 'own_comment'; end if;
+  if p_value = 0 then
+    delete from comment_votes v where v.comment_id = p_id and v.profile_id = v_profile.id;
+  else
+    insert into comment_votes as v (comment_id, profile_id, value) values (p_id, v_profile.id, p_value)
+      on conflict (comment_id, profile_id) do update set value = excluded.value;
+  end if;
+  update profiles set last_seen = now() where profiles.id = v_profile.id;
+  return query select count(*) filter (where v.value = 1), count(*) filter (where v.value = -1), p_value
+    from comment_votes v where v.comment_id = p_id;
+end $$;
+
 -- ---------------------------------------------------------------- admin (needs the admin key)
 drop function if exists admin_comments(text, int);
 create or replace function admin_comments(p_key text, p_limit int default 300)
@@ -289,7 +337,7 @@ end $$;
 revoke all on function _hash(text), _profile(text), _is_admin(text) from public, anon, authenticated;
 grant execute on function register_profile(text, int), restore_profile(text), update_profile(text, text, int),
   get_comment_counts(), get_comments(int), post_comment(text, int, text, bigint), delete_my_comment(text, bigint),
-  get_my_replies(text), get_my_comments(text),
+  get_my_replies(text), get_my_comments(text), get_comment_votes(int, text), vote_comment(text, bigint, int),
   admin_comments(text, int), admin_set_hidden(text, bigint, boolean), admin_reply(text, bigint, text),
   admin_stats(text), admin_suggestions(text, int)
   to anon;

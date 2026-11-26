@@ -24,6 +24,9 @@
     as: ["Pišeš kao", "Posting as"],
     anon: ["Pri slanju biraš ime i sliku", "You choose a name and a picture when you send"],
     reply: ["Odgovori", "Reply"],
+    v_up: ["Za", "Upvote"],
+    v_down: ["Protiv", "Downvote"],
+    v_own: ["Za svoj komentar ne možeš da glasaš", "You cannot vote on your own comment"],
     del: ["Obriši", "Delete"],
     cancel: ["Otkaži", "Cancel"],
     team: ["Tim", "Team"],
@@ -117,7 +120,9 @@
   var me = null, replies = [], fresh = false; // fresh: there are replies not seen yet
   try { me = JSON.parse(store.get("dsrb.me") || "null"); } catch (e) { me = null; }
   function setMe(p) {
+    var other = (me && me.id) !== (p && p.id);
     me = p;
+    if (other) resetMyVotes();
     if (p) store.set("dsrb.me", JSON.stringify(p));
     else { store.del("dsrb.me"); store.del("dsrb.seenReply"); replies = []; fresh = false; closePop(); }
     paintProfBtn();
@@ -314,6 +319,80 @@
   var counts = {};        // idea -> number
   var open = {};          // idea -> true when its panel is open
 
+  /* ---------- plus and minus under a comment ---------- */
+  var votes = {};         // comment id -> { up, down, mine }
+  var voteOk = {};        // idea -> true once its votes have arrived; without them the buttons are not shown
+  var voteBusy = {};      // comment id -> true while a vote is on its way
+  var voteRev = {};       // comment id -> grows with every vote, so that an older answer does not overwrite it
+
+  function voteOf(id) { return votes[id] || { up: 0, down: 0, mine: 0 }; }
+  function loadVotes(idea) {
+    var revs = {}, who = me && me.id;
+    (data[idea] || []).forEach(function (c) { revs[c.id] = voteRev[c.id] || 0; });
+    return rpc("get_comment_votes", { p_idea: idea, p_code: me ? me.code : null }).then(function (rows) {
+      if (who !== (me && me.id)) return; // the profile changed meanwhile; a newer request is on its way
+      var got = {};
+      (rows || []).forEach(function (r) { got[r.id] = { up: Number(r.up), down: Number(r.down), mine: Number(r.mine) }; });
+      (data[idea] || []).forEach(function (c) {
+        if (voteBusy[c.id] || (voteRev[c.id] || 0) !== (revs[c.id] || 0)) return;
+        if (got[c.id]) votes[c.id] = got[c.id]; else delete votes[c.id];
+      });
+      voteOk[idea] = true;
+    }).catch(function () { /* the comments are shown without votes */ });
+  }
+  // another profile (or none) in this browser: its own votes are different
+  function resetMyVotes() {
+    Object.keys(votes).forEach(function (id) { votes[id].mine = 0; });
+    Object.keys(data || {}).forEach(function (i) {
+      if (data[i]) loadVotes(Number(i)).then(function () { data[i] && data[i].forEach(function (c) { paintVote(c.id); }); });
+    });
+  }
+  function voteBtn(id, dir, own) {
+    var v = voteOf(id), n = dir > 0 ? v.up : v.down, name = str(dir > 0 ? "v_up" : "v_down");
+    return '<button type="button" class="cv ' + (dir > 0 ? "up" : "down") + '" data-cvote="' + id + '" data-dir="' + dir + '" aria-pressed="' + (v.mine === dir) + '"' +
+      (own ? ' disabled title="' + esc(str("v_own")) + '"' : ' title="' + esc(name) + '"') +
+      ' aria-label="' + esc(name + ": " + n) + '"><span aria-hidden="true">' + (dir > 0 ? "+" : "\u2212") + "</span><b>" + n + "</b></button>";
+  }
+  // only the numbers and the pressed state change, so the focus stays where it was
+  function paintVote(id) {
+    var v = voteOf(id);
+    $$('[data-cvote="' + id + '"]').forEach(function (b) {
+      var dir = Number(b.dataset.dir), n = dir > 0 ? v.up : v.down;
+      $("b", b).textContent = n;
+      b.setAttribute("aria-pressed", String(v.mine === dir));
+      b.setAttribute("aria-label", str(dir > 0 ? "v_up" : "v_down") + ": " + n);
+    });
+  }
+  function castVote(idea, id, dir) {
+    if (voteBusy[id]) return;
+    var value = me && voteOf(id).mine === dir ? 0 : dir; // pressing the same button again takes the vote back
+    var had = !!me;
+    ensureProfile().then(function (p) {
+      if (!had) {
+        renderOpen(); // "posting as" and the delete buttons follow the new profile
+        var again = $('[data-cvote="' + id + '"][data-dir="' + dir + '"]');
+        if (again) again.focus();
+      }
+      var c = (data[idea] || []).filter(function (x) { return x.id === id; })[0];
+      if (voteBusy[id] || (c && c.profile_id === p.id)) return; // a restored profile may turn out to be the author
+      var before = voteOf(id);
+      var next = { up: before.up, down: before.down, mine: value };
+      if (before.mine === 1) next.up--; else if (before.mine === -1) next.down--;
+      if (value === 1) next.up++; else if (value === -1) next.down++;
+      votes[id] = next; voteBusy[id] = true; voteRev[id] = (voteRev[id] || 0) + 1; paintVote(id);
+      return rpc("vote_comment", { p_code: p.code, p_id: id, p_value: value }).then(function (rows) {
+        var r = Array.isArray(rows) ? rows[0] : rows;
+        voteBusy[id] = false;
+        if (r) votes[id] = { up: Number(r.up), down: Number(r.down), mine: Number(r.mine) };
+        paintVote(id);
+      }).catch(function (e) {
+        voteBusy[id] = false; votes[id] = before; paintVote(id);
+        if (e && e.code === "unknown_code") { setMe(null); renderOpen(); }
+        window.alert(errText(e));
+      });
+    }).catch(function () { /* the visitor closed the profile dialog */ });
+  }
+
   function paintCount(idea) {
     var b = $('[data-cm="' + idea + '"] .ccount');
     if (!b) return;
@@ -329,7 +408,8 @@
       '<p class="cm-h"><strong>' + esc(name) + "</strong>" + (staff ? '<span class="cm-badge">' + h("team") + "</span>" : "") +
       '<time>' + esc(when(c.created_at)) + "</time></p>" +
       '<p class="cm-t">' + esc(c.body) + "</p>" +
-      '<p class="cm-a">' + (isReply ? "" : '<button type="button" class="linkbtn" data-reply="' + c.id + '">' + h("reply") + "</button>") +
+      '<p class="cm-a">' + (voteOk[idea] ? voteBtn(c.id, 1, mine) + voteBtn(c.id, -1, mine) : "") +
+      (isReply ? "" : '<button type="button" class="linkbtn" data-reply="' + c.id + '">' + h("reply") + "</button>") +
       (mine ? '<button type="button" class="linkbtn" data-del="' + c.id + '">' + h("del") + "</button>" : "") + "</p>" +
       '<div class="cm-slot" data-slot="' + c.id + '"></div>' +
       (isReply ? "" : '<div class="cm-reps" data-reps="' + c.id + '"></div>') + "</div></div>";
@@ -378,6 +458,7 @@
     data[idea] = undefined; renderPanel(idea);
     return rpc("get_comments", { p_idea: idea }).then(function (rows) {
       data[idea] = rows || [];
+      loadVotes(idea).then(function () { if (voteOk[idea]) renderPanel(idea); });
       // the list holds at most 300 threads; beyond that the number from get_comment_counts stays
       if (data[idea].filter(function (c) { return !c.parent_id; }).length < 300) { counts[idea] = data[idea].length; paintCount(idea); }
     }).catch(function () { data[idea] = null; }).then(function () { renderPanel(idea); });
@@ -427,13 +508,15 @@
   }
 
   document.addEventListener("click", function (e) {
-    var t = e.target.closest("[data-cm], [data-reply], [data-del], [data-cancel], [data-restore], #profBtn");
+    var t = e.target.closest("[data-cm], [data-reply], [data-del], [data-cancel], [data-restore], [data-cvote], #profBtn");
     if (!t) return;
     if (t.matches("[data-restore]")) { ensureProfile(true).then(renderOpen).catch(function () { /* cancelled */ }); return; }
     if (t.matches("[data-cm]")) { toggle(Number(t.dataset.cm)); return; }
     if (t.id === "profBtn") { openProfile(); return; }
     var panel = t.closest(".cm"), idea = panel ? Number(panel.id.replace("cm-", "")) : 0;
-    if (t.matches("[data-reply]")) {
+    if (t.matches("[data-cvote]")) {
+      castVote(idea, Number(t.dataset.cvote), Number(t.dataset.dir));
+    } else if (t.matches("[data-reply]")) {
       var slot = $('[data-slot="' + t.dataset.reply + '"]', panel);
       if (slot.firstChild) { slot.innerHTML = ""; return; }
       slot.innerHTML = formHtml(idea, Number(t.dataset.reply));

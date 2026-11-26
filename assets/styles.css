@@ -347,7 +347,14 @@ html[data-lang="en"] .lang.script{display:none}
 .cm-h time{color:var(--muted);font-size:12.5px}
 .cm-badge{background:var(--accent);color:#fff;border-radius:999px;font-size:11px;font-weight:700;padding:2px 8px;letter-spacing:.02em}
 .cm-t{margin:4px 0 0;font-size:15px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere;color:var(--ink)}
-.cm-a{margin:4px 0 0;display:flex;gap:14px}
+.cm-a{margin:6px 0 0;display:flex;align-items:center;flex-wrap:wrap;gap:6px 14px}
+.cv{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-width:52px;height:32px;padding:0 11px;border-radius:999px;background:var(--alt);font-size:13px;font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums;cursor:pointer}
+.cv span{font-size:16px;line-height:1}
+.cv+.cv{margin-left:-8px}
+.cv:hover:not(:disabled){background:var(--alt2)}
+.cv.up[aria-pressed="true"]{background:#0B7A38;color:#fff}
+.cv.down[aria-pressed="true"]{background:var(--accent);color:#fff}
+.cv:disabled{cursor:default;color:var(--muted);background:#F4F2F0}
 .cm-reps{display:grid;gap:14px;margin-top:12px}
 .cm-c.rep .cm-av{width:30px;height:30px}
 .cm-slot{margin-top:8px}
