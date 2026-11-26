@@ -1,4 +1,4 @@
-/* Comments under every idea, anonymous profiles (name + one of 50 avatars + a recovery code).
+/* Comments under every idea, anonymous profiles (name + a picture + a recovery code).
  * Needs the Supabase project from assets/config.js and docs/supabase-comments.sql. Without them the buttons stay hidden. */
 (function () {
   "use strict";
@@ -40,6 +40,7 @@
     m_lead: ["Izaberi ime i sliku. Nema e-pošte ni lozinke. Ime i slika su javni, pa ne moraš da koristiš pravo ime.", "Pick a name and a picture. No email and no password. The name and picture are public, so you do not have to use your real name."],
     m_name: ["Ime ili nadimak", "Name or nickname"],
     m_pick: ["Izaberi sliku", "Choose a picture"],
+    m_shuffle: ["Nasumično", "Surprise me"],
     m_go: ["Nastavi", "Continue"],
     m_have: ["Već imam profil: vrati ga kodom", "I already have a profile: restore it with a code"],
     r_title: ["Vrati profil", "Restore your profile"],
@@ -169,14 +170,45 @@
     var title = $("h3", box);
     if (title) { title.id = "cmTitle"; box.setAttribute("aria-labelledby", "cmTitle"); }
   }
-  function avatarGrid(selected) {
-    var out = '<div class="av-grid" role="radiogroup" aria-label="' + esc(str("m_pick")) + '">';
-    for (var i = 0; i < 50; i++) {
-      out += '<button type="button" class="av-opt" role="radio" aria-checked="' + (i === selected) + '" tabindex="' + (i === selected ? 0 : -1) + '" data-av="' + i + '" aria-label="' + (i + 1) + '">' + AV(i) + "</button>";
-    }
-    return out + "</div>";
+  function shuffled(n) {
+    var a = [], i, j, t;
+    for (i = 0; i < n; i++) a.push(i);
+    for (i = n - 1; i > 0; i--) { j = Math.floor(Math.random() * (i + 1)); t = a[i]; a[i] = a[j]; a[j] = t; }
+    return a;
   }
-  function bindGrid(box, state) {
+  // four random pictures that differ in both shape and colour (n = shape * 10 + colour); "keep" comes first
+  function fourAvatars(keep) {
+    var shapes = shuffled(5), colours = shuffled(10), out = [keep], i;
+    if (keep === undefined) out = [];
+    else {
+      shapes = shapes.filter(function (x) { return x !== Math.floor(keep / 10); });
+      colours = colours.filter(function (x) { return x !== keep % 10; });
+    }
+    for (i = 0; out.length < 4; i++) out.push(shapes[i] * 10 + colours[i]);
+    return out;
+  }
+  function avatarOptions(list, selected) {
+    return list.map(function (n, i) {
+      return '<button type="button" class="av-opt" role="radio" aria-checked="' + (n === selected) + '" tabindex="' + (n === selected ? 0 : -1) + '" data-av="' + n + '" aria-label="' + esc(str("m_pick")) + " " + (i + 1) + '">' + AV(n) + "</button>";
+    }).join("");
+  }
+  // the current choice is always one of the four
+  function avatarPicker(selected) {
+    return '<div class="av-pick"><div class="av-grid" role="radiogroup" aria-label="' + esc(str("m_pick")) + '">' + avatarOptions(fourAvatars(selected), selected) +
+      '</div><button type="button" class="linkbtn av-shuffle">' + h("m_shuffle") + "</button></div>";
+  }
+  function bindPicker(box, state) {
+    bindOptions(box, state);
+    $(".av-shuffle", box).addEventListener("click", function () {
+      var list = fourAvatars();
+      // the new choice differs from the old one, so every press visibly changes it
+      while (list[0] === state.avatar) list = fourAvatars();
+      state.avatar = list[0];
+      $(".av-grid", box).innerHTML = avatarOptions(list, state.avatar);
+      bindOptions(box, state);
+    });
+  }
+  function bindOptions(box, state) {
     var all = $$(".av-opt", box);
     function pick(b) {
       state.avatar = Number(b.dataset.av);
@@ -205,11 +237,11 @@
           var st = { avatar: Math.floor(Math.random() * 50) };
           box.innerHTML = "<h3>" + h("m_title") + "</h3><p class=\"cm-lead\">" + h("m_lead") + "</p>" +
             '<label class="cm-lbl">' + h("m_name") + '<input type="text" class="cm-in-name" maxlength="30" autocomplete="nickname"></label>' +
-            '<p class="cm-lbl">' + h("m_pick") + "</p>" + avatarGrid(st.avatar) +
+            '<p class="cm-lbl">' + h("m_pick") + "</p>" + avatarPicker(st.avatar) +
             '<p class="cm-msg" role="alert" hidden></p>' +
             '<div class="cm-actions"><button type="button" class="btn go">' + h("m_go") + '</button><button type="button" class="linkbtn cancel">' + h("cancel") + "</button></div>" +
             '<p class="cm-alt"><button type="button" class="linkbtn have">' + h("m_have") + "</button></p>";
-          bindGrid(box, st);
+          bindPicker(box, st);
           var msg = $(".cm-msg", box), go = $(".go", box);
           $(".cancel", box).addEventListener("click", function () { closeModal(); reject(new Error("cancel")); });
           $(".have", box).addEventListener("click", stepRestore);
@@ -444,13 +476,13 @@
         }).join("") : '<li class="empty">' + h("p_norep") + "</li>";
         box.innerHTML = "<h3>" + h("p_title") + "</h3>" +
           '<label class="cm-lbl">' + h("m_name") + '<input type="text" class="cm-in-name" maxlength="30" value="' + esc(me.name) + '"></label>' +
-          '<p class="cm-lbl">' + h("m_pick") + "</p>" + avatarGrid(me.avatar) +
+          '<p class="cm-lbl">' + h("m_pick") + "</p>" + avatarPicker(me.avatar) +
           '<p class="cm-msg" role="alert" hidden></p>' +
           '<div class="cm-actions"><button type="button" class="btn save">' + h("p_save") + '</button><button type="button" class="linkbtn showcode">' + h("p_show") + '</button></div>' +
           '<p class="cm-code" hidden>' + esc(me.code) + "</p>" +
           '<h4>' + h("p_rep") + '</h4><ul class="cm-reps-list">' + list + "</ul>" +
           '<div class="cm-actions end"><button type="button" class="linkbtn out">' + h("p_out") + '</button><button type="button" class="linkbtn close">' + h("close") + "</button></div>";
-        bindGrid(box, st);
+        bindPicker(box, st);
         var msg = $(".cm-msg", box);
         $(".close", box).addEventListener("click", closeModal);
         $(".showcode", box).addEventListener("click", function () { $(".cm-code", box).hidden = false; });
