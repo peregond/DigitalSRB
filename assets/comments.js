@@ -53,7 +53,12 @@
     d_copy: ["Kopiraj kod", "Copy code"],
     d_copied: ["Kopirano", "Copied"],
     d_ok: ["Sačuvao sam kod", "I saved the code"],
-    p_title: ["Moj profil", "My profile"],
+    p_mine: ["Moji komentari", "My comments"],
+    p_nomine: ["Još nema tvojih komentara.", "You have not written any comments yet."],
+    p_isrep: ["odgovor", "reply"],
+    p_idea: ["Ideja", "Idea"],
+    p_edit: ["Ime i slika", "Name and picture"],
+    p_hide: ["Sakrij kod", "Hide code"],
     p_code: ["Kod profila", "Profile code"],
     p_show: ["Prikaži kod", "Show code"],
     p_save: ["Sačuvaj promene", "Save changes"],
@@ -63,7 +68,6 @@
     p_norep: ["Još nema odgovora.", "No replies yet."],
     p_on: ["Na tvoj komentar", "On your comment"],
     p_open: ["Otvori ideju", "Open the idea"],
-    close: ["Zatvori", "Close"],
     p_label: ["Profil", "Profile"],
     p_new: ["novi odgovori", "new replies"],
     have: ["Imaš profil? Vrati ga kodom", "Have a profile? Restore it"],
@@ -115,13 +119,14 @@
   function setMe(p) {
     me = p;
     if (p) store.set("dsrb.me", JSON.stringify(p));
-    else { store.del("dsrb.me"); store.del("dsrb.seenReply"); replies = []; fresh = false; }
+    else { store.del("dsrb.me"); store.del("dsrb.seenReply"); replies = []; fresh = false; closePop(); }
     paintProfBtn();
   }
   // "seen" is the id of the newest reply the visitor has seen: no clock of the browser is involved
   function lastReplyId() { return replies.reduce(function (m, r) { return Math.max(m, Number(r.id)); }, 0); }
 
   var profBtn = $("#profBtn");
+  if (profBtn) { profBtn.setAttribute("aria-haspopup", "dialog"); profBtn.setAttribute("aria-expanded", "false"); }
   function paintProfBtn() {
     if (!profBtn) return;
     profBtn.hidden = !me;
@@ -450,65 +455,220 @@
     if (e.target.matches(".cm-form")) { e.preventDefault(); submitForm(e.target); }
   });
 
-  /* ---------- profile window + replies ---------- */
+  /* ---------- profile menu + replies ---------- */
   function loadReplies() {
     if (!me) return Promise.resolve();
     return rpc("get_my_replies", { p_code: me.code }).then(function (rows) {
       replies = rows || [];
       fresh = lastReplyId() > Number(store.get("dsrb.seenReply") || 0);
       paintProfBtn();
+      if (pop && popView === "menu") {
+        var had = pop.contains(document.activeElement) ? $$(".ppop-item", pop).indexOf(document.activeElement) : -1;
+        renderPop();
+        if (had >= 0) $$(".ppop-item", pop)[had].focus();
+      }
     }).catch(function (e) { if (e && e.code === "unknown_code") setMe(null); });
+  }
+  // the profile menu drops down from the picture in the top bar
+  var pop = null, popView = "menu", popState = null; // popState: what the open view has loaded or typed
+  var STAFF_AV = '<svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" fill="#E30613"/><circle cx="32" cy="32" r="13" fill="#fff"/></svg>';
+
+  function closePop(giveFocusBack) {
+    if (!pop) return;
+    pop.remove(); pop = null; popState = null;
+    document.removeEventListener("pointerdown", onOutside, true);
+    window.removeEventListener("resize", placePop);
+    profBtn.setAttribute("aria-expanded", "false");
+    if (giveFocusBack) profBtn.focus();
+  }
+  function onOutside(e) { if (!pop.contains(e.target) && !profBtn.contains(e.target)) closePop(); }
+  // the box lives in <body>: inside the blurred top bar "position:fixed" would be measured from the bar
+  function placePop() {
+    var r = profBtn.getBoundingClientRect(), top = Math.round(r.bottom + 10);
+    pop.style.top = top + "px";
+    pop.style.right = Math.max(8, Math.round(root.clientWidth - r.right - 4)) + "px";
+    pop.style.maxHeight = "calc(100vh - " + (top + 10) + "px)";
+    pop.style.maxHeight = "calc(100dvh - " + (top + 10) + "px)";
   }
   function openProfile() {
     if (!me) return;
-    loadReplies().then(function () {
-      if (!me) return; // the server no longer knows this code
-      store.set("dsrb.seenReply", String(lastReplyId()));
-      fresh = false; paintProfBtn();
-      openModal(function (box) {
-        var st = { avatar: me.avatar };
-        var list = replies.length ? replies.map(function (r) {
-          var staff = r.is_staff;
-          return '<li><span class="cm-av sm">' + (staff ? '<svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" fill="#E30613"/><circle cx="32" cy="32" r="13" fill="#fff"/></svg>' : AV(r.avatar)) + "</span><div>" +
-            '<p class="cm-h"><strong>' + esc(staff ? str("teamName") : r.name) + "</strong><time>" + esc(when(r.created_at)) + "</time></p>" +
-            '<p class="cm-t">' + esc(r.body) + '</p><p class="cm-on">' + h("p_on") + ": “" + esc(String(r.parent_body).slice(0, 80)) + '”</p>' +
-            '<button type="button" class="linkbtn" data-goto="' + r.idea + '">' + h("p_open") + " № " + r.idea + "</button></div></li>";
-        }).join("") : '<li class="empty">' + h("p_norep") + "</li>";
-        box.innerHTML = "<h3>" + h("p_title") + "</h3>" +
-          '<label class="cm-lbl">' + h("m_name") + '<input type="text" class="cm-in-name" maxlength="30" value="' + esc(me.name) + '"></label>' +
-          '<p class="cm-lbl">' + h("m_pick") + "</p>" + avatarPicker(me.avatar) +
-          '<p class="cm-msg" role="alert" hidden></p>' +
-          '<div class="cm-actions"><button type="button" class="btn save">' + h("p_save") + '</button><button type="button" class="linkbtn showcode">' + h("p_show") + '</button></div>' +
-          '<p class="cm-code" hidden>' + esc(me.code) + "</p>" +
-          '<h4>' + h("p_rep") + '</h4><ul class="cm-reps-list">' + list + "</ul>" +
-          '<div class="cm-actions end"><button type="button" class="linkbtn out">' + h("p_out") + '</button><button type="button" class="linkbtn close">' + h("close") + "</button></div>";
-        bindPicker(box, st);
-        var msg = $(".cm-msg", box);
-        $(".close", box).addEventListener("click", closeModal);
-        $(".showcode", box).addEventListener("click", function () { $(".cm-code", box).hidden = false; });
-        $(".out", box).addEventListener("click", function () {
-          if (!window.confirm(str("p_outq"))) return;
-          setMe(null); closeModal(); renderOpen();
-        });
-        $(".save", box).addEventListener("click", function () {
-          var name = $(".cm-in-name", box).value.trim();
-          if (name.length < 2) { msg.hidden = false; msg.textContent = str("e_name"); return; }
-          rpc("update_profile", { p_code: me.code, p_name: name, p_avatar: st.avatar }).then(function (rows) {
-            var r = (Array.isArray(rows) ? rows[0] : rows) || { name: name, avatar: st.avatar };
-            setMe({ code: me.code, id: me.id, name: r.name, avatar: r.avatar });
-            // comments already on the page show the new name and picture
-            Object.keys(data).forEach(function (i) {
-              (data[i] || []).forEach(function (c) { if (c.profile_id === me.id) { c.name = r.name; c.avatar = r.avatar; } });
-            });
-            closeModal(); renderOpen();
-          }).catch(function (e) { msg.hidden = false; msg.textContent = errText(e); });
-        });
-        box.addEventListener("click", function (e) {
-          var g = e.target.closest("[data-goto]");
-          if (g) { var n = Number(g.dataset.goto); closeModal(); openIdea(n); }
-        });
+    if (pop) { closePop(true); return; }
+    pop = document.createElement("div");
+    pop.className = "ppop";
+    pop.id = "profPop";
+    pop.setAttribute("role", "dialog");
+    pop.tabIndex = -1;
+    pop.addEventListener("click", onPopClick);
+    pop.addEventListener("keydown", onPopKey);
+    document.body.appendChild(pop);
+    document.addEventListener("pointerdown", onOutside, true);
+    window.addEventListener("resize", placePop);
+    profBtn.setAttribute("aria-expanded", "true");
+    placePop();
+    showView("menu");
+    loadReplies(); // draws the red dot in the menu if something new has come
+  }
+  function onPopKey(e) {
+    if (e.key === "Escape") { e.stopPropagation(); closePop(true); return; }
+    if (e.key !== "Tab") return;
+    var f = $$("button:not([disabled]):not([tabindex='-1']), input", pop);
+    // tabbing past either end closes the menu and goes on from the picture in the top bar
+    if (e.shiftKey && (document.activeElement === f[0] || document.activeElement === pop)) { e.preventDefault(); closePop(true); }
+    else if (!e.shiftKey && document.activeElement === f[f.length - 1]) closePop(true);
+  }
+  function showView(view, focusOn) {
+    popView = view;
+    popState = view === "edit" ? { avatar: me.avatar, name: me.name } : {};
+    renderPop();
+    pop.scrollTop = 0;
+    var f = $(focusOn || (view === "menu" ? ".ppop-item" : ".ppop-back"), pop);
+    if (f) f.focus();
+    if (view === "mine") loadMine();
+    if (view === "replies") {
+      var state = popState;
+      loadReplies().then(function () {
+        if (!pop || popState !== state) return;
+        state.loaded = true;
+        markSeen(); renderPop(); $(".ppop-back", pop).focus();
       });
+    }
+  }
+  function markSeen() {
+    store.set("dsrb.seenReply", String(lastReplyId()));
+    fresh = false; paintProfBtn();
+  }
+  function loadMine() {
+    var state = popState;
+    rpc("get_my_comments", { p_code: me.code }).then(function (rows) {
+      state.list = rows || [];
+    }).catch(function (e) {
+      if (e && e.code === "unknown_code") setMe(null);
+      state.error = true;
+    }).then(function () {
+      if (pop && popState === state) { renderPop(); $(".ppop-back", pop).focus(); }
     });
+  }
+  function ideaTitle(n) {
+    var card = $("#idea-" + n);
+    if (!card) return "";
+    if (lang() === "en") return card.getAttribute("data-t-en") || "";
+    var t = card.getAttribute("data-t-sr") || "";
+    return cyr() ? T.toCyr(t) : t;
+  }
+  function gotoBtn(idea) {
+    return '<button type="button" class="linkbtn" data-goto="' + Number(idea) + '">' + h("p_open") + " № " + Number(idea) + "</button>";
+  }
+  function mineHtml() {
+    if (popState.error) return '<p class="cm-note">' + h("loadErr") + "</p>";
+    if (!popState.list) return '<p class="cm-note">…</p>';
+    if (!popState.list.length) return '<p class="cm-note">' + h("p_nomine") + "</p>";
+    return '<ul class="cm-reps-list">' + popState.list.map(function (c) {
+      return "<li><div>" +
+        '<p class="cm-on">' + h("p_idea") + " № " + Number(c.idea) + (ideaTitle(c.idea) ? " · " + esc(ideaTitle(c.idea)) : "") + "</p>" +
+        '<p class="cm-h"><time>' + esc(when(c.created_at)) + "</time>" + (c.parent_id ? "<span>" + h("p_isrep") + "</span>" : "") + "</p>" +
+        '<p class="cm-t">' + esc(c.body) + "</p>" +
+        '<p class="cm-a">' + gotoBtn(c.idea) + '<button type="button" class="linkbtn" data-delmine="' + Number(c.id) + '">' + h("del") + "</button></p></div></li>";
+    }).join("") + "</ul>";
+  }
+  function repliesHtml() {
+    if (!replies.length) return '<p class="cm-note">' + (popState.loaded ? h("p_norep") : "…") + "</p>";
+    return '<ul class="cm-reps-list">' + replies.map(function (r) {
+      var staff = r.is_staff;
+      return '<li><span class="cm-av sm">' + (staff ? STAFF_AV : AV(r.avatar)) + "</span><div>" +
+        '<p class="cm-h"><strong>' + esc(staff ? str("teamName") : r.name) + "</strong><time>" + esc(when(r.created_at)) + "</time></p>" +
+        '<p class="cm-t">' + esc(r.body) + '</p><p class="cm-on">' + h("p_on") + ": “" + esc(String(r.parent_body).slice(0, 80)) + "”</p>" +
+        gotoBtn(r.idea) + "</div></li>";
+    }).join("") + "</ul>";
+  }
+  function renderPop() {
+    if (!pop || !me) return;
+    var titles = { mine: "p_mine", replies: "p_rep", edit: "p_edit" };
+    var html = popView === "menu"
+      ? '<p class="ppop-who"><span class="cm-av">' + AV(me.avatar) + "</span><strong>" + esc(me.name) + "</strong></p>" +
+        '<button type="button" class="ppop-item" data-view="mine">' + h("p_mine") + "</button>" +
+        '<button type="button" class="ppop-item" data-view="replies">' + h("p_rep") + (fresh ? '<i class="ppop-dot"></i><span class="sr-only"> (' + h("p_new") + ")</span>" : "") + "</button>" +
+        '<button type="button" class="ppop-item" data-view="edit">' + h("p_edit") + "</button>" +
+        '<button type="button" class="ppop-item" data-code aria-expanded="' + !!popState.code + '">' + h(popState.code ? "p_hide" : "p_show") + "</button>" +
+        (popState.code ? '<p class="cm-code">' + esc(me.code) + "</p>" : "") +
+        '<button type="button" class="ppop-item out" data-out>' + h("p_out") + "</button>"
+      : '<div class="ppop-top"><button type="button" class="linkbtn ppop-back" data-view="menu"><span aria-hidden="true">‹ </span>' + h("r_back") + "</button><h3>" + h(titles[popView]) + "</h3></div>" +
+        (popView === "mine" ? mineHtml() : popView === "replies" ? repliesHtml()
+          : '<label class="cm-lbl">' + h("m_name") + '<input type="text" class="cm-in-name" maxlength="30" value="' + esc(popState.name) + '"></label>' +
+            '<p class="cm-lbl">' + h("m_pick") + "</p>" + avatarPicker(popState.avatar) +
+            '<p class="cm-msg" role="alert" hidden></p>' +
+            '<div class="cm-actions"><button type="button" class="btn sm save">' + h("p_save") + "</button></div>");
+    pop.innerHTML = html;
+    pop.setAttribute("aria-label", str("p_label") + ": " + me.name);
+    if (popView === "edit") {
+      var state = popState, inp = $(".cm-in-name", pop);
+      bindPicker(pop, state);
+      inp.addEventListener("input", function () { state.name = inp.value; });
+      inp.addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); saveProfile(); } });
+    }
+  }
+  function saveProfile() {
+    var state = popState, msg = $(".cm-msg", pop), btn = $(".save", pop);
+    var name = state.name.trim();
+    if (btn.disabled) return;
+    if (name.length < 2) { msg.hidden = false; msg.textContent = str("e_name"); return; }
+    btn.disabled = true; msg.hidden = true;
+    rpc("update_profile", { p_code: me.code, p_name: name, p_avatar: state.avatar }).then(function (rows) {
+      if (!me) return;
+      var r = (Array.isArray(rows) ? rows[0] : rows) || { name: name, avatar: state.avatar };
+      setMe({ code: me.code, id: me.id, name: r.name, avatar: r.avatar });
+      // comments already on the page show the new name and picture
+      Object.keys(data).forEach(function (i) {
+        (data[i] || []).forEach(function (c) { if (c.profile_id === me.id) { c.name = r.name; c.avatar = r.avatar; } });
+      });
+      renderOpen();
+      if (pop && popState === state) showView("menu", '[data-view="edit"]');
+    }).catch(function (e) { btn.disabled = false; msg.hidden = false; msg.textContent = errText(e); });
+  }
+  // takes a deleted comment (and, for a thread, its replies) off the page
+  function forget(idea, id) {
+    var before = (data[idea] || []).length;
+    if (!data[idea]) return;
+    data[idea] = data[idea].filter(function (c) { return c.id !== id && c.parent_id !== id; });
+    counts[idea] = Math.max(0, (counts[idea] || 0) - (before - data[idea].length)); paintCount(idea);
+    if (open[idea]) renderPanel(idea);
+  }
+  function refreshCounts() {
+    return rpc("get_comment_counts").then(function (rows) {
+      var now = {};
+      (rows || []).forEach(function (r) { now[r.idea] = Number(r.n); });
+      $$("[data-cm]").forEach(function (b) { var i = Number(b.dataset.cm); counts[i] = now[i] || 0; paintCount(i); });
+    }).catch(function () { /* the old numbers stay */ });
+  }
+  function onPopClick(e) {
+    var b = e.target.closest("button");
+    if (!b) return;
+    if (b.dataset.view) {
+      var from = popView;
+      showView(b.dataset.view, b.dataset.view === "menu" ? '[data-view="' + from + '"]' : null);
+    } else if (b.hasAttribute("data-code")) {
+      popState.code = !popState.code; renderPop(); $("[data-code]", pop).focus();
+    } else if (b.hasAttribute("data-out")) {
+      if (!window.confirm(str("p_outq"))) return;
+      setMe(null); renderOpen();
+    } else if (b.classList.contains("save")) {
+      saveProfile();
+    } else if (b.dataset.goto) {
+      var n = Number(b.dataset.goto); closePop(); openIdea(n);
+    } else if (b.dataset.delmine) {
+      var id = Number(b.dataset.delmine), state = popState;
+      if (!window.confirm(str("delq"))) return;
+      b.disabled = true;
+      rpc("delete_my_comment", { p_code: me.code, p_id: id }).then(function (ok) {
+        if (ok === false) throw new Error("not_deleted");
+        var gone = state.list.filter(function (c) { return c.id === id; })[0];
+        state.list = state.list.filter(function (c) { return c.id !== id; });
+        if (gone) { forget(gone.idea, id); if (!data[gone.idea]) refreshCounts(); }
+        if (pop && popState === state) {
+          // replies under a deleted thread disappear too, so the list is asked for again
+          loadMine(); renderPop(); $(".ppop-back", pop).focus();
+        }
+      }).catch(function (err) { b.disabled = false; window.alert(errText(err)); });
+    }
   }
 
   /* ---------- start ---------- */
@@ -527,6 +687,7 @@
     viewKey = k;
     paintProfBtn();
     renderOpen();
+    renderPop();
     if (overlay && modalRender) { var box = $(".cmodal-box", overlay); box.innerHTML = ""; modalRender(box); nameDialog(box); }
   }).observe(root, { attributes: true, attributeFilter: ["data-lang", "class"] });
 })();

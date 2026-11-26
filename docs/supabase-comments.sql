@@ -193,6 +193,22 @@ begin
     limit 50;
 end $$;
 
+-- the visitor's own comments, newest first (without deleted ones and ones that are hidden from everybody)
+create or replace function get_my_comments(p_code text)
+returns table (id bigint, idea int, parent_id bigint, body text, created_at timestamptz)
+language plpgsql stable security definer set search_path = public, extensions as $$
+declare v_profile profiles;
+begin
+  v_profile := _profile(p_code);
+  if v_profile.id is null then raise exception 'unknown_code'; end if;
+  return query
+    select c.id, c.idea, c.parent_id, c.body, c.created_at
+    from comments c left join comments t on t.id = c.parent_id
+    where c.profile_id = v_profile.id and not c.hidden and t.hidden is not true
+    order by c.created_at desc, c.id desc
+    limit 500;
+end $$;
+
 -- ---------------------------------------------------------------- admin (needs the admin key)
 drop function if exists admin_comments(text, int);
 create or replace function admin_comments(p_key text, p_limit int default 300)
@@ -273,7 +289,7 @@ end $$;
 revoke all on function _hash(text), _profile(text), _is_admin(text) from public, anon, authenticated;
 grant execute on function register_profile(text, int), restore_profile(text), update_profile(text, text, int),
   get_comment_counts(), get_comments(int), post_comment(text, int, text, bigint), delete_my_comment(text, bigint),
-  get_my_replies(text),
+  get_my_replies(text), get_my_comments(text),
   admin_comments(text, int), admin_set_hidden(text, bigint, boolean), admin_reply(text, bigint, text),
   admin_stats(text), admin_suggestions(text, int)
   to anon;
