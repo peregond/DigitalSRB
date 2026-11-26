@@ -463,9 +463,9 @@
       fresh = lastReplyId() > Number(store.get("dsrb.seenReply") || 0);
       paintProfBtn();
       if (pop && popView === "menu") {
-        var had = pop.contains(document.activeElement) ? $$(".ppop-item", pop).indexOf(document.activeElement) : -1;
+        var had = pop.contains(document.activeElement) ? $$("button", pop).indexOf(document.activeElement) : -1;
         renderPop();
-        if (had >= 0) $$(".ppop-item", pop)[had].focus();
+        if (had >= 0) $$("button", pop)[had].focus();
       }
     }).catch(function (e) { if (e && e.code === "unknown_code") setMe(null); });
   }
@@ -473,6 +473,16 @@
   var pop = null, popView = "menu", popState = null; // popState: what the open view has loaded or typed
   var STAFF_AV = '<svg viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" fill="#E30613"/><circle cx="32" cy="32" r="13" fill="#fff"/></svg>';
 
+  function icon(name) {
+    var d = {
+      pencil: "M12 20h9M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z",
+      comment: "M21 11.5a8.4 8.4 0 0 1-8.5 8.5 8.9 8.9 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8A8.4 8.4 0 0 1 12.5 3 8.4 8.4 0 0 1 21 11.5z",
+      reply: "M9 17l-5-5 5-5M4 12h11a5 5 0 0 1 5 5v2",
+      key: "M14.5 14.5a6 6 0 1 0-5-2.7L3 18.3V21h4v-2.5h2.5V16l1.8-1.8a6 6 0 0 0 3.2.3zM16.5 7.5h.01",
+      out: "M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"
+    }[name];
+    return '<svg class="ic ic-' + name + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="' + d + '"/></svg>';
+  }
   function closePop(giveFocusBack) {
     if (!pop) return;
     pop.remove(); pop = null; popState = null;
@@ -584,13 +594,15 @@
     if (!pop || !me) return;
     var titles = { mine: "p_mine", replies: "p_rep", edit: "p_edit" };
     var html = popView === "menu"
-      ? '<p class="ppop-who"><span class="cm-av">' + AV(me.avatar) + "</span><strong>" + esc(me.name) + "</strong></p>" +
-        '<button type="button" class="ppop-item" data-view="mine">' + h("p_mine") + "</button>" +
-        '<button type="button" class="ppop-item" data-view="replies">' + h("p_rep") + (fresh ? '<i class="ppop-dot"></i><span class="sr-only"> (' + h("p_new") + ")</span>" : "") + "</button>" +
-        '<button type="button" class="ppop-item" data-view="edit">' + h("p_edit") + "</button>" +
-        '<button type="button" class="ppop-item" data-code aria-expanded="' + !!popState.code + '">' + h(popState.code ? "p_hide" : "p_show") + "</button>" +
-        (popState.code ? '<p class="cm-code">' + esc(me.code) + "</p>" : "") +
-        '<button type="button" class="ppop-item out" data-out>' + h("p_out") + "</button>"
+      ? '<div class="ppop-head">' +
+          // the picture, the name and the pencil are one button: it changes both
+          '<button type="button" class="ppop-who" data-view="edit" title="' + esc(str("p_edit")) + '" aria-label="' + esc(str("p_edit") + ": " + me.name) + '">' +
+            '<span class="cm-av">' + AV(me.avatar) + "</span><strong>" + esc(me.name) + "</strong>" + icon("pencil") + "</button>" +
+          '<button type="button" class="ppop-out" data-out title="' + esc(str("p_out")) + '" aria-label="' + esc(str("p_out")) + '">' + icon("out") + "</button></div>" +
+        '<button type="button" class="ppop-item" data-view="mine">' + icon("comment") + h("p_mine") + "</button>" +
+        '<button type="button" class="ppop-item" data-view="replies">' + icon("reply") + h("p_rep") + (fresh ? '<i class="ppop-dot"></i><span class="sr-only"> (' + h("p_new") + ")</span>" : "") + "</button>" +
+        '<button type="button" class="ppop-item" data-code aria-expanded="' + !!popState.code + '">' + icon("key") + h(popState.code ? "p_hide" : "p_show") + "</button>" +
+        (popState.code ? '<p class="cm-code">' + esc(me.code) + "</p>" : "")
       : '<div class="ppop-top"><button type="button" class="linkbtn ppop-back" data-view="menu"><span aria-hidden="true">‹ </span>' + h("r_back") + "</button><h3>" + h(titles[popView]) + "</h3></div>" +
         (popView === "mine" ? mineHtml() : popView === "replies" ? repliesHtml()
           : '<label class="cm-lbl">' + h("m_name") + '<input type="text" class="cm-in-name" maxlength="30" value="' + esc(popState.name) + '"></label>' +
